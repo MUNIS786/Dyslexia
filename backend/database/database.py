@@ -127,7 +127,9 @@ async def init_db():
     await db.recommended_activities.create_index("domains")
     await db.recommended_activities.create_index("profileTags")
     await db.recommended_games.create_index("domains")
-    await db.recommended_games.create_index("profileTags")
+    # V2 Collections
+    await db.learner_profiles.create_index("learnerId", unique=True)
+    await db.learning_states.create_index("learnerId", unique=True)
 
     await _migrate_legacy_profiles()
     await _seed_demo_data()

@@ -28,6 +28,7 @@ logger = logging.getLogger("dyslexaid.main")
 from routers import auth, scan, simplify, screening, library, progress
 from routers import chat, teacher, classroom, assignments, notifications
 from routers import ai_plan, dyslexia_test, daily_tasks
+from routers import version, v2_learner
 from database.database import init_db
 
 if not os.environ.get("GEMINI_API_KEY", "").strip():
@@ -47,8 +48,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="DyslexAid API", version="4.0.0",
-    description="AI-powered reading companion for dyslexic students in India",
+    title="DyslexAid API", version="4.1.0",
+    description="AI-powered adaptive reading companion for dyslexic students in India",
     lifespan=lifespan,
 )
 
@@ -67,10 +68,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# V1 Routers
 for mod in [auth, scan, simplify, screening, library, progress, chat,
             teacher, classroom, assignments, notifications, ai_plan,
             dyslexia_test, daily_tasks]:
     app.include_router(mod.router, prefix="/api")
+
+# V2 Routers & System Info
+app.include_router(version.router, prefix="/api")
+app.include_router(v2_learner.router, prefix="/api")
 
 
 @app.get("/api/")

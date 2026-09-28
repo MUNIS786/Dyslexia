@@ -1,0 +1,223 @@
+# DyslexAid V2 Comprehensive 15-Phase Roadmap
+
+**Platform:** DyslexAid V2 Adaptive Learning Engine  
+**Release Horizon:** Phases 1 to 15  
+**Core Standard:** Zero Regression Guarantee for Working V1 Architecture
+
+---
+
+## Roadmap Overview
+
+```
+PHASE 1: Foundation (Architecture, Versioning, Feature Flags, Base Learner Model)
+    ↓
+PHASE 2: Learner Intelligence Profile (Dynamic Cognitive Modeling & Radar Profiles)
+    ↓
+PHASE 3: Adaptive Learning Engine (Pacing, Difficulty Calibration, Micro-Tasks)
+    ↓
+PHASE 4: Adaptive Reading Coach (Guided Highlighting, Visual Scaffolding, Syllable Splitting)
+    ↓
+PHASE 5: Reading & Speech Analysis (Latency, Hesitation, Audio Feedback)
+    ↓
+PHASE 6: Personal AI Tutor (Socratic Scaffolding, Multi-Turn Remediation)
+    ↓
+PHASE 7: Advanced Teacher Analytics (Cohort Trends, Risk Distribution, Drilldown)
+    ↓
+PHASE 8: Intervention Effectiveness (Pre/Post Outcomes, Strategy Tracking)
+    ↓
+PHASE 9: Gamification (Badges, Streak Multipliers, Celebration Micro-Interactions)
+    ↓
+PHASE 10: Multilingual Support (Hindi, Marathi, Tamil, Bengali, Kannada)
+    ↓
+PHASE 11: Parent & Guardian Portal (At-Home Habits, Joint Goal Setting)
+    ↓
+PHASE 12: PWA & Offline Sync (Service Worker, IndexedDB Offline Telemetry Queue)
+    ↓
+PHASE 13: Enterprise Privacy & Security (FERPA/COPPA Aligned, Anonymization)
+    ↓
+PHASE 14: Advanced ML Recommendation (Bandit Algorithms, Collaborative Filtering)
+    ↓
+PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
+```
+
+---
+
+## Phase Breakdown
+
+### Phase 1: V2 Foundation (Current Phase)
+* **Objective:** Establish backward-compatible V2 architectural foundations, documentation, directory structures, centralized feature flags, `/api/version`, and the base V2 learner profile data model.
+* **Backend Changes:** Introduce `backend/core/config.py`, `backend/models/v2_learner_profile.py`, `backend/services/learning/learner_profile_service.py`, and `/api/version` + `/api/v2/learner/...` routing.
+* **Frontend Changes:** Create scalable `frontend/src/features/` and `frontend/src/api/v2/` scaffolding without modifying existing working V1 routes.
+* **Database Changes:** Introduce `learner_profiles` schema design while maintaining full compatibility with existing `users.readingProfile`.
+* **APIs:** `GET /api/version`, `GET /api/v2/learner/profile`, `PATCH /api/v2/learner/profile`, `GET /api/v2/learner/state`.
+* **ML/AI Requirements:** Maintain existing Scikit-Learn models in `backend/ai_model/` and Gemini Flash routing.
+* **Testing Requirements:** Verify FastAPI startup, route tests, and React `npm run build` cleanly succeeding.
+* **Dependencies:** Zero new third-party dependencies required.
+
+---
+
+### Phase 2: Learner Intelligence Profile
+* **Objective:** Synthesize screening results, ongoing reading telemetry, and classroom submissions into a continuously updating multidimensional cognitive profile.
+* **Backend Changes:** Implement real-time profile updater syncing after every quiz, screening, and reading session.
+* **Frontend Changes:** Interactive cognitive radar chart (12 domains), strengths summary cards, and accommodation badges in Student & Teacher views.
+* **Database Changes:** Write operations to `learner_profiles` with historical snapshots.
+* **APIs:** `GET /api/v2/learner/profile/radar`, `GET /api/v2/learner/profile/history`.
+* **ML/AI Requirements:** Calibrated probability scoring across dyslexia subtypes.
+* **Testing Requirements:** Unit test domain score updates and ensure non-clinical disclaimer rendering.
+* **Dependencies:** `recharts` or lightweight SVG radar component.
+
+---
+
+### Phase 3: Adaptive Learning Engine
+* **Objective:** Automatically adjust reading material difficulty and daily micro-task assignments based on the student's Zone of Proximal Development (ZPD).
+* **Backend Changes:** `adaptive_engine.py` evaluating rolling comprehension metrics and adjusting difficulty tier (1–5).
+* **Frontend Changes:** Adaptive task carousel that highlights why an activity is recommended for the student.
+* **Database Changes:** `learning_states`, `learning_activities`, and `activity_attempts`.
+* **APIs:** `GET /api/v2/learning/activities`, `POST /api/v2/learning/attempt`, `GET /api/v2/learning/recommendations`.
+* **ML/AI Requirements:** Rule-based heuristics with Gemini adaptive rationale generation.
+* **Testing Requirements:** Edge case testing for adaptation thresholds ($\pm 15\%$ comprehension or 10 completed sessions).
+* **Dependencies:** None.
+
+---
+
+### Phase 4: Adaptive Reading Coach
+* **Objective:** Create an interactive guided reading experience featuring word-by-word pacing, syllable-split highlights, and assistive audio playback.
+* **Backend Changes:** `reading_coach.py` coordinator preparing phonetic hints, syllable boundaries, and chunked segments.
+* **Frontend Changes:** Dedicated `ReadingCoachView` with adjustable guide rulers, bionic font weighting, and customizable syllable coloring.
+* **Database Changes:** `reading_sessions` collection.
+* **APIs:** `POST /api/v2/reading/session/start`, `POST /api/v2/reading/session/end`.
+* **ML/AI Requirements:** Phoneme and syllable segmentation NLP utilities.
+* **Testing Requirements:** Accessibility contrast validation across all theme colors.
+* **Dependencies:** None.
+
+---
+
+### Phase 5: Reading & Speech Analysis
+* **Objective:** Analyze learner reading fluency via audio capture (Web Speech API / whisper) to detect hesitation intervals and misread phonemes.
+* **Backend Changes:** Audio chunk processing or speech-to-text alignment service.
+* **Frontend Changes:** Microphone permission flow, audio waveform indicator, and real-time word match highlighting.
+* **Database Changes:** `reading_performance` collection.
+* **APIs:** `POST /api/v2/reading/performance`.
+* **ML/AI Requirements:** Levenshtein / phonetic similarity distance calculation between target and spoken words.
+* **Testing Requirements:** Cross-browser audio recording tests (Chrome, Edge, Firefox).
+* **Dependencies:** Web Speech API (browser native), `sounddevice` or lightweight acoustic alignment (optional backend).
+
+---
+
+### Phase 6: Personal AI Tutor
+* **Objective:** Socratic conversational AI tutor that guides students through reading misunderstandings without giving away direct answers.
+* **Backend Changes:** `tutor_service.py` with multi-turn system prompts grounded in the student's exact reading profile and active reading document.
+* **Frontend Changes:** Embedded tutor drawer within reading sessions with quick-prompt chips ("Explain this word", "Read with me", "Summarize").
+* **Database Changes:** `ai_tutor_sessions` collection.
+* **APIs:** `POST /api/v2/tutor/chat`, `GET /api/v2/tutor/history`.
+* **ML/AI Requirements:** Google Gemini Flash with temperature tuning (0.3) for predictable, compassionate pedagogical guidance.
+* **Testing Requirements:** Safety filter tests and latency checks.
+* **Dependencies:** None.
+
+---
+
+### Phase 7: Advanced Teacher Analytics
+* **Objective:** Provide educators with actionable class-wide diagnostic views, identifying high-risk students and cohort-wide cognitive trends.
+* **Backend Changes:** `teacher_analytics.py` computing aggregation pipelines across enrolled students.
+* **Frontend Changes:** Class diagnostic matrix, domain heatmaps, and one-click printable IEP (Individualized Education Program) progress summaries.
+* **Database Changes:** Aggregation pipelines on `learner_profiles` and `submissions`.
+* **APIs:** `GET /api/v2/teacher/analytics/cohort`, `GET /api/v2/teacher/iep-summary/{studentId}`.
+* **ML/AI Requirements:** Automated text generation for IEP accommodation drafts.
+* **Testing Requirements:** Teacher role permission isolation tests.
+* **Dependencies:** None.
+
+---
+
+### Phase 8: Intervention Effectiveness
+* **Objective:** Measure the quantitative efficacy of specific accommodations and teaching interventions over 30/60/90 day intervals.
+* **Backend Changes:** `intervention_engine.py` calculating statistical delta in comprehension and reading speed pre/post intervention.
+* **Frontend Changes:** Intervention outcome cards showing percentage improvement per instructional strategy.
+* **Database Changes:** `interventions` and `intervention_results`.
+* **APIs:** `GET /api/v2/interventions`, `POST /api/v2/interventions/log`.
+* **ML/AI Requirements:** Statistical significance testing ($p$-values, effect size).
+* **Testing Requirements:** Verification of math under sparse session counts.
+* **Dependencies:** None.
+
+---
+
+### Phase 9: Gamification & Engagement
+* **Objective:** Sustained student motivation through research-backed positive reinforcement, streaks, and dyslexia-friendly milestone achievements.
+* **Backend Changes:** Event-driven badge unlock evaluation on session completion.
+* **Frontend Changes:** Celebration modal animations (confetti, non-overwhelming pastel bursts), collectible badges shelf.
+* **Database Changes:** `achievements` and `streaks` collections.
+* **APIs:** `GET /api/v2/gamification/badges`, `GET /api/v2/gamification/streak`.
+* **ML/AI Requirements:** None.
+* **Testing Requirements:** Visual accessibility review (avoid triggering sensory overload).
+* **Dependencies:** `canvas-confetti` (optional lightweight).
+
+---
+
+### Phase 10: Multilingual Indian Language Support
+* **Objective:** First-class dyslexia accommodations across Indian linguistic scripts (Devanagari for Hindi/Marathi, Tamil script, Bengali).
+* **Backend Changes:** Script-specific character reversal checks (e.g. Marathi/Hindi matra confusion, conjunct consonant splitting).
+* **Frontend Changes:** Multilingual font loader (Noto Sans Devanagari, Baloo) and language toggle.
+* **Database Changes:** Multilingual translation dictionary storage.
+* **APIs:** `POST /api/v2/multilingual/transliterate`, `GET /api/v2/multilingual/fonts`.
+* **ML/AI Requirements:** Gemini multilingual translation and script simplification prompts.
+* **Testing Requirements:** Verification of complex Indic conjuncts with letter-spacing.
+* **Dependencies:** Indic NLP libraries or Gemini Multilingual APIs.
+
+---
+
+### Phase 11: Parent & Guardian Portal
+* **Objective:** Provide parents with clear visibility into their child's reading journey without academic jargon.
+* **Backend Changes:** Parent role authorization, secure student linkage tokens (`parent_links`).
+* **Frontend Changes:** Mobile-friendly Parent Dashboard: daily reading minutes, celebratory wins, recommended home reading routines.
+* **Database Changes:** `parent_links` collection.
+* **APIs:** `POST /api/v2/parent/link`, `GET /api/v2/parent/student/{id}/overview`.
+* **ML/AI Requirements:** Plain-language summary generation translating clinical terms into parent-friendly insights.
+* **Testing Requirements:** Authorization security tests: ensure parents can never access other children's data.
+* **Dependencies:** None.
+
+---
+
+### Phase 12: Progressive Web App (PWA) & Offline Sync
+* **Objective:** Full offline reading and screening capability on low-connectivity school tablets in rural areas.
+* **Backend Changes:** Delta sync API with conflict resolution for offline reading logs.
+* **Frontend Changes:** `manifest.json`, Service Worker caching static assets, and IndexedDB telemetry queue for offline attempts.
+* **Database Changes:** Idempotent submission upserts using client-generated UUIDs.
+* **APIs:** `POST /api/v2/sync/queue`.
+* **ML/AI Requirements:** Complete reliance on bundled Scikit-Learn `.pkl` models and offline rule engine when disconnected.
+* **Testing Requirements:** Offline network throttling tests (simulate complete disconnection).
+* **Dependencies:** `workbox` or native Service Worker.
+
+---
+
+### Phase 13: Privacy, Data Governance & Security
+* **Objective:** Rigorous compliance with student data privacy standards (COPPA / FERPA principles and India's Digital Personal Data Protection Act).
+* **Backend Changes:** Automated data retention policies, personal data anonymization pipelines, audit logging.
+* **Frontend Changes:** Privacy center, data export button, and parental consent confirmation modals.
+* **Database Changes:** Encryption-at-rest metadata flags.
+* **APIs:** `GET /api/v2/privacy/export-my-data`, `POST /api/v2/privacy/delete-account`.
+* **ML/AI Requirements:** Zero prompt logging of Personally Identifiable Information (PII) to external AI APIs.
+* **Testing Requirements:** Security penetration scan for unauthorized IDOR endpoints.
+* **Dependencies:** None.
+
+---
+
+### Phase 14: Advanced ML Recommendation
+* **Objective:** Contextual Multi-Armed Bandit algorithm matching activities to individual neurodivergent profiles based on historical completion rates.
+* **Backend Changes:** Reinforcement learning or collaborative filtering microservice.
+* **Frontend Changes:** Real-time adaptive activity carousel.
+* **Database Changes:** Activity feature vectors in `learning_activities`.
+* **APIs:** `GET /api/v2/ml/recommendations`.
+* **ML/AI Requirements:** Scikit-Learn / LightGBM recommendation model.
+* **Testing Requirements:** Offline fallback simulation if model latency exceeds 100ms.
+* **Dependencies:** `scikit-learn` (already installed in backend).
+
+---
+
+### Phase 15: Production Hardening & Global Scaling
+* **Objective:** Production-grade deployment architecture supporting 100k+ concurrent learners across school districts.
+* **Backend Changes:** Gunicorn + Uvicorn worker pool, Redis caching for hot user profiles and activity catalogs.
+* **Frontend Changes:** Code-splitting with dynamic imports, CDN caching for audio and font assets.
+* **Database Changes:** MongoDB replica sets and sharding keys.
+* **APIs:** Rate limiting and health check metrics (`/api/health/ready`, `/api/health/live`).
+* **ML/AI Requirements:** Model quantization (ONNX Runtime) for ultra-low memory inference.
+* **Testing Requirements:** K6 load testing up to 10,000 requests/second.
+* **Dependencies:** `redis`, `docker-compose`.
