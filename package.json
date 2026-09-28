@@ -1,0 +1,25 @@
+{
+  "name": "dyslexaid",
+  "version": "1.0.0",
+  "description": "DyslexAid — AI-Powered Reading Companion & Assistive Learning Platform",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "preview": "npm run preview --prefix frontend"
+  },
+  "workspaces": [
+    "frontend"
+  ],
+  "keywords": [
+    "dyslexia",
+    "assistive-technology",
+    "accessibility",
+    "edtech",
+    "react",
+    "fastapi",
+    "gemini"
+  ],
+  "author": "DyslexAid Team",
+  "license": "MIT"
+}

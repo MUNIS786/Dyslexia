@@ -1,0 +1,39 @@
+{
+  "feature_names": [
+    "phonological_awareness_error_rate",
+    "phonological_memory_error_rate",
+    "rapid_naming_error_rate",
+    "letter_reversal_error_rate",
+    "reading_fluency_error_rate",
+    "orthographic_spelling_error_rate",
+    "comprehension_error_rate",
+    "motor_writing_error_rate",
+    "phonological_awareness_slow_rate",
+    "phonological_memory_slow_rate",
+    "rapid_naming_slow_rate",
+    "letter_reversal_slow_rate",
+    "reading_fluency_slow_rate",
+    "orthographic_spelling_slow_rate",
+    "comprehension_slow_rate",
+    "motor_writing_slow_rate",
+    "total_error_rate",
+    "total_slow_rate",
+    "phono_ran_interaction",
+    "surface_score"
+  ],
+  "type_labels": [
+    "No significant indicators",
+    "Phonological Dyslexia",
+    "RAN Deficit (Rapid Naming)",
+    "Surface Dyslexia",
+    "Double Deficit"
+  ],
+  "level_labels": [
+    "low",
+    "moderate",
+    "high"
+  ],
+  "type_accuracy": 1.0,
+  "level_accuracy": 1.0,
+  "training_samples": 3000
+}
