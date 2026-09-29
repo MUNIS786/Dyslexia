@@ -252,6 +252,30 @@ export default function StudentHome() {
         </Card>
       ) : (
         <>
+          {/* ── Adaptive Learning Quick Spotlight ── */}
+          <Card className="border-2 border-[#1A6B6B]/20 bg-gradient-to-r from-[#F0F8FF] to-[#FFF8F0]">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">🎯</span>
+                <div>
+                  <h3 className="dyslexia-text font-bold text-base text-[#1A2A2A]">
+                    Adaptive Learning Challenges
+                  </h3>
+                  <p className="dyslexia-text text-xs text-gray-600">
+                    Bite-sized micro-tasks calibrated to your current learning level and ZPD growth areas.
+                  </p>
+                </div>
+              </div>
+              <Button
+                size="sm"
+                onClick={() => navigate('/student/adaptive-learning')}
+                className="bg-[#1A6B6B] text-white hover:bg-[#155555] font-semibold"
+              >
+                Play Adaptive Tasks →
+              </Button>
+            </div>
+          </Card>
+
           {/* ── Cognitive Profile: radar chart + strengths/weaknesses + learning style ── */}
           <Card>
             <div className="flex items-center justify-between mb-1 flex-wrap gap-2">

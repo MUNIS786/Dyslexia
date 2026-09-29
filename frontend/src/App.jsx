@@ -8,6 +8,7 @@ import { useSession } from './hooks/useSession'
 import { LoginPage, RegisterPage } from './pages/auth/AuthPages'
 import StudentHome from './pages/student/StudentHome'
 import StudentProfilePage from './pages/student/StudentProfilePage'
+import AdaptiveLearningPage from './pages/student/AdaptiveLearningPage'
 import ScreeningTest from './pages/student/ScreeningTest'
 import DailyTasks from './pages/student/DailyTasks'
 import ScanPage from './pages/student/ScanPage'
@@ -36,7 +37,8 @@ function ProtectedRoute({ children, role }) {
     user.role === 'student' &&
     !user.readingProfile &&
     !window.location.pathname.includes('screening') &&
-    !window.location.pathname.includes('profile')
+    !window.location.pathname.includes('profile') &&
+    !window.location.pathname.includes('adaptive-learning')
   ) {
     return <Navigate to="/student/screening" replace />
   }
@@ -55,6 +57,9 @@ function AppRoutes() {
       } />
       <Route path="/student/profile" element={
         <ProtectedRoute role="student"><Layout><StudentProfilePage /></Layout></ProtectedRoute>
+      } />
+      <Route path="/student/adaptive-learning" element={
+        <ProtectedRoute role="student"><Layout><AdaptiveLearningPage /></Layout></ProtectedRoute>
       } />
 
       <Route path="/student/screening" element={

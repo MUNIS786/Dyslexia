@@ -1001,9 +1001,84 @@ async def recalibrate_from_screening(user_id: str, screening_result: Dict[str, A
 # ─── Recalibration Stubs prepared for Phase 3 ────────────────────────────────
 
 async def recalibrate_from_activity(user_id: str, activity_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Stub for Phase 3 Adaptive Learning Engine: updates profile following micro-task attempts."""
-    logger.debug(f"[Phase 3 Stub] recalibrate_from_activity called for user {user_id}")
-    return await get_or_create_learner_profile(user_id)
+    """
+    Phase 3 Adaptive Learning Engine: updates profile following micro-task attempts.
+    Nudges target domain educational score using exponential moving average,
+    re-evaluates strengths and practice areas, and syncs learning progress.
+    """
+    now = int(time.time())
+    domain = activity_data.get("domain")
+    score = float(activity_data.get("score", 70.0))
+    tier = int(activity_data.get("tier", 1))
+
+    profile_doc = await db.learner_profiles.find_one({"learnerId": user_id})
+    if not profile_doc:
+        return await get_or_create_learner_profile(user_id)
+
+    domain_scores = profile_doc.get("domainScores", {})
+    domain_interpretations = profile_doc.get("domainInterpretations", {})
+
+    if domain and domain in DOMAIN_METADATA:
+        old_score = float(domain_scores.get(domain, 50.0))
+        # Exponential moving average: 80% weight on historical, 20% on fresh attempt
+        updated_score = round(0.80 * old_score + 0.20 * score, 1)
+        domain_scores[domain] = updated_score
+
+        label, interp_desc = get_educational_interpretation(updated_score)
+        meta = DOMAIN_METADATA[domain]
+        domain_interpretations[domain] = {
+            "score": updated_score,
+            "label": label,
+            "friendly_name": meta["friendly_name"],
+            "technical_name": meta["technical_name"],
+            "description": interp_desc,
+        }
+
+    # Re-evaluate strengths and practice areas
+    strengths = detect_strengths(domain_scores, limit=3)
+    practice_areas = detect_practice_areas(domain_scores, limit=4)
+
+    # Sync reading metrics
+    reading_metrics = profile_doc.get("readingMetrics", {})
+    if domain == "reading_comprehension":
+        reading_metrics["comprehension_level"] = int(score)
+
+    updates = {
+        "domainScores": domain_scores,
+        "domainInterpretations": domain_interpretations,
+        "strengths": strengths,
+        "areasForPractice": practice_areas,
+        "focus_areas": [p["friendly_name"] for p in practice_areas],
+        "readingMetrics": reading_metrics,
+        "adaptiveDifficulty.active_tier": tier,
+        "metadata.updated_at": now,
+        "metadata.source": "learning_activity",
+        "lastUpdated": now,
+        "updatedAt": now,
+    }
+
+    await db.learner_profiles.update_one(
+        {"learnerId": user_id},
+        {"$set": updates}
+    )
+
+    # Also record in progress collection
+    try:
+        await db.progress.update_one(
+            {"userId": user_id},
+            {
+                "$inc": {"tasksCompleted": 1},
+                "$push": {"comprehensionScores": {"$each": [int(score)], "$slice": -10}},
+                "$set": {"lastActiveDate": now},
+            }
+        )
+    except Exception as e:
+        logger.warning(f"Could not update progress collection for user {user_id}: {e}")
+
+    logger.info(f"Recalibrated profile for user {user_id} after activity in domain {domain} (score: {score})")
+    user = await db.users.find_one({"id": user_id}, {"_id": 0, "passwordHash": 0}) or {}
+    profile_doc.update(updates)
+    return format_learner_profile_response(profile_doc, user)
 
 
 async def recalibrate_from_reading(user_id: str, reading_data: Dict[str, Any]) -> Dict[str, Any]:

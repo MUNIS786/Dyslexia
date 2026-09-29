@@ -130,6 +130,17 @@ async def init_db():
     # V2 Collections
     await db.learner_profiles.create_index("learnerId", unique=True)
     await db.learning_states.create_index("learnerId", unique=True)
+    await db.learning_activities.create_index("id", unique=True)
+    await db.learning_activities.create_index([("domain", 1), ("difficultyTier", 1)])
+    await db.activity_attempts.create_index([("learnerId", 1), ("completedAt", -1)])
+    await db.activity_attempts.create_index([("activityId", 1), ("scorePercent", 1)])
+    await db.adaptive_recommendations.create_index([("learnerId", 1), ("generatedAt", -1)])
+
+    try:
+        from services.learning.activity_recommender import seed_learning_activities
+        await seed_learning_activities()
+    except Exception:
+        pass
 
     await _migrate_legacy_profiles()
     await _seed_demo_data()

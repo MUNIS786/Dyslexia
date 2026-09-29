@@ -50,7 +50,7 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ---
 
-### Phase 2: Learner Intelligence Profile (COMPLETE — Current Release)
+### Phase 2: Learner Intelligence Profile (COMPLETE — Commit 088f156)
 * **Objective:** Synthesize screening results, ongoing reading telemetry, and classroom submissions into a continuously updating, non-clinical multidimensional cognitive profile with data-driven strengths, constructive practice areas, 5-stage educational learning levels, and role-separated student & teacher views.
 * **Backend Status:** Implemented in `backend/models/v2_learner_profile.py`, `backend/services/learning/learner_profile_service.py`, `backend/routers/v2_learner.py`, and integrated into `backend/routers/dyslexia_test.py`.
 * **Frontend Status:** Implemented in `frontend/src/features/learner/` (11 modular components), `frontend/src/pages/student/StudentProfilePage.jsx` (`/student/profile`), and extended `frontend/src/pages/teacher/StudentDetailPage.jsx`.
@@ -60,19 +60,19 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ---
 
-### Phase 3: Adaptive Learning Engine (Upcoming — Next Phase)
+### Phase 3: Adaptive Learning Engine (COMPLETE — Current Release)
 * **Objective:** Automatically adjust reading material difficulty and daily micro-task assignments based on the student's Zone of Proximal Development (ZPD).
-* **Backend Changes:** `adaptive_engine.py` evaluating rolling comprehension metrics and adjusting difficulty tier (1–5).
-* **Frontend Changes:** Adaptive task carousel that highlights why an activity is recommended for the student.
-* **Database Changes:** `learning_states`, `learning_activities`, and `activity_attempts`.
-* **APIs:** `GET /api/v2/learning/activities`, `POST /api/v2/learning/attempt`, `GET /api/v2/learning/recommendations`.
-* **ML/AI Requirements:** Rule-based heuristics with Gemini adaptive rationale generation.
-* **Testing Requirements:** Edge case testing for adaptation thresholds ($\pm 15\%$ comprehension or 10 completed sessions).
-* **Dependencies:** None.
+* **Backend Status:** Implemented in `backend/models/v2_learning_state.py`, `backend/services/learning/difficulty_engine.py`, `backend/services/learning/activity_recommender.py`, `backend/services/learning/adaptive_engine.py`, and `backend/routers/v2_learning.py`.
+* **Frontend Status:** Implemented in `frontend/src/features/learning/` (`AdaptiveTaskCarousel`, `InteractiveTaskPlayer`, `TierProgressionCard`, `AdaptiveEmptyState`), `frontend/src/pages/student/AdaptiveLearningPage.jsx` (`/student/adaptive-learning`), and spotlight on `StudentHome.jsx`.
+* **Database Collections:** `learning_states`, `learning_activities`, `activity_attempts`, and `adaptive_recommendations` (indexed and seeded).
+* **APIs:** `GET /api/v2/learning/activities`, `POST /api/v2/learning/attempt`, `GET /api/v2/learning/recommendations`, `GET /api/v2/learning/state`, `GET /api/v2/learning/tier-info`.
+* **Adaptation Logic:** Deterministic ZPD difficulty calibration (Tiers 1-5), +15% comprehension jump or 3 consecutive passes / 2 failures adaptation triggers, and exponential moving average profile recalibration.
+* **Verification:** Unit and integration test suite (`test_phase3_adaptive_engine.py`) passing with 14/14 tests; clean frontend production build.
+* **Status:** Complete.
 
 ---
 
-### Phase 4: Adaptive Reading Coach
+### Phase 4: Adaptive Reading Coach (Upcoming — Next Phase)
 * **Objective:** Create an interactive guided reading experience featuring word-by-word pacing, syllable-split highlights, and assistive audio playback.
 * **Backend Changes:** `reading_coach.py` coordinator preparing phonetic hints, syllable boundaries, and chunked segments.
 * **Frontend Changes:** Dedicated `ReadingCoachView` with adjustable guide rulers, bionic font weighting, and customizable syllable coloring.
