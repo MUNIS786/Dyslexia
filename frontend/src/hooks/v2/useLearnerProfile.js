@@ -1,5 +1,5 @@
 /**
- * frontend/src/hooks/v2/useLearnerProfile.js — Hook for accessing and updating V2 Learner Profile.
+ * frontend/src/hooks/v2/useLearnerProfile.js — Hooks for accessing and updating V2 Learner Profile.
  */
 import { useState, useEffect, useCallback } from 'react'
 import { learnerV2API } from '../../api/v2/client'
@@ -47,7 +47,8 @@ export function useLearnerProfile() {
         return res.profile
       }
     } catch (err) {
-      setError(err?.response?.data?.detail || 'Failed to update profile')
+      const errMsg = err?.response?.data?.detail || 'Failed to update profile'
+      setError(errMsg)
       throw err
     }
   }, [])
@@ -59,5 +60,41 @@ export function useLearnerProfile() {
     error,
     refresh: loadData,
     updateProfile,
+  }
+}
+
+export function useStudentLearnerProfile(studentId) {
+  const [profile, setProfile] = useState(null)
+  const [studentName, setStudentName] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  const loadData = useCallback(async () => {
+    if (!studentId) return
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await learnerV2API.getStudentProfile(studentId)
+      if (res?.status === 'ok') {
+        setProfile(res.profile)
+        setStudentName(res.student_name || '')
+      }
+    } catch (err) {
+      setError(err?.response?.data?.detail || 'Failed to load student profile')
+    } finally {
+      setLoading(false)
+    }
+  }, [studentId])
+
+  useEffect(() => {
+    loadData()
+  }, [loadData])
+
+  return {
+    profile,
+    studentName,
+    loading,
+    error,
+    refresh: loadData,
   }
 }

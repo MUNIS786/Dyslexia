@@ -44,31 +44,23 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ## Phase Breakdown
 
-### Phase 1: V2 Foundation (Current Phase)
+### Phase 1: V2 Foundation (COMPLETE — Commit cf3b5ef)
 * **Objective:** Establish backward-compatible V2 architectural foundations, documentation, directory structures, centralized feature flags, `/api/version`, and the base V2 learner profile data model.
-* **Backend Changes:** Introduce `backend/core/config.py`, `backend/models/v2_learner_profile.py`, `backend/services/learning/learner_profile_service.py`, and `/api/version` + `/api/v2/learner/...` routing.
-* **Frontend Changes:** Create scalable `frontend/src/features/` and `frontend/src/api/v2/` scaffolding without modifying existing working V1 routes.
-* **Database Changes:** Introduce `learner_profiles` schema design while maintaining full compatibility with existing `users.readingProfile`.
-* **APIs:** `GET /api/version`, `GET /api/v2/learner/profile`, `PATCH /api/v2/learner/profile`, `GET /api/v2/learner/state`.
-* **ML/AI Requirements:** Maintain existing Scikit-Learn models in `backend/ai_model/` and Gemini Flash routing.
-* **Testing Requirements:** Verify FastAPI startup, route tests, and React `npm run build` cleanly succeeding.
-* **Dependencies:** Zero new third-party dependencies required.
+* **Status:** Fully completed, verified, and merged.
 
 ---
 
-### Phase 2: Learner Intelligence Profile
-* **Objective:** Synthesize screening results, ongoing reading telemetry, and classroom submissions into a continuously updating multidimensional cognitive profile.
-* **Backend Changes:** Implement real-time profile updater syncing after every quiz, screening, and reading session.
-* **Frontend Changes:** Interactive cognitive radar chart (12 domains), strengths summary cards, and accommodation badges in Student & Teacher views.
-* **Database Changes:** Write operations to `learner_profiles` with historical snapshots.
-* **APIs:** `GET /api/v2/learner/profile/radar`, `GET /api/v2/learner/profile/history`.
-* **ML/AI Requirements:** Calibrated probability scoring across dyslexia subtypes.
-* **Testing Requirements:** Unit test domain score updates and ensure non-clinical disclaimer rendering.
-* **Dependencies:** `recharts` or lightweight SVG radar component.
+### Phase 2: Learner Intelligence Profile (COMPLETE — Current Release)
+* **Objective:** Synthesize screening results, ongoing reading telemetry, and classroom submissions into a continuously updating, non-clinical multidimensional cognitive profile with data-driven strengths, constructive practice areas, 5-stage educational learning levels, and role-separated student & teacher views.
+* **Backend Status:** Implemented in `backend/models/v2_learner_profile.py`, `backend/services/learning/learner_profile_service.py`, `backend/routers/v2_learner.py`, and integrated into `backend/routers/dyslexia_test.py`.
+* **Frontend Status:** Implemented in `frontend/src/features/learner/` (11 modular components), `frontend/src/pages/student/StudentProfilePage.jsx` (`/student/profile`), and extended `frontend/src/pages/teacher/StudentDetailPage.jsx`.
+* **Database Collections:** `learner_profiles` (indexed on `learnerId`).
+* **Verification:** Unit tests (`test_phase2_learner_profile.py`), endpoint integration & security tests (`test_phase2_endpoints.py`), and frontend Vite production bundle build cleanly passing.
+* **Status:** Complete.
 
 ---
 
-### Phase 3: Adaptive Learning Engine
+### Phase 3: Adaptive Learning Engine (Upcoming — Next Phase)
 * **Objective:** Automatically adjust reading material difficulty and daily micro-task assignments based on the student's Zone of Proximal Development (ZPD).
 * **Backend Changes:** `adaptive_engine.py` evaluating rolling comprehension metrics and adjusting difficulty tier (1–5).
 * **Frontend Changes:** Adaptive task carousel that highlights why an activity is recommended for the student.

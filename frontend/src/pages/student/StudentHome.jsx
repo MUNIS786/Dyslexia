@@ -258,7 +258,10 @@ export default function StudentHome() {
               <h2 className="dyslexia-text font-bold text-lg flex items-center gap-2">
                 🧠 Your Cognitive Profile
               </h2>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap items-center">
+                <Button size="sm" variant="secondary" onClick={() => navigate('/student/profile')} className="text-xs py-1 px-2.5">
+                  🌟 Full Learning Profile →
+                </Button>
                 {riskLevel && <Badge color={riskColor}>{riskLevel} support level</Badge>}
                 {typeof confidence === 'number' && <Badge color="gray">{confidence}% confidence</Badge>}
               </div>

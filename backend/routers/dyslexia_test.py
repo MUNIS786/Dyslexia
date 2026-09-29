@@ -943,7 +943,20 @@ async def submit_screening(req: ScreeningSubmitReq, authorization: Optional[str]
             "createdAt": now,
         })
 
+        # Phase 2: Synthesize and update V2 Learner Intelligence Profile
+        try:
+            from services.learning.learner_profile_service import recalibrate_from_screening
+            await recalibrate_from_screening(user["id"], result, req.student_age)
+        except Exception as e:
+            # Safe degradation: Never fail the V1 screening submission if V2 synthesis errors
+            import logging
+            logging.getLogger("dyslexaid.dyslexia_test").error(
+                f"Non-blocking error during V2 learner profile synthesis for user {user['id']}: {e}",
+                exc_info=True
+            )
+
     return result
+
 
 
 @router.get("/history")

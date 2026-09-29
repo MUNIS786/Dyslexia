@@ -5,7 +5,7 @@ IMPORTANT:
 These models provide educational and screening indicators to tailor assistive
 learning accommodations. They do NOT provide or represent medical or clinical diagnoses.
 """
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Union
 from pydantic import BaseModel, Field
 
 
@@ -28,7 +28,43 @@ class DomainScores(BaseModel):
     reading_comprehension: Optional[float] = 0.0
     motor_writing: Optional[float] = 0.0
     visual_processing: Optional[float] = 0.0
+    visual_attention: Optional[float] = 0.0
+    language_processing: Optional[float] = 0.0
     processing_speed: Optional[float] = 0.0
+    working_memory: Optional[float] = 0.0
+
+
+class StrengthItem(BaseModel):
+    domain: str
+    score: float
+    label: str = "Strength"
+    friendly_name: str
+    description: str
+
+
+class PracticeAreaItem(BaseModel):
+    domain: str
+    score: float
+    priority: str = "medium"  # high | medium | low
+    friendly_name: str
+    description: str
+    suggested_activity_type: str
+
+
+class LearningLevelInfo(BaseModel):
+    level: int = Field(default=1, ge=1, le=5, description="Educational level from 1 (Foundation) to 5 (Advanced)")
+    name: str = "Foundation"
+    description: str = "Starting your reading journey with foundational letter sounds and word shapes."
+    calculated_at: int = 0
+    inputs: Dict[str, Any] = Field(default_factory=dict)
+
+
+class ProfileConfidence(BaseModel):
+    overall: float = 0.0
+    screening: float = 0.0
+    performance: float = 0.0
+    screening_questions_answered: int = 0
+    scored_domains_count: int = 0
 
 
 class CognitiveIndicators(BaseModel):
@@ -67,23 +103,36 @@ class AdaptiveDifficulty(BaseModel):
     scaffolding_level: str = "standard"
 
 
+class GoalItem(BaseModel):
+    id: str
+    title: str
+    completed: bool = False
+
+
 class V2LearnerProfile(BaseModel):
     learner_id: str
+    display_name: Optional[str] = None
     schema_version: int = 2
-    current_level: Optional[str] = "moderate"  # low | moderate | high
-    risk_level: Optional[str] = "Moderate"     # Low | Moderate | High
+    screening_completed: bool = False
+    learning_level: LearningLevelInfo = Field(default_factory=LearningLevelInfo)
+    current_level: Optional[str] = "moderate"  # backward compat
+    risk_level: Optional[str] = "Moderate"     # backward compat
     dyslexia_indicators: DyslexiaIndicators = Field(default_factory=DyslexiaIndicators)
     domain_scores: DomainScores = Field(default_factory=DomainScores)
+    domain_interpretations: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
     cognitive_indicators: CognitiveIndicators = Field(default_factory=CognitiveIndicators)
-    strengths: List[str] = Field(default_factory=list)
-    focus_areas: List[str] = Field(default_factory=list)
+    strengths: List[StrengthItem] = Field(default_factory=list)
+    areas_for_practice: List[PracticeAreaItem] = Field(default_factory=list)
+    focus_areas: List[str] = Field(default_factory=list)  # backward compat string list
     reading_metrics: ReadingMetrics = Field(default_factory=ReadingMetrics)
-    preferred_learning_modes: List[str] = Field(default_factory=lambda: ["Visual-Auditory Multisensory"])
+    preferred_learning_modes: List[str] = Field(default_factory=lambda: ["Reading", "Visual", "Interactive"])
     preferred_language: str = "en-IN"
     accessibility_preferences: AccessibilityPreferences = Field(default_factory=AccessibilityPreferences)
     adaptive_difficulty: AdaptiveDifficulty = Field(default_factory=AdaptiveDifficulty)
     learning_streak: int = 0
-    current_goals: List[str] = Field(default_factory=list)
+    current_goals: List[Union[GoalItem, str, Dict[str, Any]]] = Field(default_factory=list)
+    confidence: ProfileConfidence = Field(default_factory=ProfileConfidence)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
     teacher_observations: List[str] = Field(default_factory=list)
     parent_observations: List[str] = Field(default_factory=list)
     disclaimer: str = (
@@ -96,8 +145,9 @@ class V2LearnerProfile(BaseModel):
 
 
 class V2LearnerProfileUpdate(BaseModel):
-    current_goals: Optional[List[str]] = None
+    current_goals: Optional[List[Any]] = None
     preferred_language: Optional[str] = None
+    preferred_learning_modes: Optional[List[str]] = None
     accessibility_preferences: Optional[Dict[str, Any]] = None
     parent_observations: Optional[List[str]] = None
     teacher_observations: Optional[List[str]] = None

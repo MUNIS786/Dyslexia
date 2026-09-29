@@ -5,6 +5,7 @@ import { useNotifs } from '../../context/NotifContext'
 
 const STUDENT_NAV = [
   { to: '/student', label: 'Home', icon: '🏠', end: true },
+  { to: '/student/profile', label: 'Learning Profile', icon: '🌟' },
   { to: '/student/tasks', label: 'Daily Tasks', icon: '✅' },
   { to: '/student/scan', label: 'Scan Text', icon: '📷' },
   { to: '/student/library', label: 'My Library', icon: '📚' },

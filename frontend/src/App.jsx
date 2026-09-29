@@ -7,6 +7,7 @@ import { useSession } from './hooks/useSession'
 
 import { LoginPage, RegisterPage } from './pages/auth/AuthPages'
 import StudentHome from './pages/student/StudentHome'
+import StudentProfilePage from './pages/student/StudentProfilePage'
 import ScreeningTest from './pages/student/ScreeningTest'
 import DailyTasks from './pages/student/DailyTasks'
 import ScanPage from './pages/student/ScanPage'
@@ -34,7 +35,8 @@ function ProtectedRoute({ children, role }) {
   if (
     user.role === 'student' &&
     !user.readingProfile &&
-    !window.location.pathname.includes('screening')
+    !window.location.pathname.includes('screening') &&
+    !window.location.pathname.includes('profile')
   ) {
     return <Navigate to="/student/screening" replace />
   }
@@ -51,6 +53,10 @@ function AppRoutes() {
       <Route path="/student" element={
         <ProtectedRoute role="student"><Layout><StudentHome /></Layout></ProtectedRoute>
       } />
+      <Route path="/student/profile" element={
+        <ProtectedRoute role="student"><Layout><StudentProfilePage /></Layout></ProtectedRoute>
+      } />
+
       <Route path="/student/screening" element={
         <ProtectedRoute role="student"><ScreeningTest /></ProtectedRoute>
       } />
