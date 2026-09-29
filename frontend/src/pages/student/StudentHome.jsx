@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { progressAPI, tasksAPI, planAPI, classroomAPI } from '../../api/client'
-import { Card, Button, Badge, StatCard, Spinner } from '../../components/ui'
+import { Card, Button, Badge, StatCard, Spinner, Alert } from '../../components/ui'
 import toast from 'react-hot-toast'
 
 const ACTIVITY_ICONS = { scan: '📷', reading: '📖', task: '✅', quiz: '🧠', word: '⭐', assignment: '📝' }
