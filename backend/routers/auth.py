@@ -94,6 +94,7 @@ async def signup(req: SignupReq):
 
 
 @router.post("/signin")
+@router.post("/login")
 async def signin(req: SigninReq):
     email = req.email.lower().strip()
     user = await db.users.find_one({"email": email})

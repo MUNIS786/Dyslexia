@@ -1,7 +1,11 @@
 /**
  * frontend/src/features/reading/index.js — V2 Adaptive Reading Coach Feature Module.
  */
-export const READING_COACH_INFO = {
-  version: '2.0',
-  description: 'Interactive reading coach with syllable splitting, bionic emphasis, and TTS alignment',
-}
+export { default as ReadingCoach } from './ReadingCoach'
+export { default as ReadingPassage } from './ReadingPassage'
+export { default as ReadingControls } from './ReadingControls'
+export { default as ReadingProgress } from './ReadingProgress'
+export { default as DifficultWords } from './DifficultWords'
+export { default as ComprehensionQuestion } from './ComprehensionQuestion'
+export { default as ReadingSessionResult } from './ReadingSessionResult'
+export { default as ReadingRecommendation } from './ReadingRecommendation'

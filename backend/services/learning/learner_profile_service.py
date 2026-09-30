@@ -1107,6 +1107,18 @@ async def get_learning_state(user_id: str) -> Dict[str, Any]:
     level = profile.get("level", "moderate")
     initial_tier = 1 if level in ("high", "severe") else (2 if level == "moderate" else 3)
 
+    last_active = progress.get("lastActiveDate")
+    last_session_ts = None
+    if isinstance(last_active, (int, float)):
+        last_session_ts = int(last_active)
+    elif isinstance(last_active, str) and last_active:
+        try:
+            from datetime import datetime
+            dt = datetime.fromisoformat(last_active)
+            last_session_ts = int(dt.timestamp())
+        except Exception:
+            last_session_ts = None
+
     state = V2LearningState(
         learner_id=user_id,
         active_difficulty_tier=initial_tier,
@@ -1114,7 +1126,7 @@ async def get_learning_state(user_id: str) -> Dict[str, Any]:
         today_tasks_assigned=progress.get("tasksAssigned", 3),
         today_tasks_completed=progress.get("tasksCompleted", 0),
         current_streak=progress.get("streak", 0),
-        last_session_timestamp=progress.get("lastActiveDate"),
+        last_session_timestamp=last_session_ts,
         consecutive_passes=2,
         consecutive_failures=0,
         recommended_next_action="daily_reading_practice",

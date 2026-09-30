@@ -136,9 +136,31 @@ async def init_db():
     await db.activity_attempts.create_index([("activityId", 1), ("scorePercent", 1)])
     await db.adaptive_recommendations.create_index([("learnerId", 1), ("generatedAt", -1)])
 
+    # V2 Reading Coach Collections
+    try:
+        await db.reading_sessions.create_index("sessionId", unique=True)
+    except Exception:
+        pass
+    await db.reading_sessions.create_index("learnerId")
+    await db.reading_sessions.create_index("createdAt")
+    await db.reading_sessions.create_index([("learnerId", 1), ("createdAt", -1)])
+    await db.reading_sessions.create_index([("learnerId", 1), ("activityId", 1)])
+
+    try:
+        await db.reading_passages.create_index("passageId", unique=True)
+    except Exception:
+        pass
+    await db.reading_passages.create_index([("difficulty", 1), ("domain", 1)])
+
     try:
         from services.learning.activity_recommender import seed_learning_activities
         await seed_learning_activities()
+    except Exception:
+        pass
+
+    try:
+        from services.learning.reading_service import seed_reading_passages
+        await seed_reading_passages()
     except Exception:
         pass
 

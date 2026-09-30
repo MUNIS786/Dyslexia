@@ -88,6 +88,7 @@ export default function ScreeningTest() {
     if (phase !== 'test' || timeLeft !== 0 || !currentQ) return
     const timeTaken = currentQ.time_limit_seconds || 30
     recordAnswer(null, true, timeTaken)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft, phase, currentQ])
 
   useEffect(() => {

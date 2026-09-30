@@ -61,7 +61,7 @@ class AdaptiveStateInfo(BaseModel):
     todayTasksAssigned: int = Field(default=4)
     todayTasksCompleted: int = Field(default=0)
     currentStreak: int = Field(default=0)
-    lastSessionTimestamp: Optional[int] = None
+    lastSessionTimestamp: Optional[Union[int, str]] = None
     consecutivePasses: int = Field(default=0)
     consecutiveFailures: int = Field(default=0)
     rollingComprehensionScores: List[float] = Field(default_factory=list)

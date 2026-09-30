@@ -72,15 +72,20 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ---
 
-### Phase 4: Adaptive Reading Coach (Upcoming — Next Phase)
-* **Objective:** Create an interactive guided reading experience featuring word-by-word pacing, syllable-split highlights, and assistive audio playback.
-* **Backend Changes:** `reading_coach.py` coordinator preparing phonetic hints, syllable boundaries, and chunked segments.
-* **Frontend Changes:** Dedicated `ReadingCoachView` with adjustable guide rulers, bionic font weighting, and customizable syllable coloring.
-* **Database Changes:** `reading_sessions` collection.
-* **APIs:** `POST /api/v2/reading/session/start`, `POST /api/v2/reading/session/end`.
-* **ML/AI Requirements:** Phoneme and syllable segmentation NLP utilities.
-* **Testing Requirements:** Accessibility contrast validation across all theme colors.
-* **Dependencies:** None.
+### Phase 4: Adaptive Reading Coach (COMPLETE — Current Release)
+* **Objective:** Build an accessibility-optimized reading coach where learners read, listen with browser TTS, interact with difficult words (phonetics, syllables, audio), take step-by-step comprehension quizzes, and feed performance back into the Phase 3 Adaptive Learning Engine.
+* **Backend Status:** Implemented in `backend/models/v2_reading.py`, `backend/services/learning/reading_performance.py`, `backend/services/learning/reading_recommender.py`, `backend/services/learning/reading_service.py`, and `backend/routers/v2_reading.py`.
+* **Frontend Status:** Implemented in `frontend/src/features/reading/` (8 modular components: `ReadingCoach`, `ReadingPassage`, `ReadingControls`, `ReadingProgress`, `DifficultWords`, `ComprehensionQuestion`, `ReadingSessionResult`, `ReadingRecommendation`), `frontend/src/hooks/v2/useReadingCoach.js`, `frontend/src/pages/student/ReadingCoachPage.jsx` (`/student/reading-coach`), and integrated into `App.jsx` and `Layout.jsx`.
+* **Database Collections:** `reading_sessions` and `reading_passages` (with compound indexes on `learnerId`, `sessionId`, `tier`, `createdAt`).
+* **Seed Content:** Deterministic multi-tier passage library (Tiers 1–5, multiple original passages per tier with comprehension questions, vocabulary syllables/definitions, and accessibility metadata).
+* **APIs:** `GET /api/v2/reading/recommendation`, `GET /api/v2/reading/passages`, `GET /api/v2/reading/passages/{passage_id}`, `POST /api/v2/reading/session/start`, `POST /api/v2/reading/session/complete`, `GET /api/v2/reading/sessions`, `GET /api/v2/reading/stats`.
+* **Adaptation Logic:** Closed-loop ZPD integration updating `reading_comprehension` and `reading_fluency` domain competencies, triggering difficulty progression on 3 consecutive passes / 2 failures, updating learning state and producing explainable next reading recommendations without any external AI dependency.
+* **Verification:** 58/58 total unit/integration tests passing (Phase 2: 13/13, Phase 3: 14/14, Phase 4: 31/31), 8/8 live MongoDB integration tests passing, clean frontend Vite production bundle build, and end-to-end browser walkthrough verified.
+* **Status:** Complete.
+
+---
+
+### Phase 5: Reading & Speech Analysis (Upcoming — Next Phase)
 
 ---
 

@@ -26,8 +26,19 @@ export const learningV2API = {
   getTierInfo: () => api.get('/v2/learning/tier-info').then((r) => r.data),
 }
 
+export const readingV2API = {
+  getRecommendation: () => api.get('/v2/reading/recommendation').then((r) => r.data),
+  getPassages: (params) => api.get('/v2/reading/passages', { params }).then((r) => r.data),
+  getPassage: (passageId) => api.get(`/v2/reading/passages/${passageId}`).then((r) => r.data),
+  startSession: (data) => api.post('/v2/reading/session/start', data).then((r) => r.data),
+  completeSession: (data) => api.post('/v2/reading/session/complete', data).then((r) => r.data),
+  getSessions: (params) => api.get('/v2/reading/sessions', { params }).then((r) => r.data),
+  getStats: (params) => api.get('/v2/reading/stats', { params }).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
   learning: learningV2API,
+  reading: readingV2API,
 }

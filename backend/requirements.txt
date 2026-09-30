@@ -39,6 +39,7 @@ numpy==1.26.4
 # ML Model (for offline AI inference)
 scikit-learn==1.5.2
 joblib==1.4.2
+pandas>=2.0.0
 
 # ONNX export for mobile offline inference (optional)
 # skl2onnx==1.17.0

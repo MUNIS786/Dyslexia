@@ -4,9 +4,37 @@ from .learner_profile_service import (
     update_learner_profile,
     get_learning_state,
 )
+from .reading_service import (
+    seed_reading_passages,
+    get_passages,
+    get_passage_by_id,
+    start_reading_session,
+    complete_reading_session,
+    get_learner_sessions,
+    get_learner_reading_stats,
+)
+from .reading_recommender import recommend_reading_passage
+from .reading_performance import (
+    calculate_comprehension_score,
+    calculate_completion_rate,
+    calculate_overall_score,
+    grade_comprehension_answers,
+)
 
 __all__ = [
     "get_or_create_learner_profile",
     "update_learner_profile",
     "get_learning_state",
+    "seed_reading_passages",
+    "get_passages",
+    "get_passage_by_id",
+    "start_reading_session",
+    "complete_reading_session",
+    "get_learner_sessions",
+    "get_learner_reading_stats",
+    "recommend_reading_passage",
+    "calculate_comprehension_score",
+    "calculate_completion_rate",
+    "calculate_overall_score",
+    "grade_comprehension_answers",
 ]

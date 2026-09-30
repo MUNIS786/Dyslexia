@@ -9,6 +9,7 @@ import { LoginPage, RegisterPage } from './pages/auth/AuthPages'
 import StudentHome from './pages/student/StudentHome'
 import StudentProfilePage from './pages/student/StudentProfilePage'
 import AdaptiveLearningPage from './pages/student/AdaptiveLearningPage'
+import ReadingCoachPage from './pages/student/ReadingCoachPage'
 import ScreeningTest from './pages/student/ScreeningTest'
 import DailyTasks from './pages/student/DailyTasks'
 import ScanPage from './pages/student/ScanPage'
@@ -38,7 +39,8 @@ function ProtectedRoute({ children, role }) {
     !user.readingProfile &&
     !window.location.pathname.includes('screening') &&
     !window.location.pathname.includes('profile') &&
-    !window.location.pathname.includes('adaptive-learning')
+    !window.location.pathname.includes('adaptive-learning') &&
+    !window.location.pathname.includes('reading-coach')
   ) {
     return <Navigate to="/student/screening" replace />
   }
@@ -60,6 +62,9 @@ function AppRoutes() {
       } />
       <Route path="/student/adaptive-learning" element={
         <ProtectedRoute role="student"><Layout><AdaptiveLearningPage /></Layout></ProtectedRoute>
+      } />
+      <Route path="/student/reading-coach" element={
+        <ProtectedRoute role="student"><Layout><ReadingCoachPage /></Layout></ProtectedRoute>
       } />
 
       <Route path="/student/screening" element={

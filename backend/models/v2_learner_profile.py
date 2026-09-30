@@ -160,7 +160,7 @@ class V2LearningState(BaseModel):
     today_tasks_assigned: int = 0
     today_tasks_completed: int = 0
     current_streak: int = 0
-    last_session_timestamp: Optional[int] = None
+    last_session_timestamp: Optional[Union[int, str]] = None
     consecutive_passes: int = 0
     consecutive_failures: int = 0
     recommended_next_action: str = "daily_reading_practice"

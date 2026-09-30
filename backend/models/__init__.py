@@ -10,6 +10,17 @@ from .v2_learner_profile import (
     AccessibilityPreferences,
     AdaptiveDifficulty,
 )
+from .v2_reading import (
+    ReadingQuestion,
+    ReadingVocabularyWord,
+    ReadingAccessibilityConfig,
+    ReadingPassage,
+    ReadingSessionStartRequest,
+    ReadingSessionCompleteRequest,
+    ReadingSession,
+    ReadingRecommendationResponse,
+    ReadingStatsResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -21,4 +32,13 @@ __all__ = [
     "ReadingMetrics",
     "AccessibilityPreferences",
     "AdaptiveDifficulty",
+    "ReadingQuestion",
+    "ReadingVocabularyWord",
+    "ReadingAccessibilityConfig",
+    "ReadingPassage",
+    "ReadingSessionStartRequest",
+    "ReadingSessionCompleteRequest",
+    "ReadingSession",
+    "ReadingRecommendationResponse",
+    "ReadingStatsResponse",
 ]
