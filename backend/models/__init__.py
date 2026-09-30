@@ -29,6 +29,14 @@ from .v2_speech_analysis import (
     SpeechReadingAnalysis,
     SpeechAnalysisResponse,
 )
+from .v2_tutor import (
+    TutorSuggestedAction,
+    TutorMessage,
+    CompactPassageContext,
+    TutorContext,
+    TutorRequest,
+    TutorResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -54,4 +62,11 @@ __all__ = [
     "SpeechAnalysisRequest",
     "SpeechReadingAnalysis",
     "SpeechAnalysisResponse",
+    "TutorSuggestedAction",
+    "TutorMessage",
+    "CompactPassageContext",
+    "TutorContext",
+    "TutorRequest",
+    "TutorResponse",
 ]
+

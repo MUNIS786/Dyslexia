@@ -162,6 +162,14 @@ async def init_db():
     await db.speech_reading_analyses.create_index("createdAt")
     await db.speech_reading_analyses.create_index([("learnerId", 1), ("createdAt", -1)])
 
+    # Phase 6: Personal AI Tutor conversations
+    try:
+        await db.tutor_conversations.create_index("conversationId", unique=True)
+    except Exception:
+        pass
+    await db.tutor_conversations.create_index("learnerId")
+    await db.tutor_conversations.create_index([("learnerId", 1), ("updatedAt", -1)])
+
     try:
         from services.learning.activity_recommender import seed_learning_activities
         await seed_learning_activities()

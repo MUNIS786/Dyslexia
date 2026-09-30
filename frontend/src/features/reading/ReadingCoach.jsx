@@ -130,6 +130,7 @@ export default function ReadingCoach() {
           onClose={() => setActiveWordInfo(null)}
           onPracticeAudio={practiceWordAudio}
           ttsSupported={ttsSupported}
+          passageId={activePassage?.passageId}
         />
       )}
 

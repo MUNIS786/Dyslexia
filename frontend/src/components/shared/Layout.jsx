@@ -8,6 +8,7 @@ const STUDENT_NAV = [
   { to: '/student/profile', label: 'Learning Profile', icon: '🌟' },
   { to: '/student/adaptive-learning', label: 'Adaptive Practice', icon: '🎯' },
   { to: '/student/reading-coach', label: 'Reading Coach', icon: '📖' },
+  { to: '/student/tutor', label: 'AI Tutor', icon: '🤖' },
   { to: '/student/tasks', label: 'Daily Tasks', icon: '✅' },
   { to: '/student/scan', label: 'Scan Text', icon: '📷' },
   { to: '/student/library', label: 'My Library', icon: '📚' },

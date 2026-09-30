@@ -39,9 +39,18 @@ export const readingV2API = {
     api.get(`/v2/reading/speech/sessions/${sessionId}${studentId ? `?student_id=${studentId}` : ''}`).then((r) => r.data),
 }
 
+export const tutorV2API = {
+  sendMessage: (data) => api.post('/v2/tutor/chat', data).then((r) => r.data),
+  getContext: (params) => api.get('/v2/tutor/context', { params }).then((r) => r.data),
+  getHistory: (params) => api.get('/v2/tutor/history', { params }).then((r) => r.data),
+  clearHistory: () => api.delete('/v2/tutor/history').then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
   learning: learningV2API,
   reading: readingV2API,
+  tutor: tutorV2API,
 }
+

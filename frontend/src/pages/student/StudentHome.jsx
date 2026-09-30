@@ -499,17 +499,19 @@ export default function StudentHome() {
       {/* Quick actions */}
       <div>
         <h2 className="dyslexia-text font-bold text-lg mb-3">⚡ Quick Actions</h2>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {[
+            { icon: '🤖', label: 'AI Tutor', to: '/student/tutor', color: 'bg-[#FFF3DC]' },
+            { icon: '📖', label: 'Reading Coach', to: '/student/reading-coach', color: 'bg-[#E0F2F2]' },
+            { icon: '🎯', label: 'Adaptive Practice', to: '/student/adaptive-learning', color: 'bg-[#F0F8FF]' },
             { icon: '📷', label: 'Scan Text', to: '/student/scan', color: 'bg-[#E0F2F2]' },
-            { icon: '🧠', label: 'My Plan', to: '/student/plan', color: 'bg-[#FFF3DC]' },
-            { icon: '📊', label: 'Progress', to: '/student/progress', color: 'bg-[#F0F8FF]' },
-            { icon: '💬', label: 'AI Chat', to: '/student/chat', color: 'bg-[#F5F0FF]' },
+            { icon: '📊', label: 'Progress', to: '/student/progress', color: 'bg-[#F5F0FF]' },
+            { icon: '💬', label: 'AI Chat', to: '/student/chat', color: 'bg-[#FFF0F5]' },
           ].map((a) => (
             <button
               key={a.to}
               onClick={() => navigate(a.to)}
-              className={`${a.color} rounded-2xl p-4 flex flex-col items-center gap-2 hover:shadow-md transition-shadow min-h-[90px]`}
+              className={`${a.color} rounded-2xl p-4 flex flex-col items-center gap-2 hover:shadow-md transition-shadow min-h-[90px] cursor-pointer`}
             >
               <span className="text-3xl">{a.icon}</span>
               <span className="dyslexia-text font-semibold text-sm">{a.label}</span>

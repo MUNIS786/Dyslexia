@@ -31,6 +31,14 @@ from .speech_analysis import (
     analyze_speech_reading,
     get_speech_analysis_for_session,
 )
+from .tutor_context import build_tutor_context
+from .tutor_service import (
+    build_tutor_instruction,
+    generate_offline_fallback,
+    handle_tutor_chat,
+    get_tutor_history,
+    clear_tutor_history,
+)
 
 __all__ = [
     "get_or_create_learner_profile",
@@ -56,4 +64,11 @@ __all__ = [
     "calculate_reading_practice_score",
     "analyze_speech_reading",
     "get_speech_analysis_for_session",
+    "build_tutor_context",
+    "build_tutor_instruction",
+    "generate_offline_fallback",
+    "handle_tutor_chat",
+    "get_tutor_history",
+    "clear_tutor_history",
 ]
+

@@ -6,16 +6,27 @@
  * and audio pronunciation via browser SpeechSynthesis.
  */
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function DifficultWords({
   wordInfo,
   onClose,
   onPracticeAudio,
   ttsSupported = true,
+  passageId = null,
 }) {
+  const navigate = useNavigate()
   if (!wordInfo) return null
 
   const { word, definition, phonetic, exampleSentence, syllables } = wordInfo
+
+  const handleAskTutor = () => {
+    onClose()
+    const query = new URLSearchParams()
+    if (word) query.set('word', word)
+    if (passageId) query.set('passageId', passageId)
+    navigate(`/student/tutor?${query.toString()}`)
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-fade-in">
@@ -90,14 +101,25 @@ export default function DifficultWords({
           </div>
         )}
 
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="w-full py-3 bg-[#1A6B6B] hover:bg-[#145555] active:scale-[0.98] text-white font-bold rounded-2xl text-sm transition-all shadow-sm cursor-pointer"
-        >
-          Got It! 👍
-        </button>
+        {/* Actions: Ask Tutor + Close */}
+        <div className="flex items-center gap-2 pt-1">
+          <button
+            onClick={handleAskTutor}
+            className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 active:scale-[0.98] text-white font-bold rounded-2xl text-xs sm:text-sm transition-all shadow-xs cursor-pointer flex items-center justify-center gap-1.5"
+            title="Ask Personal AI Tutor to explain more"
+          >
+            <span>🤖</span>
+            <span>Ask AI Tutor</span>
+          </button>
+          <button
+            onClick={onClose}
+            className="flex-1 py-3 bg-[#1A6B6B] hover:bg-[#145555] active:scale-[0.98] text-white font-bold rounded-2xl text-xs sm:text-sm transition-all shadow-xs cursor-pointer"
+          >
+            Got It! 👍
+          </button>
+        </div>
       </div>
     </div>
   )
 }
+

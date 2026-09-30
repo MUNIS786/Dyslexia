@@ -21,7 +21,7 @@ class Settings:
     V2_ADAPTIVE_ENGINE: bool = os.environ.get("V2_ADAPTIVE_ENGINE", "true").lower() in ("true", "1", "yes")
     V2_READING_COACH: bool = os.environ.get("V2_READING_COACH", "true").lower() in ("true", "1", "yes")
     V2_SPEECH_ANALYSIS: bool = os.environ.get("V2_SPEECH_ANALYSIS", "true").lower() in ("true", "1", "yes")
-    V2_AI_TUTOR: bool = os.environ.get("V2_AI_TUTOR", "false").lower() in ("true", "1", "yes")
+    V2_AI_TUTOR: bool = os.environ.get("V2_AI_TUTOR", "true").lower() in ("true", "1", "yes")
     V2_GAMIFICATION: bool = os.environ.get("V2_GAMIFICATION", "false").lower() in ("true", "1", "yes")
     V2_MULTILINGUAL: bool = os.environ.get("V2_MULTILINGUAL", "false").lower() in ("true", "1", "yes")
     V2_PARENT_PORTAL: bool = os.environ.get("V2_PARENT_PORTAL", "false").lower() in ("true", "1", "yes")

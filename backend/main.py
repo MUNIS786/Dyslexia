@@ -28,7 +28,7 @@ logger = logging.getLogger("dyslexaid.main")
 from routers import auth, scan, simplify, screening, library, progress
 from routers import chat, teacher, classroom, assignments, notifications
 from routers import ai_plan, dyslexia_test, daily_tasks
-from routers import version, v2_learner, v2_learning, v2_reading
+from routers import version, v2_learner, v2_learning, v2_reading, v2_tutor
 from database.database import init_db
 
 if not os.environ.get("GEMINI_API_KEY", "").strip():
@@ -79,6 +79,7 @@ app.include_router(version.router, prefix="/api")
 app.include_router(v2_learner.router, prefix="/api")
 app.include_router(v2_learning.router, prefix="/api")
 app.include_router(v2_reading.router, prefix="/api")
+app.include_router(v2_tutor.router, prefix="/api")
 
 
 @app.get("/api/")
