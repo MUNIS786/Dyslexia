@@ -37,6 +37,17 @@ from .v2_tutor import (
     TutorRequest,
     TutorResponse,
 )
+from .v2_teacher_analytics import (
+    ProgressTrendPoint,
+    ProgressTrendSummary,
+    DomainPerformanceItem,
+    TeacherInsight,
+    TeacherAction,
+    LearnerAnalyticsSummary,
+    ClassOverviewMetrics,
+    ClassAnalyticsResponse,
+    LearnerAnalyticsDetail,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -68,5 +79,15 @@ __all__ = [
     "TutorContext",
     "TutorRequest",
     "TutorResponse",
+    "ProgressTrendPoint",
+    "ProgressTrendSummary",
+    "DomainPerformanceItem",
+    "TeacherInsight",
+    "TeacherAction",
+    "LearnerAnalyticsSummary",
+    "ClassOverviewMetrics",
+    "ClassAnalyticsResponse",
+    "LearnerAnalyticsDetail",
 ]
+
 

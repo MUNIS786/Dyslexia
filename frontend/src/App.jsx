@@ -26,6 +26,7 @@ import StudentsPage from './pages/teacher/StudentsPage'
 import StudentDetailPage from './pages/teacher/StudentDetailPage'
 import AssignmentsPage from './pages/teacher/AssignmentsPage'
 import TeacherScanPage from './pages/teacher/TeacherScanPage'
+import TeacherAnalyticsPage from './pages/teacher/TeacherAnalyticsPage'
 import Layout from './components/shared/Layout'
 
 function ProtectedRoute({ children, role }) {
@@ -105,6 +106,9 @@ function AppRoutes() {
 
       <Route path="/teacher" element={
         <ProtectedRoute role="teacher"><Layout><TeacherHome /></Layout></ProtectedRoute>
+      } />
+      <Route path="/teacher/analytics" element={
+        <ProtectedRoute role="teacher"><Layout><TeacherAnalyticsPage /></Layout></ProtectedRoute>
       } />
       <Route path="/teacher/students" element={
         <ProtectedRoute role="teacher"><Layout><StudentsPage /></Layout></ProtectedRoute>

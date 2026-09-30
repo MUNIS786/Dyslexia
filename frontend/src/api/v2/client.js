@@ -46,11 +46,24 @@ export const tutorV2API = {
   clearHistory: () => api.delete('/v2/tutor/history').then((r) => r.data),
 }
 
+export const teacherV2API = {
+  getOverview: (timeRange = 'all') =>
+    api.get('/v2/teacher/analytics/overview', { params: { time_range: timeRange } }).then((r) => r.data),
+  getLearners: (timeRange = 'all') =>
+    api.get('/v2/teacher/analytics/learners', { params: { time_range: timeRange } }).then((r) => r.data),
+  getLearnerDetail: (studentId, timeRange = 'all') =>
+    api.get(`/v2/teacher/analytics/learners/${studentId}`, { params: { time_range: timeRange } }).then((r) => r.data),
+  getLearnerTrend: (studentId, timeRange = 'all') =>
+    api.get(`/v2/teacher/analytics/learners/${studentId}/trend`, { params: { time_range: timeRange } }).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
   learning: learningV2API,
   reading: readingV2API,
   tutor: tutorV2API,
+  teacher: teacherV2API,
 }
+
 
