@@ -111,6 +111,26 @@ export default function ReadingSessionResult({
         </div>
       </div>
 
+      {/* Voice Reading Practice Badge if Speech Mode was used */}
+      {result.speechWordAccuracy !== undefined && (
+        <div className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-3xl p-5 border border-teal-200 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">🎙️</span>
+            <div>
+              <h4 className="text-sm font-extrabold text-stone-900">
+                Voice Reading Practice
+              </h4>
+              <p className="text-xs text-stone-600">
+                {Math.round(result.speechWordAccuracy)}% words read clearly • {Math.round(result.speechWordsPerMinute || 0)} WPM pace
+              </p>
+            </div>
+          </div>
+          <span className="px-3 py-1 bg-white rounded-xl text-teal-800 font-extrabold text-xs border border-teal-200">
+            Score: {Math.round(result.speechPracticeScore || result.speechWordAccuracy)}/100
+          </span>
+        </div>
+      )}
+
       {/* What's Next Adaptive Decision */}
       <div className="bg-[#FFF8F0] rounded-3xl p-6 sm:p-7 border-2 border-[#E8A020]/40">
         <div className="flex items-start gap-3">

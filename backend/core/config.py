@@ -20,6 +20,7 @@ class Settings:
     V2_LEARNER_PROFILE: bool = os.environ.get("V2_LEARNER_PROFILE", "true").lower() in ("true", "1", "yes")
     V2_ADAPTIVE_ENGINE: bool = os.environ.get("V2_ADAPTIVE_ENGINE", "true").lower() in ("true", "1", "yes")
     V2_READING_COACH: bool = os.environ.get("V2_READING_COACH", "true").lower() in ("true", "1", "yes")
+    V2_SPEECH_ANALYSIS: bool = os.environ.get("V2_SPEECH_ANALYSIS", "true").lower() in ("true", "1", "yes")
     V2_AI_TUTOR: bool = os.environ.get("V2_AI_TUTOR", "false").lower() in ("true", "1", "yes")
     V2_GAMIFICATION: bool = os.environ.get("V2_GAMIFICATION", "false").lower() in ("true", "1", "yes")
     V2_MULTILINGUAL: bool = os.environ.get("V2_MULTILINGUAL", "false").lower() in ("true", "1", "yes")
@@ -32,6 +33,7 @@ class Settings:
             "V2_LEARNER_PROFILE": cls.V2_LEARNER_PROFILE,
             "V2_ADAPTIVE_ENGINE": cls.V2_ADAPTIVE_ENGINE,
             "V2_READING_COACH": cls.V2_READING_COACH,
+            "V2_SPEECH_ANALYSIS": cls.V2_SPEECH_ANALYSIS,
             "V2_AI_TUTOR": cls.V2_AI_TUTOR,
             "V2_GAMIFICATION": cls.V2_GAMIFICATION,
             "V2_MULTILINGUAL": cls.V2_MULTILINGUAL,

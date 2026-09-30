@@ -21,6 +21,17 @@ from .reading_performance import (
     grade_comprehension_answers,
 )
 
+from .speech_analysis import (
+    normalize_text_to_tokens,
+    align_word_sequences,
+    calculate_word_accuracy,
+    calculate_coverage_rate,
+    calculate_words_per_minute,
+    calculate_reading_practice_score,
+    analyze_speech_reading,
+    get_speech_analysis_for_session,
+)
+
 __all__ = [
     "get_or_create_learner_profile",
     "update_learner_profile",
@@ -37,4 +48,12 @@ __all__ = [
     "calculate_completion_rate",
     "calculate_overall_score",
     "grade_comprehension_answers",
+    "normalize_text_to_tokens",
+    "align_word_sequences",
+    "calculate_word_accuracy",
+    "calculate_coverage_rate",
+    "calculate_words_per_minute",
+    "calculate_reading_practice_score",
+    "analyze_speech_reading",
+    "get_speech_analysis_for_session",
 ]

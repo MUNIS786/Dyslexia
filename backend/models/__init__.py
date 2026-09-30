@@ -22,6 +22,14 @@ from .v2_reading import (
     ReadingStatsResponse,
 )
 
+from .v2_speech_analysis import (
+    WordAlignmentItem,
+    SpeechConfidenceSummary,
+    SpeechAnalysisRequest,
+    SpeechReadingAnalysis,
+    SpeechAnalysisResponse,
+)
+
 __all__ = [
     "V2LearnerProfile",
     "V2LearnerProfileUpdate",
@@ -41,4 +49,9 @@ __all__ = [
     "ReadingSession",
     "ReadingRecommendationResponse",
     "ReadingStatsResponse",
+    "WordAlignmentItem",
+    "SpeechConfidenceSummary",
+    "SpeechAnalysisRequest",
+    "SpeechReadingAnalysis",
+    "SpeechAnalysisResponse",
 ]

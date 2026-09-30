@@ -9,6 +9,8 @@
  * - Interactive word tap for definitions, phonetic respelling, and audio pronunciation
  */
 import React, { useMemo } from 'react'
+import SpeechListeningIndicator from './SpeechListeningIndicator'
+import SpeechReadingResult from './SpeechReadingResult'
 
 export default function ReadingPassage({
   passage,
@@ -28,6 +30,18 @@ export default function ReadingPassage({
   ttsSupported = true,
   onPlayTTS,
   onStopTTS,
+  // Speech Read Aloud props
+  speechState = 'ready',
+  speakingSeconds = 0,
+  detectedWordCount = 0,
+  interimTranscript = '',
+  speechAnalysis = null,
+  isSpeechSupported = true,
+  speechErrorMessage = null,
+  onStartSpeech,
+  onStopSpeech,
+  onResetSpeech,
+  onProceedFromSpeech,
 }) {
   if (!passage || !passage.text) return null
 
@@ -120,6 +134,33 @@ export default function ReadingPassage({
             )}
           </div>
         </div>
+      )}
+
+      {/* Read Aloud Speech Practice Mode Banner & Live Indicator */}
+      {readingMode === 'speech' && (
+        <SpeechListeningIndicator
+          speechState={speechState}
+          speakingSeconds={speakingSeconds}
+          detectedWordCount={detectedWordCount}
+          interimTranscript={interimTranscript}
+          onStart={onStartSpeech}
+          onStop={onStopSpeech}
+          onReset={onResetSpeech}
+          isSpeechSupported={isSpeechSupported}
+          errorMessage={speechErrorMessage}
+        />
+      )}
+
+      {/* Speech Analysis Result Card (shown when analyzed) */}
+      {readingMode === 'speech' && speechAnalysis && (
+        <SpeechReadingResult
+          analysis={speechAnalysis.analysis}
+          feedback={speechAnalysis.childFriendlyFeedback}
+          nextAction={speechAnalysis.nextActionSuggestion}
+          onProceedToQuestions={onProceedFromSpeech || onFinishReading}
+          onReRead={onResetSpeech}
+          onReadSilently={() => onFinishReading()}
+        />
       )}
 
       {/* Main Text Container */}

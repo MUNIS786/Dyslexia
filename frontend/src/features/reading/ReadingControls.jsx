@@ -13,6 +13,7 @@ const MODES = [
   { id: 'focus', label: 'Focus Mode', icon: '🔍', desc: 'One chunk at a time' },
   { id: 'guided', label: 'Guided Line', icon: '🎯', desc: 'Sentence highlighter' },
   { id: 'listen', label: 'Listen Aloud', icon: '🔊', desc: 'Read aloud with audio' },
+  { id: 'speech', label: 'Read Aloud', icon: '🎤', desc: 'Practice reading with voice' },
 ]
 
 const FONTS = [
@@ -44,6 +45,7 @@ export default function ReadingControls({
   bgColor,
   setBgColor,
   ttsSupported = true,
+  speechSupported = true,
 }) {
   const [expanded, setExpanded] = useState(false)
 

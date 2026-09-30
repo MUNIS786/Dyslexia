@@ -85,23 +85,19 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ---
 
-### Phase 5: Reading & Speech Analysis (Upcoming — Next Phase)
+### Phase 5: Speech & Reading Analysis (COMPLETE — Current Release)
+* **Objective:** Extend the Reading Coach with optional browser-native speech-assisted reading practice, deterministic DP sequence alignment, word accuracy, coverage rate, WPM pace, pause/hesitation tracking, and non-clinical practice signals feeding into Phase 2 profile and Phase 3 adaptive ZPD.
+* **Privacy Standard:** Zero raw audio storage. Recognition occurs locally via Web Speech API in the browser; server strictly processes temporary transcripts and persists derived educational metrics.
+* **Backend Status:** Implemented in `backend/models/v2_speech_analysis.py`, `backend/services/learning/speech_analysis.py`, `backend/services/learning/reading_service.py`, and `backend/routers/v2_reading.py`.
+* **Frontend Status:** Implemented in `frontend/src/hooks/v2/useSpeechReading.js`, `frontend/src/features/reading/SpeechListeningIndicator.jsx`, `frontend/src/features/reading/SpeechReadingResult.jsx`, updated `ReadingControls.jsx`, `ReadingPassage.jsx`, `ReadingCoach.jsx`, `ReadingSessionResult.jsx`, and `client.js`.
+* **Database Collections:** `speech_reading_analyses` (indexed on `analysisId`, `sessionId`, `learnerId`, `createdAt`), linked with `reading_sessions`.
+* **APIs:** `POST /api/v2/reading/speech/analyze`, `GET /api/v2/reading/speech/sessions/{session_id}`.
+* **Verification:** 89/89 automated unit/integration tests passing (Phase 2: 13, Phase 3: 14, Phase 4: 31, Phase 5: 31), 8/8 live MongoDB integration tests passing, clean frontend Vite production bundle build (0 errors).
+* **Status:** Complete.
 
 ---
 
-### Phase 5: Reading & Speech Analysis
-* **Objective:** Analyze learner reading fluency via audio capture (Web Speech API / whisper) to detect hesitation intervals and misread phonemes.
-* **Backend Changes:** Audio chunk processing or speech-to-text alignment service.
-* **Frontend Changes:** Microphone permission flow, audio waveform indicator, and real-time word match highlighting.
-* **Database Changes:** `reading_performance` collection.
-* **APIs:** `POST /api/v2/reading/performance`.
-* **ML/AI Requirements:** Levenshtein / phonetic similarity distance calculation between target and spoken words.
-* **Testing Requirements:** Cross-browser audio recording tests (Chrome, Edge, Firefox).
-* **Dependencies:** Web Speech API (browser native), `sounddevice` or lightweight acoustic alignment (optional backend).
-
----
-
-### Phase 6: Personal AI Tutor
+### Phase 6: Personal AI Tutor (Upcoming — Next Phase)
 * **Objective:** Socratic conversational AI tutor that guides students through reading misunderstandings without giving away direct answers.
 * **Backend Changes:** `tutor_service.py` with multi-turn system prompts grounded in the student's exact reading profile and active reading document.
 * **Frontend Changes:** Embedded tutor drawer within reading sessions with quick-prompt chips ("Explain this word", "Read with me", "Summarize").

@@ -34,6 +34,9 @@ export const readingV2API = {
   completeSession: (data) => api.post('/v2/reading/session/complete', data).then((r) => r.data),
   getSessions: (params) => api.get('/v2/reading/sessions', { params }).then((r) => r.data),
   getStats: (params) => api.get('/v2/reading/stats', { params }).then((r) => r.data),
+  analyzeSpeech: (data) => api.post('/v2/reading/speech/analyze', data).then((r) => r.data),
+  getSpeechSession: (sessionId, studentId = null) =>
+    api.get(`/v2/reading/speech/sessions/${sessionId}${studentId ? `?student_id=${studentId}` : ''}`).then((r) => r.data),
 }
 
 export default {

@@ -152,6 +152,16 @@ async def init_db():
         pass
     await db.reading_passages.create_index([("difficulty", 1), ("domain", 1)])
 
+    # V2 Speech & Reading Analysis Collection
+    try:
+        await db.speech_reading_analyses.create_index("analysisId", unique=True)
+    except Exception:
+        pass
+    await db.speech_reading_analyses.create_index("sessionId")
+    await db.speech_reading_analyses.create_index("learnerId")
+    await db.speech_reading_analyses.create_index("createdAt")
+    await db.speech_reading_analyses.create_index([("learnerId", 1), ("createdAt", -1)])
+
     try:
         from services.learning.activity_recommender import seed_learning_activities
         await seed_learning_activities()

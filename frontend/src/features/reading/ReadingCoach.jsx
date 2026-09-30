@@ -66,6 +66,19 @@ export default function ReadingCoach() {
     playPassageTTS,
     stopPassageTTS,
 
+    // Speech Read Aloud (Phase 5)
+    isSpeechSupported,
+    speechState,
+    speechTranscript,
+    speechInterimTranscript,
+    speechSpeakingSeconds,
+    speechDetectedWordCount,
+    speechAnalysis,
+    speechErrorMessage,
+    onStartSpeech,
+    onStopSpeech,
+    onResetSpeech,
+
     // Comprehension
     currentQuestionIndex,
     setCurrentQuestionIndex,
@@ -159,6 +172,7 @@ export default function ReadingCoach() {
             bgColor={bgColor}
             setBgColor={setBgColor}
             ttsSupported={ttsSupported}
+            speechSupported={isSpeechSupported}
           />
 
           <ReadingPassage
@@ -178,6 +192,17 @@ export default function ReadingCoach() {
             ttsSupported={ttsSupported}
             onPlayTTS={playPassageTTS}
             onStopTTS={stopPassageTTS}
+            speechState={speechState}
+            speakingSeconds={speechSpeakingSeconds}
+            detectedWordCount={speechDetectedWordCount}
+            interimTranscript={speechInterimTranscript}
+            speechAnalysis={speechAnalysis}
+            isSpeechSupported={isSpeechSupported}
+            speechErrorMessage={speechErrorMessage}
+            onStartSpeech={onStartSpeech}
+            onStopSpeech={onStopSpeech}
+            onResetSpeech={onResetSpeech}
+            onProceedFromSpeech={finishReadingGoToComprehension}
           />
         </div>
       )}

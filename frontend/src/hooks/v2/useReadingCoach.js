@@ -12,6 +12,7 @@
  */
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { readingV2API } from '../../api/v2/client'
+import { useSpeechReading } from './useSpeechReading'
 import toast from 'react-hot-toast'
 
 export function useReadingCoach() {
@@ -24,11 +25,14 @@ export function useReadingCoach() {
   const [submitting, setSubmitting] = useState(false)
   const [sessionResult, setSessionResult] = useState(null)
 
+  // Speech Reading Hook
+  const speech = useSpeechReading()
+
   // Reading coach stage: 'preview' | 'reading' | 'comprehension' | 'result'
   const [step, setStep] = useState('preview')
 
   // Reading ergonomics & accessibility controls
-  const [readingMode, setReadingMode] = useState('standard') // 'standard' | 'focus' | 'guided' | 'listen'
+  const [readingMode, setReadingMode] = useState('standard') // 'standard' | 'focus' | 'guided' | 'listen' | 'speech'
   const [font, setFont] = useState('OpenDyslexic')
   const [fontSize, setFontSize] = useState(20)
   const [lineSpacing, setLineSpacing] = useState(2.0)
@@ -342,13 +346,31 @@ export function useReadingCoach() {
     }
   }, [session, activePassage, durationSeconds, readingMode, userAnswers, difficultWords, practicedWords, hintsUsed, replaysUsed, stopPassageTTS, questionFeedback])
 
+  // Speech Recognition Callbacks
+  const handleStartSpeech = useCallback(() => {
+    speech.startListening()
+  }, [speech])
+
+  const handleStopSpeech = useCallback(async () => {
+    if (!session || !activePassage) return null
+    return await speech.stopListeningAndAnalyze({
+      sessionId: session.sessionId,
+      passageId: activePassage.passageId,
+    })
+  }, [session, activePassage, speech])
+
+  const handleResetSpeech = useCallback(() => {
+    speech.resetSpeech()
+  }, [speech])
+
   // Reset to preview next reading recommendation
   const resetToNextReading = useCallback(async () => {
     setStep('preview')
     setSession(null)
     setSessionResult(null)
+    speech.resetSpeech()
     await fetchInitialData()
-  }, [fetchInitialData])
+  }, [fetchInitialData, speech])
 
   return {
     loading,
@@ -406,6 +428,19 @@ export function useReadingCoach() {
     playPassageTTS,
     stopPassageTTS,
 
+    // Speech Read Aloud (Phase 5)
+    isSpeechSupported: speech.isSpeechSupported,
+    speechState: speech.speechState,
+    speechTranscript: speech.transcript,
+    speechInterimTranscript: speech.interimTranscript,
+    speechSpeakingSeconds: speech.speakingSeconds,
+    speechDetectedWordCount: speech.detectedWordCount,
+    speechAnalysis: speech.analysisResult,
+    speechErrorMessage: speech.errorMessage,
+    onStartSpeech: handleStartSpeech,
+    onStopSpeech: handleStopSpeech,
+    onResetSpeech: handleResetSpeech,
+
     // Comprehension
     currentQuestionIndex,
     setCurrentQuestionIndex,
@@ -421,3 +456,4 @@ export function useReadingCoach() {
     refetchRecommendation: fetchInitialData,
   }
 }
+

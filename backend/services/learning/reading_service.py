@@ -846,6 +846,12 @@ async def complete_reading_session(
         1
     )
 
+    # Optional speech reading practice blend
+    speech_score = session.get("speechPracticeScore")
+    if speech_score is not None:
+        reading_score = round(0.50 * reading_score + 0.50 * float(speech_score), 1)
+        overall_score = round(0.50 * comprehension_score + 0.30 * reading_score + 0.20 * completion_rate, 1)
+
     # 4. Phase 3 Adaptive Engine Integration
     # Re-evaluate ZPD difficulty progression via Phase 3 adaptation logic
     current_tier = session.get("difficulty", 1)
