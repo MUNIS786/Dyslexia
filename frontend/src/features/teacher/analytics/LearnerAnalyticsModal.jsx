@@ -6,6 +6,7 @@
  * adaptive practice state, and actionable teacher recommendations.
  */
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { teacherV2API } from '../../../api/v2/client'
 
 export default function LearnerAnalyticsModal({
@@ -14,6 +15,7 @@ export default function LearnerAnalyticsModal({
   timeRange = 'all',
   onClose,
 }) {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [data, setData] = useState(null)
@@ -133,6 +135,15 @@ export default function LearnerAnalyticsModal({
                 </span>
               </div>
             )}
+            <button
+              onClick={() => {
+                onClose()
+                navigate('/teacher/interventions')
+              }}
+              className="px-3 py-1 bg-[#1A6B6B] hover:bg-[#155353] text-white text-xs font-bold rounded-full transition-all flex items-center gap-1 shadow-2xs"
+            >
+              <span>🎯</span> Support Activities
+            </button>
             <button
               onClick={onClose}
               className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center font-bold text-sm transition-colors"

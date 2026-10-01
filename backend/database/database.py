@@ -170,6 +170,20 @@ async def init_db():
     await db.tutor_conversations.create_index("learnerId")
     await db.tutor_conversations.create_index([("learnerId", 1), ("updatedAt", -1)])
 
+    # Phase 8: Interventions & Support Activities
+    try:
+        await db.interventions.create_index("interventionId", unique=True)
+    except Exception:
+        pass
+    await db.interventions.create_index("teacherId")
+    await db.interventions.create_index("learnerId")
+    await db.interventions.create_index("classroomCode")
+    await db.interventions.create_index("status")
+    await db.interventions.create_index("createdAt")
+    await db.interventions.create_index([("learnerId", 1), ("status", 1)])
+    await db.interventions.create_index([("teacherId", 1), ("createdAt", -1)])
+    await db.interventions.create_index([("classroomCode", 1), ("createdAt", -1)])
+
     try:
         from services.learning.activity_recommender import seed_learning_activities
         await seed_learning_activities()

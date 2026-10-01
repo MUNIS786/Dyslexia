@@ -22,6 +22,7 @@ const STUDENT_NAV = [
 const TEACHER_NAV = [
   { to: '/teacher', label: 'Dashboard', icon: '📊', end: true },
   { to: '/teacher/analytics', label: 'Class Analytics', icon: '📈' },
+  { to: '/teacher/interventions', label: 'Interventions', icon: '🎯' },
   { to: '/teacher/students', label: 'Students', icon: '👥' },
   { to: '/teacher/assignments', label: 'Assignments', icon: '📝' },
   { to: '/teacher/scan', label: 'Scan & Convert', icon: '📷' },

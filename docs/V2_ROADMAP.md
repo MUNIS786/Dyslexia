@@ -21,9 +21,9 @@ PHASE 5: Reading & Speech Analysis (Latency, Hesitation, Audio Feedback)
     ↓
 PHASE 6: Personal AI Tutor (Socratic Scaffolding, Multi-Turn Remediation)
     ↓
-PHASE 7: Advanced Teacher Analytics (Cohort Trends, Risk Distribution, Drilldown)
+PHASE 7: Advanced Teacher Analytics (COMPLETE)
     ↓
-PHASE 8: Intervention Effectiveness (Pre/Post Outcomes, Strategy Tracking)
+PHASE 8: Intervention Effectiveness (COMPLETE)
     ↓
 PHASE 9: Gamification (Badges, Streak Multipliers, Celebration Micro-Interactions)
     ↓
@@ -110,27 +110,27 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ---
 
-### Phase 7: Advanced Teacher Analytics
+### Phase 7: Advanced Teacher Analytics (COMPLETE)
 * **Objective:** Provide educators with actionable class-wide diagnostic views, identifying high-risk students and cohort-wide cognitive trends.
-* **Backend Changes:** `teacher_analytics.py` computing aggregation pipelines across enrolled students.
-* **Frontend Changes:** Class diagnostic matrix, domain heatmaps, and one-click printable IEP (Individualized Education Program) progress summaries.
-* **Database Changes:** Aggregation pipelines on `learner_profiles` and `submissions`.
-* **APIs:** `GET /api/v2/teacher/analytics/cohort`, `GET /api/v2/teacher/iep-summary/{studentId}`.
-* **ML/AI Requirements:** Automated text generation for IEP accommodation drafts.
-* **Testing Requirements:** Teacher role permission isolation tests.
-* **Dependencies:** None.
+* **Backend Status:** Implemented in `backend/models/v2_teacher_analytics.py`, `backend/services/analytics/teacher_analytics.py`, and `backend/routers/v2_teacher_analytics.py`.
+* **Frontend Status:** Implemented in `frontend/src/pages/teacher/AnalyticsPage.jsx`, `frontend/src/features/teacher/analytics/` (`TeacherAnalyticsDashboard.jsx`, `LearnerAnalyticsModal.jsx`, `ClassDomainRadar.jsx`, `LearnerTrendChart.jsx`), `frontend/src/api/v2/client.js` (`teacherV2API`).
+* **Database Collections:** Aggregations across `users`, `classrooms`, `reading_sessions`, `activity_attempts`, `learner_states`, and `learner_profiles`.
+* **APIs:** `GET /api/v2/teacher/analytics/overview`, `GET /api/v2/teacher/analytics/learners`, `GET /api/v2/teacher/analytics/learners/{id}`, `GET /api/v2/teacher/analytics/learners/{id}/trend`.
+* **Testing:** 30 automated tests in `backend/test_phase7_teacher_analytics.py`, role isolation tests, zero sensitive data leakage.
+* **Status:** Complete.
 
 ---
 
-### Phase 8: Intervention Effectiveness
-* **Objective:** Measure the quantitative efficacy of specific accommodations and teaching interventions over 30/60/90 day intervals.
-* **Backend Changes:** `intervention_engine.py` calculating statistical delta in comprehension and reading speed pre/post intervention.
-* **Frontend Changes:** Intervention outcome cards showing percentage improvement per instructional strategy.
-* **Database Changes:** `interventions` and `intervention_results`.
-* **APIs:** `GET /api/v2/interventions`, `POST /api/v2/interventions/log`.
-* **ML/AI Requirements:** Statistical significance testing ($p$-values, effect size).
-* **Testing Requirements:** Verification of math under sparse session counts.
-* **Dependencies:** None.
+### Phase 8: Intervention Effectiveness (COMPLETE)
+* **Objective:** Build an educational measurement system allowing teachers to document learning support activities, establish baselines from existing learner practice data, track subsequent learning measurements, and review observed changes over time.
+* **Non-Clinical & Descriptive Standard:** Strictly descriptive educational measurement. Zero claims of clinical efficacy, medical diagnosis, or direct intervention causality.
+* **Backend Status:** Implemented in `backend/models/v2_intervention.py`, `backend/services/analytics/intervention_effectiveness.py`, and `backend/routers/v2_intervention.py`.
+* **Frontend Status:** Implemented in `frontend/src/pages/teacher/InterventionsPage.jsx`, `frontend/src/features/teacher/interventions/` (`CreateInterventionModal.jsx`, `InterventionDetailModal.jsx`, `InterventionReviewModal.jsx`, `EffectivenessComparisonCard.jsx`, `InterventionList.jsx`), `frontend/src/api/v2/client.js` (`interventionV2API`), updated `Layout.jsx` and `LearnerAnalyticsModal.jsx`.
+* **Database Collections:** `interventions` collection with indexes on `interventionId`, `teacherId`, `learnerId`, `classroomCode`, `status`, and compound keys.
+* **APIs:** `POST /api/v2/teacher/interventions`, `GET /api/v2/teacher/interventions`, `GET /api/v2/teacher/interventions/{id}`, `PATCH /api/v2/teacher/interventions/{id}`, `POST /api/v2/teacher/interventions/{id}/start`, `POST /api/v2/teacher/interventions/{id}/review`, `POST /api/v2/teacher/interventions/{id}/complete`, `POST /api/v2/teacher/interventions/{id}/cancel`, `GET /api/v2/teacher/interventions/{id}/effectiveness`, `POST /api/v2/teacher/interventions/{id}/measurements`.
+* **Testing:** 32 comprehensive tests in `backend/test_phase8_intervention_effectiveness.py` (models, state transitions, baseline calculation, directional comparisons, thresholds, idempotency, role authorization rejection, tenant boundaries), 182/182 regression tests passing across all V2 phases, clean frontend build (0 errors).
+* **Documentation:** Detailed guide in `docs/V2_INTERVENTION_EFFECTIVENESS.md`.
+* **Status:** Complete.
 
 ---
 

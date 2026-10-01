@@ -57,6 +57,29 @@ export const teacherV2API = {
     api.get(`/v2/teacher/analytics/learners/${studentId}/trend`, { params: { time_range: timeRange } }).then((r) => r.data),
 }
 
+export const interventionV2API = {
+  getInterventions: (params) =>
+    api.get('/v2/teacher/interventions', { params }).then((r) => r.data),
+  getIntervention: (id) =>
+    api.get(`/v2/teacher/interventions/${id}`).then((r) => r.data),
+  createIntervention: (data) =>
+    api.post('/v2/teacher/interventions', data).then((r) => r.data),
+  updateIntervention: (id, data) =>
+    api.patch(`/v2/teacher/interventions/${id}`, data).then((r) => r.data),
+  startIntervention: (id, data = {}) =>
+    api.post(`/v2/teacher/interventions/${id}/start`, data).then((r) => r.data),
+  reviewIntervention: (id, data = {}) =>
+    api.post(`/v2/teacher/interventions/${id}/review`, data).then((r) => r.data),
+  completeIntervention: (id, data = {}) =>
+    api.post(`/v2/teacher/interventions/${id}/complete`, data).then((r) => r.data),
+  cancelIntervention: (id, data = {}) =>
+    api.post(`/v2/teacher/interventions/${id}/cancel`, data).then((r) => r.data),
+  getEffectiveness: (id) =>
+    api.get(`/v2/teacher/interventions/${id}/effectiveness`).then((r) => r.data),
+  addMeasurement: (id, data) =>
+    api.post(`/v2/teacher/interventions/${id}/measurements`, data).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -64,6 +87,7 @@ export default {
   reading: readingV2API,
   tutor: tutorV2API,
   teacher: teacherV2API,
+  intervention: interventionV2API,
 }
 
 

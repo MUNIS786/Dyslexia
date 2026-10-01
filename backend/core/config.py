@@ -23,6 +23,7 @@ class Settings:
     V2_SPEECH_ANALYSIS: bool = os.environ.get("V2_SPEECH_ANALYSIS", "true").lower() in ("true", "1", "yes")
     V2_AI_TUTOR: bool = os.environ.get("V2_AI_TUTOR", "true").lower() in ("true", "1", "yes")
     V2_TEACHER_ANALYTICS: bool = os.environ.get("V2_TEACHER_ANALYTICS", "true").lower() in ("true", "1", "yes")
+    V2_INTERVENTION_EFFECTIVENESS: bool = os.environ.get("V2_INTERVENTION_EFFECTIVENESS", "true").lower() in ("true", "1", "yes")
     V2_GAMIFICATION: bool = os.environ.get("V2_GAMIFICATION", "false").lower() in ("true", "1", "yes")
     V2_MULTILINGUAL: bool = os.environ.get("V2_MULTILINGUAL", "false").lower() in ("true", "1", "yes")
     V2_PARENT_PORTAL: bool = os.environ.get("V2_PARENT_PORTAL", "false").lower() in ("true", "1", "yes")
@@ -37,6 +38,7 @@ class Settings:
             "V2_SPEECH_ANALYSIS": cls.V2_SPEECH_ANALYSIS,
             "V2_AI_TUTOR": cls.V2_AI_TUTOR,
             "V2_TEACHER_ANALYTICS": cls.V2_TEACHER_ANALYTICS,
+            "V2_INTERVENTION_EFFECTIVENESS": cls.V2_INTERVENTION_EFFECTIVENESS,
             "V2_GAMIFICATION": cls.V2_GAMIFICATION,
             "V2_MULTILINGUAL": cls.V2_MULTILINGUAL,
             "V2_PARENT_PORTAL": cls.V2_PARENT_PORTAL,
