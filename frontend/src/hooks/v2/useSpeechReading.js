@@ -15,12 +15,12 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import { readingV2API } from '../../api/v2/client'
 import toast from 'react-hot-toast'
 
-export function useSpeechReading() {
-  const SpeechRecognition =
-    typeof window !== 'undefined'
-      ? window.SpeechRecognition || window.webkitSpeechRecognition
-      : null
+const SpeechRecognition =
+  typeof window !== 'undefined'
+    ? window.SpeechRecognition || window.webkitSpeechRecognition
+    : null
 
+export function useSpeechReading() {
   const isSpeechSupported = !!SpeechRecognition
 
   // 'idle' | 'ready' | 'requesting' | 'listening' | 'processing' | 'analyzed' | 'error' | 'unsupported' | 'permission_denied'

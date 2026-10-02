@@ -13,6 +13,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { readingV2API } from '../../api/v2/client'
 import { useSpeechReading } from './useSpeechReading'
+import { useAccessibility } from '../../context/AccessibilityContext'
 import toast from 'react-hot-toast'
 
 export function useReadingCoach() {
@@ -32,14 +33,16 @@ export function useReadingCoach() {
   const [step, setStep] = useState('preview')
 
   // Reading ergonomics & accessibility controls initialized from user preferences
-  const accessPrefs = (() => {
+  let accessPrefs = {}
+  try {
+    const acc = useAccessibility()
+    if (acc?.preferences) accessPrefs = acc.preferences
+  } catch {
     try {
       const cached = localStorage.getItem('dyslexaid_accessibility_preferences')
-      return cached ? JSON.parse(cached) : {}
-    } catch {
-      return {}
-    }
-  })()
+      accessPrefs = cached ? JSON.parse(cached) : {}
+    } catch {}
+  }
 
   const [readingMode, setReadingMode] = useState('standard') // 'standard' | 'focus' | 'guided' | 'listen' | 'speech'
   const [font, setFont] = useState(accessPrefs.font || 'OpenDyslexic')
@@ -50,6 +53,30 @@ export function useReadingCoach() {
   const [paragraphSpacing, setParagraphSpacing] = useState(1.8)
   const [readingWidth, setReadingWidth] = useState(accessPrefs.contentWidth === 'narrow' ? 'narrow' : 'normal')
   const [bgColor, setBgColor] = useState(accessPrefs.highContrast ? '#FFFFFF' : (accessPrefs.bgColor || '#FFF8F0'))
+
+  // React to accessibility preference changes live
+  useEffect(() => {
+    if (accessPrefs.font) setFont(accessPrefs.font)
+    if (accessPrefs.fontSize) setFontSize(accessPrefs.fontSize)
+    if (accessPrefs.lineSpacing) setLineSpacing(accessPrefs.lineSpacing)
+    if (accessPrefs.letterSpacing !== undefined) setLetterSpacing(accessPrefs.letterSpacing)
+    if (accessPrefs.wordSpacing !== undefined) setWordSpacing(accessPrefs.wordSpacing)
+    if (accessPrefs.contentWidth) setReadingWidth(accessPrefs.contentWidth === 'narrow' ? 'narrow' : 'normal')
+    if (accessPrefs.highContrast) {
+      setBgColor('#FFFFFF')
+    } else if (accessPrefs.bgColor) {
+      setBgColor(accessPrefs.bgColor)
+    }
+  }, [
+    accessPrefs.font,
+    accessPrefs.fontSize,
+    accessPrefs.lineSpacing,
+    accessPrefs.letterSpacing,
+    accessPrefs.wordSpacing,
+    accessPrefs.contentWidth,
+    accessPrefs.highContrast,
+    accessPrefs.bgColor,
+  ])
 
   // Interactive Difficult Words
   const [difficultWords, setDifficultWords] = useState([])
@@ -231,10 +258,11 @@ export function useReadingCoach() {
     }
     window.speechSynthesis.cancel()
     const utter = new SpeechSynthesisUtterance(textToSpeak)
-    utter.rate = 0.85
+    utter.rate = accessPrefs.ttsSpeed || 0.85
     let ttsLang = 'en-IN'
     if (activePassage?.language === 'mr') ttsLang = 'mr-IN'
     else if (activePassage?.language === 'hi') ttsLang = 'hi-IN'
+    else if (accessPrefs.ttsLanguage) ttsLang = accessPrefs.ttsLanguage
     utter.lang = ttsLang
 
     utter.onboundary = (e) => {
@@ -255,7 +283,7 @@ export function useReadingCoach() {
     setReplaysUsed((prev) => prev + 1)
     utterRef.current = utter
     window.speechSynthesis.speak(utter)
-  }, [ttsSupported, activePassage])
+  }, [ttsSupported, activePassage, accessPrefs.ttsSpeed, accessPrefs.ttsLanguage])
 
   const stopPassageTTS = useCallback(() => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -264,41 +292,6 @@ export function useReadingCoach() {
     setSpeaking(false)
     setCurrentTTSWordIndex(-1)
   }, [])
-
-  // Transition from reading to comprehension questions
-  const finishReadingGoToComprehension = useCallback(() => {
-    stopPassageTTS()
-    if (activePassage?.questions && activePassage.questions.length > 0) {
-      setStep('comprehension')
-      setCurrentQuestionIndex(0)
-    } else {
-      // No questions on passage: finish immediately
-      completeSession()
-    }
-  }, [activePassage, stopPassageTTS])
-
-  // Answer comprehension question
-  const selectComprehensionAnswer = useCallback((questionId, optionIndex) => {
-    if (userAnswers[questionId] !== undefined) return // already answered
-
-    const question = activePassage?.questions?.find((q) => q.questionId === questionId)
-    if (!question) return
-
-    const correct =
-      typeof question.correctAnswer === 'number'
-        ? optionIndex === question.correctAnswer
-        : String(optionIndex) === String(question.correctAnswer) ||
-          question.options[optionIndex]?.toLowerCase() === String(question.correctAnswer).toLowerCase()
-
-    setUserAnswers((prev) => ({ ...prev, [questionId]: optionIndex }))
-    setQuestionFeedback((prev) => ({
-      ...prev,
-      [questionId]: {
-        isCorrect: correct,
-        explanation: question.explanation || (correct ? "Great job!" : "Let's review this together."),
-      },
-    }))
-  }, [activePassage, userAnswers])
 
   // Complete session and calculate server-side performance
   const completeSession = useCallback(async () => {
@@ -361,6 +354,41 @@ export function useReadingCoach() {
       setSubmitting(false)
     }
   }, [session, activePassage, durationSeconds, readingMode, userAnswers, difficultWords, practicedWords, hintsUsed, replaysUsed, stopPassageTTS, questionFeedback])
+
+  // Transition from reading to comprehension questions
+  const finishReadingGoToComprehension = useCallback(() => {
+    stopPassageTTS()
+    if (activePassage?.questions && activePassage.questions.length > 0) {
+      setStep('comprehension')
+      setCurrentQuestionIndex(0)
+    } else {
+      // No questions on passage: finish immediately
+      completeSession()
+    }
+  }, [activePassage, stopPassageTTS, completeSession])
+
+  // Answer comprehension question
+  const selectComprehensionAnswer = useCallback((questionId, optionIndex) => {
+    if (userAnswers[questionId] !== undefined) return // already answered
+
+    const question = activePassage?.questions?.find((q) => q.questionId === questionId)
+    if (!question) return
+
+    const correct =
+      typeof question.correctAnswer === 'number'
+        ? optionIndex === question.correctAnswer
+        : String(optionIndex) === String(question.correctAnswer) ||
+          question.options[optionIndex]?.toLowerCase() === String(question.correctAnswer).toLowerCase()
+
+    setUserAnswers((prev) => ({ ...prev, [questionId]: optionIndex }))
+    setQuestionFeedback((prev) => ({
+      ...prev,
+      [questionId]: {
+        isCorrect: correct,
+        explanation: question.explanation || (correct ? "Great job!" : "Let's review this together."),
+      },
+    }))
+  }, [activePassage, userAnswers])
 
   // Speech Recognition Callbacks
   const handleStartSpeech = useCallback(() => {

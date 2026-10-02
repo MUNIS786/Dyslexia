@@ -149,7 +149,7 @@ export function useTutor(initialPassageId = null, initialWord = null) {
       }
       return null
     },
-    [activePassageId, activeWord, messages, refreshContext]
+    [activePassageId, activeWord, messages, refreshContext, locale]
   )
 
   // 4. Clear conversation history

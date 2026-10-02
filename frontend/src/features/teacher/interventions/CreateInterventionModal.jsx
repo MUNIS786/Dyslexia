@@ -45,9 +45,12 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
       try {
         const roster = await teacherV2API.getLearners('all')
         setLearners(roster || [])
-        if (!formData.learnerId && roster && roster.length > 0) {
-          setFormData((prev) => ({ ...prev, learnerId: roster[0].studentId }))
-        }
+        setFormData((prev) => {
+          if (!prev.learnerId && roster && roster.length > 0) {
+            return { ...prev, learnerId: roster[0].studentId }
+          }
+          return prev
+        })
       } catch (err) {
         toast.error('Failed to load student list.')
       } finally {

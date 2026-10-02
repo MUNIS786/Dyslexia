@@ -339,6 +339,167 @@ class TestPhase12Accessibility(unittest.TestCase):
         finally:
             app.dependency_overrides.clear()
 
+    @patch("services.accessibility.accessibility_service.db")
+    def test_user_mutation_isolation(self, mock_db):
+        """Mutating preferences as User A only touches User A's database records."""
+        app.dependency_overrides[get_current_user] = lambda: self.mock_user
+        mock_db.user_accessibility_preferences.find_one = AsyncMock(return_value=None)
+        mock_db.users.find_one = AsyncMock(return_value={"id": "student-101"})
+        mock_db.user_accessibility_preferences.update_one = AsyncMock(return_value=None)
+        mock_db.users.update_one = AsyncMock(return_value=None)
+
+        try:
+            # PUT
+            self.client.put("/api/v2/accessibility/preferences", json={"fontSize": 20})
+            args, _ = mock_db.user_accessibility_preferences.update_one.call_args
+            self.assertEqual(args[0], {"userId": "student-101"})
+
+            # PATCH
+            self.client.patch("/api/v2/accessibility/preferences", json={"readingRuler": True})
+            args_patch, _ = mock_db.user_accessibility_preferences.update_one.call_args
+            self.assertEqual(args_patch[0], {"userId": "student-101"})
+
+            # RESET
+            self.client.post("/api/v2/accessibility/preferences/reset")
+            args_reset, _ = mock_db.user_accessibility_preferences.update_one.call_args
+            self.assertEqual(args_reset[0], {"userId": "student-101"})
+        finally:
+            app.dependency_overrides.clear()
+
+    @patch("services.accessibility.accessibility_service.db")
+    def test_no_unrelated_user_data_tampered(self, mock_db):
+        """Updating accessibility preferences never mutates unrelated user fields or collections."""
+        app.dependency_overrides[get_current_user] = lambda: self.mock_user
+        mock_db.user_accessibility_preferences.find_one = AsyncMock(return_value=None)
+        mock_db.users.find_one = AsyncMock(return_value={"id": "student-101"})
+        mock_db.user_accessibility_preferences.update_one = AsyncMock(return_value=None)
+        mock_db.users.update_one = AsyncMock(return_value=None)
+
+        try:
+            self.client.patch("/api/v2/accessibility/preferences", json={"fontSize": 24})
+            # Verify users update query only targets settings.* keys
+            args, _ = mock_db.users.update_one.call_args
+            self.assertEqual(args[0], {"id": "student-101"})
+            set_ops = args[1]["$set"]
+            for key in set_ops.keys():
+                self.assertTrue(key.startswith("settings."), f"Unauthorized key mutated: {key}")
+                self.assertNotIn("password", key)
+                self.assertNotIn("role", key)
+                self.assertNotIn("points", key)
+                self.assertNotIn("badges", key)
+        finally:
+            app.dependency_overrides.clear()
+
+    @patch("services.accessibility.accessibility_service.db")
+    def test_server_preferences_authoritative_over_legacy(self, mock_db):
+        """When dedicated collection has a record, it takes precedence over older users.settings."""
+        app.dependency_overrides[get_current_user] = lambda: self.mock_user
+        mock_db.user_accessibility_preferences.find_one = AsyncMock(return_value={
+            "userId": "student-101",
+            "preferences": {
+                "font": "Lexend",
+                "fontSize": 22,
+                "lineSpacing": 2.2,
+                "letterSpacing": 0.08,
+                "wordSpacing": 0.05,
+                "contentWidth": "narrow",
+                "bgColor": "#FFF8F0",
+                "textColor": "#1A2A2A",
+                "highContrast": True,
+                "reducedMotion": False,
+                "readingRuler": False,
+                "rulerSize": 60,
+                "rulerColor": "amber",
+                "tintOverlay": "none",
+                "ttsSpeed": 1.1,
+                "ttsLanguage": "en-IN",
+                "highlightWords": True,
+                "showBulletPoints": True,
+                "autoSimplify": True,
+            }
+        })
+        # Stale settings in users
+        mock_db.users.find_one = AsyncMock(return_value={
+            "id": "student-101",
+            "settings": {"fontSize": 14, "font": "System"}
+        })
+
+        try:
+            res = self.client.get("/api/v2/accessibility/preferences")
+            self.assertEqual(res.status_code, 200)
+            prefs = res.json()["preferences"]
+            self.assertEqual(prefs["fontSize"], 22)
+            self.assertEqual(prefs["font"], "Lexend")
+            self.assertTrue(prefs["highContrast"])
+        finally:
+            app.dependency_overrides.clear()
+
+    @patch("services.accessibility.accessibility_service.db")
+    def test_corrupt_database_document_recovery(self, mock_db):
+        """If document in database is malformed or unparseable, service recovers with safe defaults."""
+        app.dependency_overrides[get_current_user] = lambda: self.mock_user
+        # Corrupted preferences doc with invalid types
+        mock_db.user_accessibility_preferences.find_one = AsyncMock(return_value={
+            "userId": "student-101",
+            "preferences": {"fontSize": "not-an-int", "lineSpacing": "invalid"}
+        })
+        mock_db.users.find_one = AsyncMock(return_value=None)
+
+        try:
+            res = self.client.get("/api/v2/accessibility/preferences")
+            self.assertEqual(res.status_code, 200)
+            prefs = res.json()["preferences"]
+            self.assertEqual(prefs["fontSize"], 18)  # Fallback to default
+            self.assertEqual(prefs["font"], "OpenDyslexic")
+        finally:
+            app.dependency_overrides.clear()
+
+    def test_boundary_values_validation(self):
+        """Validate exact numerical boundaries for fontSize, lineSpacing, letterSpacing, rulerSize, ttsSpeed."""
+        # fontSize boundaries: ge=12, le=36
+        pref_min_font = V2AccessibilityPreferences(fontSize=12)
+        self.assertEqual(pref_min_font.fontSize, 12)
+        pref_max_font = V2AccessibilityPreferences(fontSize=36)
+        self.assertEqual(pref_max_font.fontSize, 36)
+
+        with self.assertRaises(Exception):
+            V2AccessibilityPreferences(fontSize=11)
+        with self.assertRaises(Exception):
+            V2AccessibilityPreferences(fontSize=37)
+
+        # lineSpacing boundaries: ge=1.2, le=3.5
+        pref_min_line = V2AccessibilityPreferences(lineSpacing=1.2)
+        self.assertEqual(pref_min_line.lineSpacing, 1.2)
+        pref_max_line = V2AccessibilityPreferences(lineSpacing=3.5)
+        self.assertEqual(pref_max_line.lineSpacing, 3.5)
+
+        with self.assertRaises(Exception):
+            V2AccessibilityPreferences(lineSpacing=1.19)
+        with self.assertRaises(Exception):
+            V2AccessibilityPreferences(lineSpacing=3.51)
+
+        # rulerSize boundaries: ge=30, le=160
+        pref_min_ruler = V2AccessibilityPreferences(rulerSize=30)
+        self.assertEqual(pref_min_ruler.rulerSize, 30)
+        pref_max_ruler = V2AccessibilityPreferences(rulerSize=160)
+        self.assertEqual(pref_max_ruler.rulerSize, 160)
+
+        with self.assertRaises(Exception):
+            V2AccessibilityPreferences(rulerSize=29)
+        with self.assertRaises(Exception):
+            V2AccessibilityPreferences(rulerSize=161)
+
+        # ttsSpeed boundaries: ge=0.5, le=2.0
+        pref_min_tts = V2AccessibilityPreferences(ttsSpeed=0.5)
+        self.assertEqual(pref_min_tts.ttsSpeed, 0.5)
+        pref_max_tts = V2AccessibilityPreferences(ttsSpeed=2.0)
+        self.assertEqual(pref_max_tts.ttsSpeed, 2.0)
+
+        with self.assertRaises(Exception):
+            V2AccessibilityPreferences(ttsSpeed=0.49)
+        with self.assertRaises(Exception):
+            V2AccessibilityPreferences(ttsSpeed=2.01)
+
     def test_feature_flag_disabled_returns_503(self):
         """When V2_ACCESSIBILITY_PREFERENCES is disabled, endpoints return 503."""
         app.dependency_overrides[get_current_user] = lambda: self.mock_user
