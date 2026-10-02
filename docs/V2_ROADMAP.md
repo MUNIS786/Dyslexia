@@ -31,7 +31,7 @@ PHASE 10: Multilingual Support (COMPLETE)
     ↓
 PHASE 11: Parent & Guardian Portal (COMPLETE)
     ↓
-PHASE 12: PWA & Offline Sync (Service Worker, IndexedDB Offline Telemetry Queue)
+PHASE 12: Accessibility, Personalization & Inclusive Experience (COMPLETE)
     ↓
 PHASE 13: Enterprise Privacy & Security (FERPA/COPPA Aligned, Anonymization)
     ↓
@@ -171,15 +171,16 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ---
 
-### Phase 12: Progressive Web App (PWA) & Offline Sync
-* **Objective:** Full offline reading and screening capability on low-connectivity school tablets in rural areas.
-* **Backend Changes:** Delta sync API with conflict resolution for offline reading logs.
-* **Frontend Changes:** `manifest.json`, Service Worker caching static assets, and IndexedDB telemetry queue for offline attempts.
-* **Database Changes:** Idempotent submission upserts using client-generated UUIDs.
-* **APIs:** `POST /api/v2/sync/queue`.
-* **ML/AI Requirements:** Complete reliance on bundled Scikit-Learn `.pkl` models and offline rule engine when disconnected.
-* **Testing Requirements:** Offline network throttling tests (simulate complete disconnection).
-* **Dependencies:** `workbox` or native Service Worker.
+### Phase 12: Accessibility, Personalization & Inclusive Experience (COMPLETE)
+* **Objective:** Create a unified, learner-centered accessibility and personalization architecture allowing students to adjust typography, spacing, contrast, visual focus scaffolding, and assistive audio tools across their learning environment.
+* **Non-Clinical Standard:** Strictly educational comfort adjustments. Zero medical claims, diagnosis inference, or clinical categorization.
+* **Backend Status:** Implemented in `backend/models/v2_accessibility.py`, `backend/services/accessibility/accessibility_service.py`, `backend/routers/v2_accessibility.py`, and `backend/core/config.py` (`V2_ACCESSIBILITY_PREFERENCES`).
+* **Frontend Status:** Implemented in `frontend/src/context/AccessibilityContext.jsx`, `frontend/src/components/accessibility/` (`ReadingRuler.jsx`, `VisualTintOverlay.jsx`, `AccessibilityToolbar.jsx`, `AccessibilitySettingsCard.jsx`), `frontend/src/pages/student/AccessibilitySettingsPage.jsx` (`/student/accessibility`), updated `SettingsPage.jsx`, `Layout.jsx`, `ReadingPassage.jsx`, `ReadingCoach.jsx`, `useReadingCoach.js`, `TutorMessageBubble.jsx`, and `client.js` (`accessibilityV2API`).
+* **Database Collections:** `user_accessibility_preferences` (indexed on `userId`, with canonical defaults and legacy synchronization to `users.settings.accessibility`).
+* **APIs:** `GET /api/v2/accessibility/preferences`, `PUT /api/v2/accessibility/preferences`, `PATCH /api/v2/accessibility/preferences`, `POST /api/v2/accessibility/preferences/reset`.
+* **Testing:** 9 comprehensive tests in `backend/test_phase12_accessibility.py` covering model serialization, defaults, validation, isolation, reset, and 503 feature flags; 264/264 regression tests passing across all V2 phases; frontend Vite build passing cleanly (0 errors).
+* **Documentation:** Comprehensive architecture guide in `docs/V2_ACCESSIBILITY_PERSONALIZATION.md`.
+* **Status:** Complete.
 
 ---
 

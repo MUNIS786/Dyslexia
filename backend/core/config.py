@@ -30,6 +30,7 @@ class Settings:
     ).lower() in ("true", "1", "yes")
     V2_MULTILINGUAL_SUPPORT: bool = V2_MULTILINGUAL
     V2_PARENT_PORTAL: bool = os.environ.get("V2_PARENT_PORTAL", "true").lower() in ("true", "1", "yes")
+    V2_ACCESSIBILITY_PREFERENCES: bool = os.environ.get("V2_ACCESSIBILITY_PREFERENCES", "true").lower() in ("true", "1", "yes")
 
     @classmethod
     def get_feature_flags(cls) -> Dict[str, bool]:
@@ -46,6 +47,7 @@ class Settings:
             "V2_MULTILINGUAL": cls.V2_MULTILINGUAL,
             "V2_MULTILINGUAL_SUPPORT": cls.V2_MULTILINGUAL,
             "V2_PARENT_PORTAL": cls.V2_PARENT_PORTAL,
+            "V2_ACCESSIBILITY_PREFERENCES": cls.V2_ACCESSIBILITY_PREFERENCES,
         }
 
     @classmethod

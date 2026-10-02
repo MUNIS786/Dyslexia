@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useNotifs } from '../../context/NotifContext'
 import { useTranslation } from '../../i18n/I18nContext'
 import LanguageSelector from './LanguageSelector'
+import { AccessibilityToolbar, ReadingRuler, VisualTintOverlay } from '../accessibility'
 
 const STUDENT_NAV = [
   { to: '/student', label: 'Home', i18nKey: 'nav.home', icon: '🏠', end: true },
@@ -19,6 +20,7 @@ const STUDENT_NAV = [
   { to: '/student/plan', label: 'My Plan', i18nKey: 'nav.myPlan', icon: '🧠' },
   { to: '/student/chat', label: 'AI Chat', i18nKey: 'nav.aiChat', icon: '💬' },
   { to: '/student/classroom', label: 'Classroom', i18nKey: 'nav.classroom', icon: '🏫' },
+  { to: '/student/accessibility', label: 'Reading Tools', i18nKey: 'nav.accessibility', icon: '👓' },
   { to: '/student/settings', label: 'Settings', i18nKey: 'nav.settings', icon: '⚙️' },
 ]
 
@@ -54,6 +56,10 @@ export default function Layout({ children }) {
 
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: 'var(--bg-color)' }}>
+      {/* Accessibility Focus Tools & Visual Stress Tints */}
+      <ReadingRuler />
+      <VisualTintOverlay />
+
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -132,6 +138,9 @@ export default function Layout({ children }) {
             ☰
           </button>
           <div className="flex-1" />
+          {/* Quick Accessibility & Reading Tools */}
+          <AccessibilityToolbar />
+
           {/* Language Selector */}
           <LanguageSelector />
 
@@ -181,7 +190,12 @@ export default function Layout({ children }) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 p-5 max-w-4xl mx-auto w-full">{children}</main>
+        <main
+          className="flex-1 p-5 mx-auto w-full transition-[max-width] duration-150"
+          style={{ maxWidth: 'var(--reading-max-width, 56rem)' }}
+        >
+          {children}
+        </main>
       </div>
     </div>
   )

@@ -31,15 +31,25 @@ export function useReadingCoach() {
   // Reading coach stage: 'preview' | 'reading' | 'comprehension' | 'result'
   const [step, setStep] = useState('preview')
 
-  // Reading ergonomics & accessibility controls
+  // Reading ergonomics & accessibility controls initialized from user preferences
+  const accessPrefs = (() => {
+    try {
+      const cached = localStorage.getItem('dyslexaid_accessibility_preferences')
+      return cached ? JSON.parse(cached) : {}
+    } catch {
+      return {}
+    }
+  })()
+
   const [readingMode, setReadingMode] = useState('standard') // 'standard' | 'focus' | 'guided' | 'listen' | 'speech'
-  const [font, setFont] = useState('OpenDyslexic')
-  const [fontSize, setFontSize] = useState(20)
-  const [lineSpacing, setLineSpacing] = useState(2.0)
-  const [letterSpacing, setLetterSpacing] = useState(0.1)
+  const [font, setFont] = useState(accessPrefs.font || 'OpenDyslexic')
+  const [fontSize, setFontSize] = useState(accessPrefs.fontSize || 20)
+  const [lineSpacing, setLineSpacing] = useState(accessPrefs.lineSpacing || 2.0)
+  const [letterSpacing, setLetterSpacing] = useState(accessPrefs.letterSpacing !== undefined ? accessPrefs.letterSpacing : 0.1)
+  const [wordSpacing, setWordSpacing] = useState(accessPrefs.wordSpacing !== undefined ? accessPrefs.wordSpacing : 0.05)
   const [paragraphSpacing, setParagraphSpacing] = useState(1.8)
-  const [readingWidth, setReadingWidth] = useState('normal') // 'narrow' | 'normal' | 'wide'
-  const [bgColor, setBgColor] = useState('#FFF8F0')
+  const [readingWidth, setReadingWidth] = useState(accessPrefs.contentWidth === 'narrow' ? 'narrow' : 'normal')
+  const [bgColor, setBgColor] = useState(accessPrefs.highContrast ? '#FFFFFF' : (accessPrefs.bgColor || '#FFF8F0'))
 
   // Interactive Difficult Words
   const [difficultWords, setDifficultWords] = useState([])
@@ -402,6 +412,8 @@ export function useReadingCoach() {
     setLineSpacing,
     letterSpacing,
     setLetterSpacing,
+    wordSpacing,
+    setWordSpacing,
     paragraphSpacing,
     setParagraphSpacing,
     readingWidth,

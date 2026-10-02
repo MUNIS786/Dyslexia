@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { NotifProvider } from './context/NotifContext'
 import { I18nProvider } from './i18n/I18nContext'
+import { AccessibilityProvider } from './context/AccessibilityContext'
 import { LoadingScreen } from './components/ui'
 import { useSession } from './hooks/useSession'
 
@@ -22,6 +23,7 @@ import ProgressPage from './pages/student/ProgressPage'
 import PlanPage from './pages/student/PlanPage'
 import ChatPage from './pages/student/ChatPage'
 import SettingsPage from './pages/student/SettingsPage'
+import AccessibilitySettingsPage from './pages/student/AccessibilitySettingsPage'
 import JoinClassroom from './pages/student/JoinClassroom'
 import TeacherHome from './pages/teacher/TeacherHome'
 import StudentsPage from './pages/teacher/StudentsPage'
@@ -104,6 +106,9 @@ function AppRoutes() {
       <Route path="/student/chat" element={
         <ProtectedRoute role="student"><Layout><ChatPage /></Layout></ProtectedRoute>
       } />
+      <Route path="/student/accessibility" element={
+        <ProtectedRoute role="student"><Layout><AccessibilitySettingsPage /></Layout></ProtectedRoute>
+      } />
       <Route path="/student/settings" element={
         <ProtectedRoute role="student"><Layout><SettingsPage /></Layout></ProtectedRoute>
       } />
@@ -151,19 +156,21 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <I18nProvider>
-          <NotifProvider>
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 4000,
-                style: {
-                  fontFamily: 'var(--font-family)',
-                  fontSize: '1rem',
-                },
-              }}
-            />
-            <AppRoutes />
-          </NotifProvider>
+          <AccessibilityProvider>
+            <NotifProvider>
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 4000,
+                  style: {
+                    fontFamily: 'var(--font-family)',
+                    fontSize: '1rem',
+                  },
+                }}
+              />
+              <AppRoutes />
+            </NotifProvider>
+          </AccessibilityProvider>
         </I18nProvider>
       </AuthProvider>
     </BrowserRouter>

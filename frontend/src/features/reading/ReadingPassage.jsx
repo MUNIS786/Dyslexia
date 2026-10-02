@@ -19,6 +19,7 @@ export default function ReadingPassage({
   fontSize = 20,
   lineSpacing = 2.0,
   letterSpacing = 0.1,
+  wordSpacing = 0.05,
   readingWidth = 'normal',
   bgColor = '#FFF8F0',
   currentSegmentIndex = 0,
@@ -43,12 +44,10 @@ export default function ReadingPassage({
   onResetSpeech,
   onProceedFromSpeech,
 }) {
-  if (!passage || !passage.text) return null
-
   // Predefined vocabulary lookup
   const vocabMap = useMemo(() => {
     const map = new Set()
-    ;(passage.vocabulary || []).forEach((v) => {
+    ;(passage?.vocabulary || []).forEach((v) => {
       map.add(v.word.toLowerCase())
     })
     return map
@@ -56,17 +55,21 @@ export default function ReadingPassage({
 
   // Split into sentences for Guided & Focus modes
   const sentences = useMemo(() => {
+    if (!passage?.text) return []
     return passage.text
       .replace(/([.?!])\s*(?=[A-Z])/g, '$1|')
       .split('|')
       .map((s) => s.trim())
       .filter(Boolean)
-  }, [passage.text])
+  }, [passage?.text])
 
   // Split text into paragraphs for Standard mode
   const paragraphs = useMemo(() => {
+    if (!passage?.text) return []
     return passage.text.split('\n\n').filter(Boolean)
-  }, [passage.text])
+  }, [passage?.text])
+
+  if (!passage || !passage.text) return null
 
   // Width container class
   const widthClass = {
@@ -172,6 +175,7 @@ export default function ReadingPassage({
           fontSize: `${fontSize}px`,
           lineHeight: lineSpacing,
           letterSpacing: `${letterSpacing}em`,
+          wordSpacing: `${wordSpacing}em`,
         }}
       >
         <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 mb-6 border-b border-stone-200/60 pb-3">

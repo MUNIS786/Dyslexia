@@ -42,6 +42,8 @@ export default function ReadingCoach() {
     setLineSpacing,
     letterSpacing,
     setLetterSpacing,
+    wordSpacing,
+    setWordSpacing,
     readingWidth,
     setReadingWidth,
     bgColor,
@@ -183,6 +185,7 @@ export default function ReadingCoach() {
             fontSize={fontSize}
             lineSpacing={lineSpacing}
             letterSpacing={letterSpacing}
+            wordSpacing={wordSpacing}
             readingWidth={readingWidth}
             bgColor={bgColor}
             currentSegmentIndex={currentSegmentIndex}

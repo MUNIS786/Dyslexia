@@ -28,7 +28,7 @@ export default function TutorMessageBubble({
 
       // Check if bullet point
       const isBullet = line.trim().startsWith('•') || line.trim().startsWith('-')
-      const cleanLine = isBullet ? line.trim().replace(/^[•\-]\s*/, '') : line
+      const cleanLine = isBullet ? line.trim().replace(/^[•-]\s*/, '') : line
 
       // Simple regex replacement for bold **word**
       const parts = cleanLine.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g)
@@ -105,7 +105,7 @@ export default function TutorMessageBubble({
             )}
           </div>
 
-          <div className="text-sm sm:text-base font-normal text-stone-800">
+          <div className="text-sm sm:text-base font-normal text-stone-800 dyslexia-text">
             {renderFormattedText(message.content)}
           </div>
 

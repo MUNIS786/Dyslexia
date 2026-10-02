@@ -128,6 +128,13 @@ export const parentV2API = {
     api.post(`/v2/parent/student/links/${linkId}/revoke`).then((r) => r.data),
 }
 
+export const accessibilityV2API = {
+  getPreferences: () => api.get('/v2/accessibility/preferences').then((r) => r.data),
+  updatePreferences: (data) => api.put('/v2/accessibility/preferences', data).then((r) => r.data),
+  patchPreferences: (data) => api.patch('/v2/accessibility/preferences', data).then((r) => r.data),
+  resetPreferences: () => api.post('/v2/accessibility/preferences/reset').then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -139,6 +146,7 @@ export default {
   gamification: gamificationV2API,
   multilingual: multilingualV2API,
   parent: parentV2API,
+  accessibility: accessibilityV2API,
 }
 
 

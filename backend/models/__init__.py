@@ -91,6 +91,11 @@ from .v2_parent import (
     ParentProgressTrend,
     ParentDashboardResponse,
 )
+from .v2_accessibility import (
+    V2AccessibilityPreferences,
+    AccessibilityPreferencesPatch,
+    AccessibilityPreferencesResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -166,6 +171,9 @@ __all__ = [
     "ParentLearningOverview",
     "ParentProgressTrend",
     "ParentDashboardResponse",
+    "V2AccessibilityPreferences",
+    "AccessibilityPreferencesPatch",
+    "AccessibilityPreferencesResponse",
 ]
 
 

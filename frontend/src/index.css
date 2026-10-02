@@ -1,10 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Lexend:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/OpenDyslexic-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  --font-family: 'Lexend', sans-serif;
+  --font-family: 'Lexend', 'OpenDyslexic', sans-serif;
   --font-size: 18px;
   --line-spacing: 2;
   --letter-spacing: 0.05em;
+  --word-spacing: 0.05em;
+  --reading-max-width: 56rem;
   --bg-color: #FFF8F0;
   --text-color: #1A2A2A;
   --primary: #1A6B6B;
@@ -14,6 +31,8 @@
   --card-bg: #FFFFFF;
   --border: #E5E0D8;
   --sidebar-width: 260px;
+  --ruler-height: 60px;
+  --ruler-color: #E8A020;
 }
 
 * {
@@ -29,6 +48,7 @@ body {
   color: var(--text-color);
   line-height: var(--line-spacing);
   letter-spacing: var(--letter-spacing);
+  word-spacing: var(--word-spacing);
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.2s, color 0.2s;
 }
@@ -38,7 +58,39 @@ body {
   font-size: var(--font-size);
   line-height: var(--line-spacing);
   letter-spacing: var(--letter-spacing);
+  word-spacing: var(--word-spacing);
   color: var(--text-color);
+}
+
+/* High Contrast Display Mode */
+body.high-contrast {
+  --bg-color: #FFFFFF !important;
+  --text-color: #000000 !important;
+  --border: #000000 !important;
+  --card-bg: #FFFFFF !important;
+  --accent: #D97706 !important;
+}
+
+body.high-contrast *:focus-visible {
+  outline: 4px solid #000000 !important;
+  outline-offset: 3px !important;
+}
+
+body.high-contrast .border,
+body.high-contrast .border-stone-200,
+body.high-contrast .border-gray-200,
+body.high-contrast .border-stone-300 {
+  border-color: #000000 !important;
+}
+
+/* Reduced Motion Mode */
+body.reduced-motion *,
+body.reduced-motion *::before,
+body.reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
 }
 
 /* Focus rings for accessibility */
