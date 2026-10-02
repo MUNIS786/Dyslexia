@@ -184,6 +184,22 @@ async def init_db():
     await db.interventions.create_index([("teacherId", 1), ("createdAt", -1)])
     await db.interventions.create_index([("classroomCode", 1), ("createdAt", -1)])
 
+    # Phase 9: Gamification & Engagement
+    try:
+        await db.gamification_summaries.create_index("learnerId", unique=True)
+    except Exception:
+        pass
+    try:
+        await db.reward_events.create_index("eventId", unique=True)
+    except Exception:
+        pass
+    try:
+        await db.reward_events.create_index([("learnerId", 1), ("sourceEventId", 1)], unique=True)
+    except Exception:
+        pass
+    await db.reward_events.create_index([("learnerId", 1), ("createdAt", -1)])
+    await db.reward_events.create_index("eventType")
+
     try:
         from services.learning.activity_recommender import seed_learning_activities
         await seed_learning_activities()

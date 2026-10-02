@@ -68,6 +68,19 @@ export default function ReadingSessionResult({
             <span>LEVEL UP! You unlocked Reading Level {adaptation.newTier}!</span>
           </div>
         )}
+
+        {/* Gamification Points & Badges Reward Callout */}
+        {result?.gamification && result.gamification.pointsAwarded > 0 && (
+          <div id="reading-gamification-reward" className="mt-4 p-3.5 bg-amber-50 rounded-2xl border border-amber-200 flex items-center justify-between text-xs font-bold text-amber-950">
+            <div className="flex items-center gap-2">
+              <span className="text-xl" aria-hidden="true">🏆</span>
+              <span>{result.gamification.celebrationMessage || `+${result.gamification.pointsAwarded} Learning Points Earned!`}</span>
+            </div>
+            <span className="bg-amber-100 text-amber-900 px-2.5 py-1 rounded-full border border-amber-300">
+              Total: {result.gamification.totalPoints} pts
+            </span>
+          </div>
+        )}
       </div>
 
       {/* What You Did — Stat Cards */}

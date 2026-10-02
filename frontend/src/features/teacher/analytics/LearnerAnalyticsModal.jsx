@@ -7,7 +7,7 @@
  */
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { teacherV2API } from '../../../api/v2/client'
+import { teacherV2API, gamificationV2API } from '../../../api/v2/client'
 
 export default function LearnerAnalyticsModal({
   studentId,
@@ -19,6 +19,7 @@ export default function LearnerAnalyticsModal({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [data, setData] = useState(null)
+  const [gamificationData, setGamificationData] = useState(null)
   const [activeTab, setActiveTab] = useState('overview') // 'overview' | 'domains' | 'reading_speech' | 'adaptive' | 'trends'
 
   useEffect(() => {
@@ -29,9 +30,13 @@ export default function LearnerAnalyticsModal({
       setLoading(true)
       setError(null)
       try {
-        const res = await teacherV2API.getLearnerDetail(studentId, timeRange)
+        const [res, gamRes] = await Promise.all([
+          teacherV2API.getLearnerDetail(studentId, timeRange),
+          gamificationV2API.getTeacherLearnerSummary(studentId).catch(() => null),
+        ])
         if (isMounted) {
           setData(res)
+          setGamificationData(gamRes)
         }
       } catch (err) {
         if (isMounted) {
@@ -255,6 +260,40 @@ export default function LearnerAnalyticsModal({
                       </div>
                     </div>
                   </div>
+
+                  {/* Practice Engagement & Consistency */}
+                  {gamificationData && (
+                    <div id="teacher-learner-gamification-card" className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs uppercase font-extrabold text-amber-950 flex items-center gap-1.5">
+                          <span>🏆</span> Practice Consistency & Achievements
+                        </span>
+                        <span className="text-xs font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200">
+                          {gamificationData.totalPoints} Learning Points
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs mt-2">
+                        <div>
+                          <span className="text-stone-500 block">Active Consistency</span>
+                          <span className="font-bold text-stone-800">
+                            {gamificationData.currentStreak} {gamificationData.currentStreak === 1 ? 'day' : 'days'}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-stone-500 block">Longest Streak</span>
+                          <span className="font-bold text-stone-800">
+                            {gamificationData.longestStreak} {gamificationData.longestStreak === 1 ? 'day' : 'days'}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-stone-500 block">Badges Unlocked</span>
+                          <span className="font-bold text-stone-800">
+                            {gamificationData.earnedBadgesCount} achievements
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Suggested Teacher Actions */}
                   <div>

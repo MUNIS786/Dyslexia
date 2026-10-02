@@ -80,6 +80,21 @@ export const interventionV2API = {
     api.post(`/v2/teacher/interventions/${id}/measurements`, data).then((r) => r.data),
 }
 
+export const gamificationV2API = {
+  getSummary: () =>
+    api.get('/v2/gamification/summary').then((r) => r.data),
+  getAchievements: () =>
+    api.get('/v2/gamification/achievements').then((r) => r.data),
+  getMilestones: () =>
+    api.get('/v2/gamification/milestones').then((r) => r.data),
+  getHistory: (params) =>
+    api.get('/v2/gamification/history', { params }).then((r) => r.data),
+  claimEvent: (data) =>
+    api.post('/v2/gamification/claim-event', data).then((r) => r.data),
+  getTeacherLearnerSummary: (studentId) =>
+    api.get(`/v2/gamification/teacher/learner/${studentId}`).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -88,6 +103,7 @@ export default {
   tutor: tutorV2API,
   teacher: teacherV2API,
   intervention: interventionV2API,
+  gamification: gamificationV2API,
 }
 
 

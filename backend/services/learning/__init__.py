@@ -39,6 +39,17 @@ from .tutor_service import (
     get_tutor_history,
     clear_tutor_history,
 )
+from .gamification_service import (
+    ACHIEVEMENT_CATALOGUE,
+    calculate_event_points,
+    calculate_learner_streak,
+    process_learning_reward,
+    get_gamification_summary,
+    get_achievements_with_progress,
+    get_milestones_progress,
+    get_reward_history,
+    get_teacher_learner_reward_summary,
+)
 
 __all__ = [
     "get_or_create_learner_profile",
@@ -70,5 +81,14 @@ __all__ = [
     "handle_tutor_chat",
     "get_tutor_history",
     "clear_tutor_history",
+    "ACHIEVEMENT_CATALOGUE",
+    "calculate_event_points",
+    "calculate_learner_streak",
+    "process_learning_reward",
+    "get_gamification_summary",
+    "get_achievements_with_progress",
+    "get_milestones_progress",
+    "get_reward_history",
+    "get_teacher_learner_reward_summary",
 ]
 

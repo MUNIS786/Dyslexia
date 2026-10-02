@@ -63,6 +63,16 @@ from .v2_intervention import (
     MetricComparison,
     InterventionEffectivenessReport,
 )
+from .v2_gamification import (
+    BadgeDefinition,
+    EarnedBadge,
+    BadgeProgressItem,
+    RewardEvent,
+    MilestoneProgressItem,
+    GamificationSummary,
+    GamificationHistoryResponse,
+    RewardEvaluationResult,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -116,6 +126,14 @@ __all__ = [
     "ManualFollowUpRequest",
     "MetricComparison",
     "InterventionEffectivenessReport",
+    "BadgeDefinition",
+    "EarnedBadge",
+    "BadgeProgressItem",
+    "RewardEvent",
+    "MilestoneProgressItem",
+    "GamificationSummary",
+    "GamificationHistoryResponse",
+    "RewardEvaluationResult",
 ]
 
 

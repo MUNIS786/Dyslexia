@@ -11,6 +11,7 @@ import StudentProfilePage from './pages/student/StudentProfilePage'
 import AdaptiveLearningPage from './pages/student/AdaptiveLearningPage'
 import ReadingCoachPage from './pages/student/ReadingCoachPage'
 import TutorPage from './pages/student/TutorPage'
+import RewardsPage from './pages/student/RewardsPage'
 import ScreeningTest from './pages/student/ScreeningTest'
 import DailyTasks from './pages/student/DailyTasks'
 import ScanPage from './pages/student/ScanPage'
@@ -79,6 +80,9 @@ function AppRoutes() {
       } />
       <Route path="/student/tasks" element={
         <ProtectedRoute role="student"><Layout><DailyTasks /></Layout></ProtectedRoute>
+      } />
+      <Route path="/student/rewards" element={
+        <ProtectedRoute role="student"><Layout><RewardsPage /></Layout></ProtectedRoute>
       } />
       <Route path="/student/scan" element={
         <ProtectedRoute role="student"><Layout><ScanPage /></Layout></ProtectedRoute>

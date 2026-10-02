@@ -30,6 +30,7 @@ from services.learning.reading_performance import (
     grade_comprehension_answers,
     analyze_reading_trend,
 )
+from core.config import settings
 from services.learning.difficulty_engine import clamp_tier, TIER_CONFIGURATIONS
 from services.learning.learner_profile_service import (
     get_learning_state,
@@ -1027,6 +1028,29 @@ async def complete_reading_session(
     else:
         next_step_msg = "Good try! We'll give you extra helpful hints on the next passage."
 
+    # 9. Gamification & Effort Rewards (if enabled)
+    gamification_res = None
+    if getattr(settings, "V2_GAMIFICATION", False):
+        try:
+            from services.learning.gamification_service import process_learning_reward
+            reward_eval = await process_learning_reward(
+                user_id=learner_id,
+                source_event_id=req.sessionId,
+                event_type="reading_session",
+                metadata={
+                    "comprehensionScore": comprehension_score,
+                    "readingScore": reading_score,
+                    "overallScore": overall_score,
+                    "wordsRead": words_read,
+                    "wordsPresented": words_presented,
+                    "passageTitle": passage.get("title", "Story"),
+                    "sessionId": req.sessionId,
+                }
+            )
+            gamification_res = reward_eval.model_dump()
+        except Exception as ge:
+            logger.error(f"Gamification reward error for user {learner_id}: {ge}", exc_info=True)
+
     return {
         "status": "ok",
         "sessionId": req.sessionId,
@@ -1042,6 +1066,7 @@ async def complete_reading_session(
         "nextStepMessage": next_step_msg,
         "currentTier": new_tier,
         "streak": current_streak,
+        "gamification": gamification_res,
     }
 
 

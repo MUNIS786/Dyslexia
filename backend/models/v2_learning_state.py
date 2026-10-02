@@ -107,3 +107,4 @@ class AdaptiveAttemptResponse(BaseModel):
     message: str
     streak: int
     learningState: Dict[str, Any]
+    gamification: Optional[Dict[str, Any]] = None

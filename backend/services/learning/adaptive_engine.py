@@ -18,6 +18,7 @@ from models.v2_learning_state import (
     AdaptiveStateInfo,
     AdaptiveAttemptResponse,
 )
+from core.config import settings
 from services.learning.difficulty_engine import clamp_tier, TIER_CONFIGURATIONS
 from services.learning.learner_profile_service import recalibrate_from_activity, get_learning_state
 
@@ -219,6 +220,26 @@ async def evaluate_attempt_and_adapt(
     else:
         msg = "Good try! Every practice makes your reading brain stronger!"
 
+    # 11. Gamification & Effort Rewards (if enabled)
+    gamification_res = None
+    if getattr(settings, "V2_GAMIFICATION", False):
+        try:
+            from services.learning.gamification_service import process_learning_reward
+            reward_eval = await process_learning_reward(
+                user_id=user_id,
+                source_event_id=attempt_id,
+                event_type="activity_attempt",
+                metadata={
+                    "scorePercent": score,
+                    "domain": domain,
+                    "tier": new_tier,
+                    "attemptId": attempt_id,
+                }
+            )
+            gamification_res = reward_eval.model_dump()
+        except Exception as ge:
+            logger.error(f"Gamification reward error for user {user_id}: {ge}", exc_info=True)
+
     return AdaptiveAttemptResponse(
         status="ok",
         attemptId=attempt_id,
@@ -231,4 +252,5 @@ async def evaluate_attempt_and_adapt(
         message=msg,
         streak=current_streak,
         learningState=updated_state,
+        gamification=gamification_res,
     )
