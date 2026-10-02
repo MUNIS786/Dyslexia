@@ -55,16 +55,25 @@ def _check_feature_flag():
 
 @router.get("/recommendation", response_model=ReadingRecommendationResponse)
 async def get_reading_recommendation(
+    language: Optional[str] = Query(None, description="Optional target language ('en', 'mr', 'hi')"),
     current_user: dict = Depends(get_current_user)
 ):
     """
     Retrieve the optimal reading passage recommendation for the authenticated learner.
-    Determined deterministically from the learner's active ZPD tier and learning state.
+    Determined deterministically from the learner's active ZPD tier, language, and learning state.
     """
     _check_feature_flag()
     learner_id = current_user.get("id")
+    pref_lang = (language or current_user.get("preferredLanguage") or "en").strip().lower()
+    if pref_lang.startswith("mr"):
+        pref_lang = "mr"
+    elif pref_lang.startswith("hi"):
+        pref_lang = "hi"
+    else:
+        pref_lang = "en"
+
     try:
-        rec = await recommend_reading_passage(learner_id=learner_id)
+        rec = await recommend_reading_passage(learner_id=learner_id, preferred_language=pref_lang)
         return rec
     except Exception as e:
         logger.error(f"Error recommending reading passage for user {learner_id}: {e}", exc_info=True)

@@ -73,6 +73,11 @@ from .v2_gamification import (
     GamificationHistoryResponse,
     RewardEvaluationResult,
 )
+from .v2_multilingual import (
+    LanguageInfo,
+    LanguagePreferenceUpdate,
+    LanguagePreferenceResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -134,6 +139,9 @@ __all__ = [
     "GamificationSummary",
     "GamificationHistoryResponse",
     "RewardEvaluationResult",
+    "LanguageInfo",
+    "LanguagePreferenceUpdate",
+    "LanguagePreferenceResponse",
 ]
 
 

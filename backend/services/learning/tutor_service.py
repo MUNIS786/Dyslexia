@@ -162,6 +162,27 @@ def build_tutor_instruction(context: TutorContext) -> str:
         ss = context.speechSignals
         speech_signals_block = f"Reading Accuracy: {ss.get('accuracy', 0)}%, Speed: {ss.get('wpm', 0)} WPM"
 
+    lang = (context.language or "en").lower()
+    if lang == "mr":
+        language_guidance = (
+            "LANGUAGE REQUIREMENT (MARATHI / मराठी):\n"
+            "- You MUST write your 'message', 'explanation', 'followUpQuestion', and button 'label' in warm, encouraging, child-friendly Marathi (मराठी) using Devanagari script.\n"
+            "- Keep vocabulary accessible, clear, and age-appropriate for primary learners.\n"
+            "- If explaining an English word, provide the Marathi meaning and phonics breakdown clearly."
+        )
+    elif lang == "hi":
+        language_guidance = (
+            "LANGUAGE REQUIREMENT (HINDI / हिन्दी):\n"
+            "- You MUST write your 'message', 'explanation', 'followUpQuestion', and button 'label' in warm, encouraging, child-friendly Hindi (हिन्दी) using Devanagari script.\n"
+            "- Keep vocabulary accessible, clear, and age-appropriate for primary learners.\n"
+            "- If explaining an English word, provide the Hindi meaning and phonics breakdown clearly."
+        )
+    else:
+        language_guidance = (
+            "LANGUAGE REQUIREMENT (ENGLISH):\n"
+            "- Respond in clear, supportive, dyslexia-friendly English with simple vocabulary and short sentences."
+        )
+
     prompt = f"""You are the Personal AI Tutor on DyslexAid, a supportive educational companion for learners.
 Your learner's name is {name}.
 Learner Current Level: Level {level} ({level_name}). Adaptive Tier: Tier {context.adaptiveTier}.
@@ -180,6 +201,8 @@ RECENT PERFORMANCE SIGNALS:
 
 PEDAGOGICAL INSTRUCTION:
 {pedagogical_style}
+
+{language_guidance}
 
 STRICT SAFETY & BEHAVIOR RULES (DO NOT VIOLATE):
 1. NON-CLINICAL BOUNDARY: You are an educational tutor ONLY. NEVER mention, imply, diagnose, or discuss dyslexia, ADHD, learning disabilities, or medical conditions. Focus purely on reading, phonics, vocabulary, and learning skills.
@@ -218,6 +241,137 @@ def generate_offline_fallback(
     raw_query = request.message.strip().lower()
     active_word = (request.activeWord or "").strip().lower()
     now = int(time.time())
+    lang = (context.language or "en").lower()
+
+    # Multilingual offline fallback for Marathi
+    if lang == "mr":
+        if any(k in raw_query for k in ["कठीण", "थकलो", "जमणार नाही", "नाही", "अवघड", "hard", "tired", "give up", "sad"]):
+            return TutorResponse(
+                status="ok",
+                message=(
+                    f"छान प्रयत्न करत आहात, {context.displayName}! 🌟\n\n"
+                    f"वाचताना कधीकधी अडचण येणे अगदी स्वाभाविक आहे. आपण हळूहळू आणि सावकाश शिकूया.\n\n"
+                    f"एक दीर्घ श्वास घ्या. आपण एकत्र सराव करूया!"
+                ),
+                explanation="प्रत्येक लहान प्रयत्नाने वाचनाची शक्ती वाढते.",
+                suggestedAction=TutorSuggestedAction(
+                    type="start_adaptive_practice",
+                    label="सोपा खेळ खेळा",
+                    payload={}
+                ),
+                followUpQuestion="आपण एखादा सोपा शब्द पाहूया का?",
+                source="offline-fallback",
+                learningLevel=context.learningLevel,
+                contextSummary={"recognizedType": "encouragement", "language": "mr"},
+                timestamp=now,
+            )
+        if context.currentPassage and any(k in raw_query for k in ["गोष्ट", "कथा", "hint", "story", "passage"]):
+            p = context.currentPassage
+            return TutorResponse(
+                status="ok",
+                message=(
+                    f"तुमच्या **\"{p.title}\"** या गोष्टीत:\n\n"
+                    f"\"{p.excerpt}\"\n\n"
+                    f"**एक छोटी युक्ती:** पात्रांनी आधी काय केले आणि नंतर काय घडले ते सावकाश वाचा!"
+                ),
+                explanation="चांगले वाचक उत्तरे शोधण्यासाठी पुन्हा मजकूर वाचतात.",
+                suggestedAction=TutorSuggestedAction(
+                    type="try_question",
+                    label="प्रश्नाचे उत्तर पुन्हा शोधा",
+                    payload={"passageId": p.passageId}
+                ),
+                followUpQuestion="कथेतील कोणता भाग तुम्हाला सर्वात जास्त आवडला?",
+                source="offline-fallback",
+                learningLevel=context.learningLevel,
+                contextSummary={"recognizedType": "comprehension_hint", "passageId": p.passageId, "language": "mr"},
+                timestamp=now,
+            )
+        return TutorResponse(
+            status="ok",
+            message=(
+                f"नमस्कार {context.displayName}! मी तुमचा DyslexAid वाचन मित्र आहे. 🌟\n\n"
+                f"आपण एकत्र काय करू शकतो:\n"
+                f"• **शब्दाचा अर्थ जाणून घेणे**: कोणत्याही शब्दाबद्दल विचारा\n"
+                f"• **वाचन कथा समजून घेणे**: गोष्टीतून उत्तरे शोधणे\n"
+                f"• **वाचन सराव**: सोपे शब्द आणि वाक्ये वाचणे"
+            ),
+            explanation="वाचन आणि शब्दांबद्दल मला काहीही विचारा!",
+            suggestedAction=TutorSuggestedAction(
+                type="open_reading_coach",
+                label="वाचन कथा पहा",
+                payload={}
+            ),
+            followUpQuestion="आज आपण कोणता शब्द किंवा गोष्ट शिकायची?",
+            source="offline-fallback",
+            learningLevel=context.learningLevel,
+            contextSummary={"recognizedType": "general_guidance", "language": "mr"},
+            timestamp=now,
+        )
+
+    # Multilingual offline fallback for Hindi
+    if lang == "hi":
+        if any(k in raw_query for k in ["कठिन", "थक", "मुश्किल", "नहीं हो रहा", "hard", "tired", "give up", "sad"]):
+            return TutorResponse(
+                status="ok",
+                message=(
+                    f"आप बहुत अच्छा प्रयास कर रहे हैं, {context.displayName}! 🌟\n\n"
+                    f"पढ़ते समय कभी-कभी मुश्किल लगना बिल्कुल सामान्य है। हम धीरे-धीरे सीखेंगे।\n\n"
+                    f"गहरी सांस लें। हम मिलकर अभ्यास करेंगे!"
+                ),
+                explanation="हर छोटे प्रयास से पढ़ने का आत्मविश्वास बढ़ता है।",
+                suggestedAction=TutorSuggestedAction(
+                    type="start_adaptive_practice",
+                    label="मजेदार खेल खेलें",
+                    payload={}
+                ),
+                followUpQuestion="क्या आप कोई आसान शब्द सीखना चाहेंगे?",
+                source="offline-fallback",
+                learningLevel=context.learningLevel,
+                contextSummary={"recognizedType": "encouragement", "language": "hi"},
+                timestamp=now,
+            )
+        if context.currentPassage and any(k in raw_query for k in ["कहानी", "hint", "story", "passage"]):
+            p = context.currentPassage
+            return TutorResponse(
+                status="ok",
+                message=(
+                    f"आपकी कहानी **\"{p.title}\"** में:\n\n"
+                    f"\"{p.excerpt}\"\n\n"
+                    f"**एक आसान संकेत:** ध्यान से देखें कि पात्रों ने पहले क्या किया और उसके बाद क्या हुआ!"
+                ),
+                explanation="अच्छे पाठक उत्तर खोजने के लिए कहानी दोबारा पढ़ते हैं।",
+                suggestedAction=TutorSuggestedAction(
+                    type="try_question",
+                    label="सवाल दोबारा देखें",
+                    payload={"passageId": p.passageId}
+                ),
+                followUpQuestion="कहानी का कौन सा हिस्सा आपको सबसे अच्छा लगा?",
+                source="offline-fallback",
+                learningLevel=context.learningLevel,
+                contextSummary={"recognizedType": "comprehension_hint", "passageId": p.passageId, "language": "hi"},
+                timestamp=now,
+            )
+        return TutorResponse(
+            status="ok",
+            message=(
+                f"नमस्ते {context.displayName}! मैं आपका DyslexAid पठन मित्र हूँ। 🌟\n\n"
+                f"हम मिलकर क्या कर सकते हैं:\n"
+                f"• **शब्द का अर्थ जानना**: किसी भी शब्द के बारे में पूछें\n"
+                f"• **कहानी समझना**: कहानी से उत्तर खोजना\n"
+                f"• **पठन अभ्यास**: आसान शब्द और वाक्य पढ़ना"
+            ),
+            explanation="शब्दों और कहानियों के बारे में मुझसे कुछ भी पूछें!",
+            suggestedAction=TutorSuggestedAction(
+                type="open_reading_coach",
+                label="कहानियां देखें",
+                payload={}
+            ),
+            followUpQuestion="आज आप क्या पढ़ना या सीखना चाहते हैं?",
+            source="offline-fallback",
+            learningLevel=context.learningLevel,
+            contextSummary={"recognizedType": "general_guidance", "language": "hi"},
+            timestamp=now,
+        )
 
     # Detect target word if mentioned
     word_match = re.search(r'\b(?:what does|meaning of|mean|define|word|explain)\s+["\']?([a-zA-Z]{3,20})["\']?', raw_query)
@@ -678,6 +832,7 @@ async def handle_tutor_chat(
         learner_id=learner_id,
         active_passage_id=request.activePassageId,
         active_word=request.activeWord,
+        language=request.language,
     )
 
     # 2. Build instructions

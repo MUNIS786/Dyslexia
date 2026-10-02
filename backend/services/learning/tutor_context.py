@@ -39,16 +39,22 @@ async def build_tutor_context(
     learner_id: str,
     active_passage_id: Optional[str] = None,
     active_word: Optional[str] = None,
+    language: Optional[str] = None,
 ) -> TutorContext:
     """
     Constructs a deterministic, compact, privacy-safe TutorContext object
     for an authenticated learner.
     """
-    # 1. Fetch user basic info (display name only)
+    # 1. Fetch user basic info and language preferences
     display_name = "Student"
     accessibility_prefs: Dict[str, Any] = {}
+    target_language = (language or "").strip().lower()
+
     try:
-        user = await db.users.find_one({"id": learner_id}, {"_id": 0, "name": 1, "settings": 1})
+        user = await db.users.find_one(
+            {"id": learner_id},
+            {"_id": 0, "name": 1, "settings": 1, "preferredLanguage": 1, "preferred_language": 1}
+        )
         if user:
             raw_name = user.get("name") or ""
             if raw_name.strip():
@@ -59,8 +65,22 @@ async def build_tutor_context(
                 "fontSize": settings.get("fontSize", 18),
                 "ttsSpeed": settings.get("ttsSpeed", 0.85),
             }
+            if not target_language:
+                target_language = (
+                    user.get("preferredLanguage") or user.get("preferred_language") or ""
+                ).strip().lower()
     except Exception as e:
         logger.warning(f"Error fetching user metadata for tutor context: {e}")
+
+    # Normalize language code
+    if target_language in ["marathi", "mr-in"]:
+        target_language = "mr"
+    elif target_language in ["hindi", "hi-in"]:
+        target_language = "hi"
+    elif target_language in ["english", "en-us", "en-in", "en-gb"]:
+        target_language = "en"
+    if target_language not in ["en", "mr", "hi"]:
+        target_language = "en"
 
     # 2. Fetch Learner Profile & Adaptive Tier
     learning_level = 2
@@ -172,4 +192,5 @@ async def build_tutor_context(
         recentReading=recent_reading,
         accessibility=accessibility_prefs if accessibility_prefs else None,
         speechSignals=speech_signals,
+        language=target_language,
     )

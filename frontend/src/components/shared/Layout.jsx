@@ -2,37 +2,40 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useNotifs } from '../../context/NotifContext'
+import { useTranslation } from '../../i18n/I18nContext'
+import LanguageSelector from './LanguageSelector'
 
 const STUDENT_NAV = [
-  { to: '/student', label: 'Home', icon: '🏠', end: true },
-  { to: '/student/profile', label: 'Learning Profile', icon: '🌟' },
-  { to: '/student/adaptive-learning', label: 'Adaptive Practice', icon: '🎯' },
-  { to: '/student/reading-coach', label: 'Reading Coach', icon: '📖' },
-  { to: '/student/tutor', label: 'AI Tutor', icon: '🤖' },
-  { to: '/student/tasks', label: 'Daily Tasks', icon: '✅' },
-  { to: '/student/rewards', label: 'Rewards', icon: '🏆' },
-  { to: '/student/scan', label: 'Scan Text', icon: '📷' },
-  { to: '/student/library', label: 'My Library', icon: '📚' },
-  { to: '/student/progress', label: 'Progress', icon: '📊' },
-  { to: '/student/plan', label: 'My Plan', icon: '🧠' },
-  { to: '/student/chat', label: 'AI Chat', icon: '💬' },
-  { to: '/student/classroom', label: 'Classroom', icon: '🏫' },
-  { to: '/student/settings', label: 'Settings', icon: '⚙️' },
+  { to: '/student', label: 'Home', i18nKey: 'nav.home', icon: '🏠', end: true },
+  { to: '/student/profile', label: 'Learning Profile', i18nKey: 'nav.learningProfile', icon: '🌟' },
+  { to: '/student/adaptive-learning', label: 'Adaptive Practice', i18nKey: 'nav.adaptivePractice', icon: '🎯' },
+  { to: '/student/reading-coach', label: 'Reading Coach', i18nKey: 'nav.readingCoach', icon: '📖' },
+  { to: '/student/tutor', label: 'AI Tutor', i18nKey: 'nav.aiTutor', icon: '🤖' },
+  { to: '/student/tasks', label: 'Daily Tasks', i18nKey: 'nav.dailyTasks', icon: '✅' },
+  { to: '/student/rewards', label: 'Rewards', i18nKey: 'nav.rewards', icon: '🏆' },
+  { to: '/student/scan', label: 'Scan Text', i18nKey: 'nav.scanText', icon: '📷' },
+  { to: '/student/library', label: 'My Library', i18nKey: 'nav.myLibrary', icon: '📚' },
+  { to: '/student/progress', label: 'Progress', i18nKey: 'nav.progress', icon: '📊' },
+  { to: '/student/plan', label: 'My Plan', i18nKey: 'nav.myPlan', icon: '🧠' },
+  { to: '/student/chat', label: 'AI Chat', i18nKey: 'nav.aiChat', icon: '💬' },
+  { to: '/student/classroom', label: 'Classroom', i18nKey: 'nav.classroom', icon: '🏫' },
+  { to: '/student/settings', label: 'Settings', i18nKey: 'nav.settings', icon: '⚙️' },
 ]
 
 const TEACHER_NAV = [
-  { to: '/teacher', label: 'Dashboard', icon: '📊', end: true },
-  { to: '/teacher/analytics', label: 'Class Analytics', icon: '📈' },
-  { to: '/teacher/interventions', label: 'Interventions', icon: '🎯' },
-  { to: '/teacher/students', label: 'Students', icon: '👥' },
-  { to: '/teacher/assignments', label: 'Assignments', icon: '📝' },
-  { to: '/teacher/scan', label: 'Scan & Convert', icon: '📷' },
-  { to: '/teacher/chat', label: 'AI Chat', icon: '💬' },
+  { to: '/teacher', label: 'Dashboard', i18nKey: 'nav.dashboard', icon: '📊', end: true },
+  { to: '/teacher/analytics', label: 'Class Analytics', i18nKey: 'nav.classAnalytics', icon: '📈' },
+  { to: '/teacher/interventions', label: 'Interventions', i18nKey: 'nav.interventions', icon: '🎯' },
+  { to: '/teacher/students', label: 'Students', i18nKey: 'nav.students', icon: '👥' },
+  { to: '/teacher/assignments', label: 'Assignments', i18nKey: 'nav.assignments', icon: '📝' },
+  { to: '/teacher/scan', label: 'Scan & Convert', i18nKey: 'nav.scanConvert', icon: '📷' },
+  { to: '/teacher/chat', label: 'AI Chat', i18nKey: 'nav.aiChat', icon: '💬' },
 ]
 
 export default function Layout({ children }) {
   const { user, logout } = useAuth()
   const { unread } = useNotifs()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
@@ -75,7 +78,7 @@ export default function Layout({ children }) {
 
         {/* User info */}
         <div className="px-4 py-3 border-b border-white/20">
-          <p className="text-white/80 text-sm">Hello,</p>
+          <p className="text-white/80 text-sm">{t('common.hello', 'Hello')},</p>
           <p className="text-white font-semibold truncate">{user?.name}</p>
         </div>
 
@@ -96,7 +99,7 @@ export default function Layout({ children }) {
               }
             >
               <span className="text-lg">{item.icon}</span>
-              <span>{item.label}</span>
+              <span>{t(item.i18nKey, item.label)}</span>
             </NavLink>
           ))}
         </nav>
@@ -109,7 +112,7 @@ export default function Layout({ children }) {
               hover:bg-white/10 hover:text-white transition-all text-sm font-medium"
           >
             <span>🚪</span>
-            <span>Logout</span>
+            <span>{t('common.logout', 'Logout')}</span>
           </button>
         </div>
       </aside>
@@ -125,6 +128,9 @@ export default function Layout({ children }) {
             ☰
           </button>
           <div className="flex-1" />
+          {/* Language Selector */}
+          <LanguageSelector />
+
           {/* Notification bell */}
           <div className="relative">
             <button
@@ -142,7 +148,7 @@ export default function Layout({ children }) {
             {notifOpen && (
               <div className="absolute right-0 top-12 w-80 bg-white rounded-2xl shadow-xl border border-[#E5E0D8] overflow-hidden z-50">
                 <div className="flex items-center justify-between px-4 py-3 border-b border-[#E5E0D8]">
-                  <span className="font-bold dyslexia-text">Notifications</span>
+                  <span className="font-bold dyslexia-text">{t('common.notifications', 'Notifications')}</span>
                   <button
                     onClick={markAllRead}
                     className="text-xs text-[#1A6B6B] font-semibold hover:underline"

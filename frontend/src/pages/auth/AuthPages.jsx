@@ -1,16 +1,24 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useTranslation } from '../../i18n/I18nContext'
+import LanguageSelector from '../../components/shared/LanguageSelector'
 import { authAPI } from '../../api/client'
 import { Button, Input, Select, Alert } from '../../components/ui'
 import toast from 'react-hot-toast'
 
 function AuthShell({ children, title, subtitle }) {
+  const { t } = useTranslation()
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4"
+      className="min-h-screen flex items-center justify-center p-4 relative"
       style={{ backgroundColor: 'var(--bg-color)' }}
     >
+      {/* Top right language selector */}
+      <div className="absolute top-4 right-4 z-20">
+        <LanguageSelector />
+      </div>
+
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
@@ -18,7 +26,7 @@ function AuthShell({ children, title, subtitle }) {
             📖
           </div>
           <h1 className="dyslexia-text text-3xl font-bold text-[#1A6B6B]">DyslexAid</h1>
-          <p className="dyslexia-text text-gray-500 mt-1">Reading companion for every student</p>
+          <p className="dyslexia-text text-gray-500 mt-1">{t('auth.tagline', 'Reading companion for every student')}</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-md border border-[#E5E0D8] p-6">
@@ -33,6 +41,7 @@ function AuthShell({ children, title, subtitle }) {
 
 export function LoginPage() {
   const { login } = useAuth()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
@@ -43,27 +52,27 @@ export function LoginPage() {
   const handleSubmit = async () => {
     setError('')
     if (!form.email || !form.password) {
-      setError('Please fill in all fields.')
+      setError(t('auth.fillAllFields', 'Please fill in all fields.'))
       return
     }
     setLoading(true)
     try {
       const user = await login(form.email, form.password)
-      toast.success(`Welcome back, ${user.name}! 👋`)
+      toast.success(t('auth.welcomeBack', { name: user.name }))
       navigate(user.role === 'teacher' ? '/teacher' : '/student')
     } catch (err) {
-      setError(err.response?.data?.detail || 'Login failed. Check your details.')
+      setError(err.response?.data?.detail || t('auth.loginFailed', 'Login failed. Check your details.'))
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <AuthShell title="Welcome back 👋" subtitle="Sign in to continue learning">
+    <AuthShell title={t('auth.loginTitle', 'Welcome back 👋')} subtitle={t('auth.loginSubtitle', 'Sign in to continue learning')}>
       <div className="flex flex-col gap-4">
         {error && <Alert type="error">{error}</Alert>}
         <Input
-          label="📧 Email"
+          label={t('auth.email', '📧 Email')}
           type="email"
           placeholder="your@email.com"
           value={form.email}
@@ -71,7 +80,7 @@ export function LoginPage() {
           autoComplete="email"
         />
         <Input
-          label="🔑 Password"
+          label={t('auth.password', '🔑 Password')}
           type="password"
           placeholder="Your password"
           value={form.password}
@@ -80,12 +89,12 @@ export function LoginPage() {
           onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
         />
         <Button onClick={handleSubmit} loading={loading} size="lg" className="w-full mt-2">
-          Sign In
+          {t('auth.signIn', 'Sign In')}
         </Button>
         <p className="dyslexia-text text-center text-sm text-gray-500">
-          New user?{' '}
+          {t('auth.newUser', 'New user?')}{' '}
           <Link to="/register" className="text-[#1A6B6B] font-semibold hover:underline">
-            Create account
+            {t('auth.createAccount', 'Create account')}
           </Link>
         </p>
       </div>
@@ -95,6 +104,7 @@ export function LoginPage() {
 
 export function RegisterPage() {
   const { login } = useAuth()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [form, setForm] = useState({
     name: '',
@@ -112,7 +122,7 @@ export function RegisterPage() {
   const handleSubmit = async () => {
     setError('')
     if (!form.name || !form.email || !form.password) {
-      setError('Please fill in all required fields.')
+      setError(t('auth.fillAllFields', 'Please fill in all required fields.'))
       return
     }
     setLoading(true)
@@ -123,57 +133,57 @@ export function RegisterPage() {
       })
       localStorage.setItem('dyslexaid_token', data.token)
       await login(form.email, form.password)
-      toast.success(`Welcome, ${data.user.name}! 🎉`)
+      toast.success(t('auth.welcome', { name: data.user.name }))
       navigate(data.user.role === 'teacher' ? '/teacher' : '/student/screening')
     } catch (err) {
-      setError(err.response?.data?.detail || 'Registration failed. Try a different email.')
+      setError(err.response?.data?.detail || t('auth.registerFailed', 'Registration failed. Try a different email.'))
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <AuthShell title="Create your account ✨" subtitle="Join thousands of learners today">
+    <AuthShell title={t('auth.registerTitle', 'Create your account ✨')} subtitle={t('auth.registerSubtitle', 'Join thousands of learners today')}>
       <div className="flex flex-col gap-4">
         {error && <Alert type="error">{error}</Alert>}
         <Input
-          label="👤 Full Name"
+          label={t('auth.fullName', '👤 Full Name')}
           placeholder="Your full name"
           value={form.name}
           onChange={set('name')}
         />
         <Input
-          label="📧 Email"
+          label={t('auth.email', '📧 Email')}
           type="email"
           placeholder="your@email.com"
           value={form.email}
           onChange={set('email')}
         />
         <Input
-          label="🔑 Password"
+          label={t('auth.password', '🔑 Password')}
           type="password"
           placeholder="Choose a strong password"
           value={form.password}
           onChange={set('password')}
         />
         <Select
-          label="👔 I am a..."
+          label={t('auth.role', '👔 I am a...')}
           value={form.role}
           onChange={set('role')}
           options={[
-            { value: 'student', label: '🧑‍🎓 Student' },
-            { value: 'teacher', label: '👩‍🏫 Teacher' },
+            { value: 'student', label: t('auth.student', '🧑‍🎓 Student') },
+            { value: 'teacher', label: t('auth.teacher', '👩‍🏫 Teacher') },
           ]}
         />
         <Input
-          label="🏫 School Name"
+          label={t('auth.schoolName', '🏫 School Name')}
           placeholder="Your school name"
           value={form.schoolName}
           onChange={set('schoolName')}
         />
         {form.role === 'student' && (
           <Input
-            label="🎂 Age"
+            label={t('auth.age', '🎂 Age')}
             type="number"
             placeholder="Your age"
             value={form.age}
@@ -183,12 +193,12 @@ export function RegisterPage() {
           />
         )}
         <Button onClick={handleSubmit} loading={loading} size="lg" className="w-full mt-2">
-          Create Account
+          {t('auth.createAccount', 'Create Account')}
         </Button>
         <p className="dyslexia-text text-center text-sm text-gray-500">
-          Already have an account?{' '}
+          {t('auth.haveAccount', 'Already have an account?')}{' '}
           <Link to="/login" className="text-[#1A6B6B] font-semibold hover:underline">
-            Sign in
+            {t('auth.signIn', 'Sign in')}
           </Link>
         </p>
       </div>

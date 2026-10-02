@@ -630,6 +630,225 @@ DEFAULT_PASSAGES: List[Dict[str, Any]] = [
                 "questionType": "vocabulary_in_context"
             }
         ]
+    },
+    # ══════════════════════════════════════════════════════════════════════════
+    # MARATHI PASSAGES (मराठी वाचन पाठ)
+    # ══════════════════════════════════════════════════════════════════════════
+    {
+        "passageId": "pas-mr-t1-001",
+        "title": "सोनूचे पांढरे मांजर",
+        "text": (
+            "सोनू एक लहान मुलगा आहे. त्याच्याकडे एक पांढरे मांजर आहे. "
+            "मांजराचे नाव मिनी आहे. मिनी मऊ चटईवर बसते. "
+            "ती दुधाची वाटी पिऊन आनंदाने म्याऊ करते. "
+            "सोनू तिच्याशी प्रेमाने खेळतो."
+        ),
+        "difficulty": 1,
+        "domain": "reading_comprehension",
+        "estimatedMinutes": 2,
+        "wordCount": 35,
+        "language": "mr",
+        "gradeBand": "इयत्ता १-२",
+        "topics": ["प्राणी", "मित्र"],
+        "accessibility": {"recommendedFontSize": 22, "lineHeight": 2.2},
+        "active": True,
+        "vocabulary": [
+            {
+                "word": "चटईवर",
+                "definition": "बसण्यासाठी अंथरलेली मऊ चटई.",
+                "phonetic": "cha-tai-var",
+                "syllables": ["च", "टई", "वर"],
+                "exampleSentence": "मांजर मऊ चटईवर शांतपणे बसले आहे."
+            },
+            {
+                "word": "आनंदाने",
+                "definition": "अतिशय आनंदी किंवा खुशीच्या भावनेने.",
+                "phonetic": "aa-nan-daa-ne",
+                "syllables": ["आ", "नं", "दा", "ने"],
+                "exampleSentence": "मुले आनंदाने बागेत खेळू लागली."
+            }
+        ],
+        "questions": [
+            {
+                "questionId": "q-mr-t1-001-1",
+                "question": "मांजराचे नाव काय आहे?",
+                "options": ["राणी", "मिनी", "टॉमी", "मोती"],
+                "correctAnswer": 1,
+                "explanation": "गोष्टीत स्पष्ट लिहिले आहे: 'मांजराचे नाव मिनी आहे.'",
+                "questionType": "detail"
+            },
+            {
+                "questionId": "q-mr-t1-001-2",
+                "question": "मिनी कुठे बसते?",
+                "options": ["टेबलावर", "झाडावर", "मऊ चटईवर", "दारात"],
+                "correctAnswer": 2,
+                "explanation": "मिनी मऊ चटईवर बसते.",
+                "questionType": "detail"
+            }
+        ]
+    },
+    {
+        "passageId": "pas-mr-t2-001",
+        "title": "सुंदर फुलपाखरू आणि बाग",
+        "text": (
+            "आमच्या बागेत अनेक रंगीबेरंगी फुले फुलली आहेत. "
+            "सकाळी एक सुंदर पिवळे फुलपाखरू बागेत आले. "
+            "ते हळूहळू एका लाल गुलाबावर बसले. "
+            "फुलपाखराने फुलांमधील गोड मध चाखला. "
+            "मग ते पंख फडफडून आकाशात आनंदाने उडाले."
+        ),
+        "difficulty": 2,
+        "domain": "reading_comprehension",
+        "estimatedMinutes": 3,
+        "wordCount": 38,
+        "language": "mr",
+        "gradeBand": "इयत्ता ३-४",
+        "topics": ["निसर्ग", "कीटक"],
+        "accessibility": {"recommendedFontSize": 20, "lineHeight": 2.2},
+        "active": True,
+        "vocabulary": [
+            {
+                "word": "रंगीबेरंगी",
+                "definition": "अनेक वेगवेगळ्या रंगांचे.",
+                "phonetic": "ran-gi-be-ran-gi",
+                "syllables": ["रं", "गी", "बे", "रं", "गी"],
+                "exampleSentence": "बागेत रंगीबेरंगी फुले डोलत आहेत."
+            },
+            {
+                "word": "फडफडून",
+                "definition": "पंख वेगाने हलवत.",
+                "phonetic": "phad-pha-dun",
+                "syllables": ["फड", "फ", "डून"],
+                "exampleSentence": "पक्षाने पंख फडफडून आकाशात झेप घेतली."
+            }
+        ],
+        "questions": [
+            {
+                "questionId": "q-mr-t2-001-1",
+                "question": "फुलपाखरू कोणत्या रंगाचे होते?",
+                "options": ["निळे", "पिवळे", "काळे", "पांढरे"],
+                "correctAnswer": 1,
+                "explanation": "गोष्टीत सांगितले आहे: 'एक सुंदर पिवळे फुलपाखरू बागेत आले.'",
+                "questionType": "detail"
+            },
+            {
+                "questionId": "q-mr-t2-001-2",
+                "question": "फुलपाखराने काय चाखले?",
+                "options": ["पाणी", "दूध", "गोड मध", "फळ"],
+                "correctAnswer": 2,
+                "explanation": "फुलपाखराने फुलांमधील गोड मध चाखला.",
+                "questionType": "detail"
+            }
+        ]
+    },
+    # ══════════════════════════════════════════════════════════════════════════
+    # HINDI PASSAGES (हिन्दी पठन पाठ)
+    # ══════════════════════════════════════════════════════════════════════════
+    {
+        "passageId": "pas-hi-t1-001",
+        "title": "रोहन और उसकी लाल गेंद",
+        "text": (
+            "रोहन एक समझदार बालक है। उसके पास एक सुंदर लाल गेंद है। "
+            "वह रोज शाम को बगीचे में खेलता है। "
+            "गेंद हरी घास पर तेजी से लुढ़कती है। "
+            "रोहन गेंद पकड़कर खुशी से हंसता है।"
+        ),
+        "difficulty": 1,
+        "domain": "reading_comprehension",
+        "estimatedMinutes": 2,
+        "wordCount": 38,
+        "language": "hi",
+        "gradeBand": "कक्षा १-२",
+        "topics": ["खेल", "दोस्ती"],
+        "accessibility": {"recommendedFontSize": 22, "lineHeight": 2.2},
+        "active": True,
+        "vocabulary": [
+            {
+                "word": "बगीचे",
+                "definition": "फूलों और पौधों से भरा सुंदर उपवन.",
+                "phonetic": "ba-gee-che",
+                "syllables": ["ब", "गी", "चे"],
+                "exampleSentence": "बच्चे बगीचे में झूला झूल रहे हैं।"
+            },
+            {
+                "word": "लुढ़कती",
+                "definition": "गोल घूमते हुए आगे बढ़ना.",
+                "phonetic": "ludh-ak-tee",
+                "syllables": ["लु", "ढ़क", "ती"],
+                "exampleSentence": "गेंद मैदान में लुढ़कती चली गई।"
+            }
+        ],
+        "questions": [
+            {
+                "questionId": "q-hi-t1-001-1",
+                "question": "रोहन की गेंद किस रंग की है?",
+                "options": ["पीली", "लाल", "नीली", "सफेद"],
+                "correctAnswer": 1,
+                "explanation": "पाठ में लिखा है: 'उसके पास एक सुंदर लाल गेंद है।'",
+                "questionType": "detail"
+            },
+            {
+                "questionId": "q-hi-t1-001-2",
+                "question": "गेंद कहाँ लुढ़कती है?",
+                "options": ["छत पर", "सड़क पर", "हरी घास पर", "पानी में"],
+                "correctAnswer": 2,
+                "explanation": "गेंद हरी घास पर तेजी से लुढ़कती है।",
+                "questionType": "detail"
+            }
+        ]
+    },
+    {
+        "passageId": "pas-hi-t2-001",
+        "title": "नन्हीं चिड़िया का घोंसला",
+        "text": (
+            "बरगद के बड़े पेड़ पर एक नन्हीं चिड़िया रहती थी। "
+            "उसने सूखे तिनकों से एक मजबूत घोंसला बनाया। "
+            "सुबह होते ही वह मीठे स्वर में चहचहाती थी। "
+            "वह अपने नन्हे बच्चों के लिए दाना लाती थी और उन्हें प्यार से खिलाती थी।"
+        ),
+        "difficulty": 2,
+        "domain": "reading_comprehension",
+        "estimatedMinutes": 3,
+        "wordCount": 42,
+        "language": "hi",
+        "gradeBand": "कक्षा ३-४",
+        "topics": ["पक्षी", "प्रकृति"],
+        "accessibility": {"recommendedFontSize": 20, "lineHeight": 2.2},
+        "active": True,
+        "vocabulary": [
+            {
+                "word": "तिनकों",
+                "definition": "घास या लकड़ी के छोटे सूखे टुकड़े.",
+                "phonetic": "tin-kon",
+                "syllables": ["ति", "न", "कों"],
+                "exampleSentence": "चिड़िया ने तिनकों से मजबूत घोंसला बनाया।"
+            },
+            {
+                "word": "चहचहाती",
+                "definition": "चिड़ियों की मधुर चहकती हुई आवाज.",
+                "phonetic": "chah-chah-aa-tee",
+                "syllables": ["चह", "च", "हा", "ती"],
+                "exampleSentence": "सुबह की धूप में चिड़िया चहचहाती है।"
+            }
+        ],
+        "questions": [
+            {
+                "questionId": "q-hi-t2-001-1",
+                "question": "चिड़िया का घोंसला किस पेड़ पर था?",
+                "options": ["आम के", "बरगद के", "नीम के", "सेब के"],
+                "correctAnswer": 1,
+                "explanation": "पाठ में लिखा है: 'बरगद के बड़े पेड़ पर एक नन्हीं चिड़िया रहती थी।'",
+                "questionType": "detail"
+            },
+            {
+                "questionId": "q-hi-t2-001-2",
+                "question": "चिड़िया बच्चों के लिए क्या लाती थी?",
+                "options": ["पानी", "खिलौने", "दाना", "पत्ते"],
+                "correctAnswer": 2,
+                "explanation": "वह अपने नन्हे बच्चों के लिए दाना लाती थी।",
+                "questionType": "detail"
+            }
+        ]
     }
 ]
 

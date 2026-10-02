@@ -5,6 +5,7 @@
  */
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { tutorV2API } from '../../api/v2/client'
+import { useTranslation } from '../../i18n/I18nContext'
 
 const DEFAULT_WELCOME = {
   id: 'welcome-1',
@@ -21,6 +22,7 @@ const DEFAULT_WELCOME = {
 }
 
 export function useTutor(initialPassageId = null, initialWord = null) {
+  const { locale } = useTranslation()
   const [messages, setMessages] = useState([DEFAULT_WELCOME])
   const [context, setContext] = useState(null)
   const [activePassageId, setActivePassageId] = useState(initialPassageId)
@@ -35,6 +37,7 @@ export function useTutor(initialPassageId = null, initialWord = null) {
       const data = await tutorV2API.getContext({
         activePassageId: passageId || undefined,
         activeWord: word || undefined,
+        language: locale,
       })
       if (isMounted.current && data) {
         setContext(data)
@@ -42,7 +45,7 @@ export function useTutor(initialPassageId = null, initialWord = null) {
     } catch (err) {
       console.warn('Could not load tutor context:', err?.message)
     }
-  }, [activePassageId, activeWord])
+  }, [activePassageId, activeWord, locale])
 
   // 2. Load conversation history
   const loadHistory = useCallback(async () => {
@@ -99,6 +102,7 @@ export function useTutor(initialPassageId = null, initialWord = null) {
           activePassageId: passageId || undefined,
           activeWord: word || undefined,
           history: historySlice,
+          language: locale,
         })
 
         if (isMounted.current && response) {

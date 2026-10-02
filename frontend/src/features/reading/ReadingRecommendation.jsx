@@ -4,7 +4,7 @@
  * Child-friendly preview card showing the adaptive reading recommendation
  * with explainable pedagogical rationale and "Start Reading" action.
  */
-import React from 'react'
+import React, { useState } from 'react'
 
 const TIER_LABELS = {
   1: { name: 'Foundation', color: 'bg-emerald-100 text-emerald-800 border-emerald-300', icon: '🌱' },
@@ -22,6 +22,7 @@ export default function ReadingRecommendation({
   onStartReading,
   loading = false,
 }) {
+  const [langFilter, setLangFilter] = useState('all')
   const passage = activePassage || recommendation?.recommendedPassage
   if (!passage) return null
 
@@ -61,6 +62,9 @@ export default function ReadingRecommendation({
           </span>
           <span className="bg-stone-100 px-3 py-1.5 rounded-xl border border-stone-200 flex items-center gap-1">
             🎓 {passage.gradeBand || 'Elementary'}
+          </span>
+          <span className="bg-teal-50 text-teal-800 border border-teal-200 px-3 py-1.5 rounded-xl font-semibold flex items-center gap-1">
+            🌐 {passage.language === 'mr' ? 'मराठी (Marathi)' : passage.language === 'hi' ? 'हिन्दी (Hindi)' : 'English'}
           </span>
           {passage.topics?.map((topic) => (
             <span
@@ -103,30 +107,64 @@ export default function ReadingRecommendation({
       {/* Alternative Stories at this Level */}
       {allPassages.length > 1 && (
         <div className="bg-stone-50 rounded-3xl p-6 border border-stone-200">
-          <h3 className="text-sm font-bold text-stone-700 uppercase tracking-wide mb-3 flex items-center gap-2">
-            <span>📚</span> Or choose another story from our library:
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {allPassages.map((p) => {
-              const isSelected = p.passageId === passage.passageId
-              return (
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <h3 className="text-sm font-bold text-stone-700 uppercase tracking-wide flex items-center gap-2">
+              <span>📚</span> Library Stories
+            </h3>
+            {/* Language filter pills */}
+            <div className="flex items-center gap-1.5 text-xs bg-white p-1 rounded-xl border border-stone-200">
+              <span className="text-stone-400 px-2">Filter:</span>
+              {[
+                { code: 'all', label: 'All' },
+                { code: 'en', label: 'English' },
+                { code: 'mr', label: 'मराठी' },
+                { code: 'hi', label: 'हिन्दी' },
+              ].map((lang) => (
                 <button
-                  key={p.passageId}
-                  onClick={() => onSelectPassage(p)}
-                  className={`text-left p-3.5 rounded-2xl border transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-teal-50 border-teal-500 shadow-sm'
-                      : 'bg-white border-stone-200 hover:border-stone-300'
+                  key={lang.code}
+                  type="button"
+                  onClick={() => setLangFilter(lang.code)}
+                  className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
+                    langFilter === lang.code
+                      ? 'bg-[#1A6B6B] text-white'
+                      : 'text-stone-600 hover:text-stone-900'
                   }`}
                 >
-                  <div className="flex items-center justify-between text-xs text-stone-500 mb-1">
-                    <span className="font-semibold text-teal-800">Level {p.difficulty}</span>
-                    <span>~{p.estimatedMinutes}m</span>
-                  </div>
-                  <p className="font-bold text-stone-900 text-sm truncate">{p.title}</p>
+                  {lang.label}
                 </button>
-              )
-            })}
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {allPassages
+              .filter((p) => langFilter === 'all' || (p.language || 'en') === langFilter)
+              .map((p) => {
+                const isSelected = p.passageId === passage.passageId
+                const pLang = p.language === 'mr' ? 'मराठी' : p.language === 'hi' ? 'हिन्दी' : 'EN'
+                return (
+                  <button
+                    key={p.passageId}
+                    onClick={() => onSelectPassage(p)}
+                    className={`text-left p-3.5 rounded-2xl border transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-teal-50 border-teal-500 shadow-sm'
+                        : 'bg-white border-stone-200 hover:border-stone-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between text-xs text-stone-500 mb-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-semibold text-teal-800">Level {p.difficulty}</span>
+                        <span className="bg-stone-100 text-stone-600 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                          {pLang}
+                        </span>
+                      </div>
+                      <span>~{p.estimatedMinutes}m</span>
+                    </div>
+                    <p className="font-bold text-stone-900 text-sm truncate">{p.title}</p>
+                  </button>
+                )
+              })}
           </div>
         </div>
       )}

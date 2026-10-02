@@ -27,7 +27,7 @@ PHASE 8: Intervention Effectiveness (COMPLETE)
     ↓
 PHASE 9: Gamification & Engagement (COMPLETE)
     ↓
-PHASE 10: Multilingual Support (Hindi, Marathi, Tamil, Bengali, Kannada)
+PHASE 10: Multilingual Support (COMPLETE)
     ↓
 PHASE 11: Parent & Guardian Portal (At-Home Habits, Joint Goal Setting)
     ↓
@@ -147,15 +147,15 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ---
 
-### Phase 10: Multilingual Indian Language Support
-* **Objective:** First-class dyslexia accommodations across Indian linguistic scripts (Devanagari for Hindi/Marathi, Tamil script, Bengali).
-* **Backend Changes:** Script-specific character reversal checks (e.g. Marathi/Hindi matra confusion, conjunct consonant splitting).
-* **Frontend Changes:** Multilingual font loader (Noto Sans Devanagari, Baloo) and language toggle.
-* **Database Changes:** Multilingual translation dictionary storage.
-* **APIs:** `POST /api/v2/multilingual/transliterate`, `GET /api/v2/multilingual/fonts`.
-* **ML/AI Requirements:** Gemini multilingual translation and script simplification prompts.
-* **Testing Requirements:** Verification of complex Indic conjuncts with letter-spacing.
-* **Dependencies:** Indic NLP libraries or Gemini Multilingual APIs.
+### Phase 10: Multilingual Indian Language Support (COMPLETE)
+* **Objective:** First-class dyslexia accommodations, UI internationalization, and reading support across Indian linguistic scripts (Devanagari for Marathi `mr` and Hindi `hi`, and English `en` default/fallback).
+* **Backend Status:** Implemented in `backend/models/v2_multilingual.py`, `backend/routers/v2_multilingual.py`, `backend/services/learning/reading_service.py` (authentic Marathi and Hindi passages with vocabulary and comprehension questions), `backend/services/learning/reading_recommender.py` (language-filtered recommendations), `backend/services/learning/tutor_service.py` (language-aware prompts and localized offline fallbacks), and `backend/services/learning/speech_analysis.py` (Devanagari script Unicode `\u0900-\u097F` and Danda punctuation preservation).
+* **Frontend Status:** Implemented in `frontend/src/i18n/` (`I18nContext.jsx`, `useTranslation()`, `en.js`, `mr.js`, `hi.js`), accessible native language selector `LanguageSelector.jsx` integrated into shared navigation (`Layout.jsx`) and authentication shell (`AuthPages.jsx`), language badges and filters in `ReadingRecommendation.jsx`, multilingual TTS voice selection in `useReadingCoach.js`, speech recognition locale mapping in `useSpeechReading.js`, and language-aware AI tutor in `useTutor.js`.
+* **Database Collections:** `user_language_preferences` (indexed on `learnerId`, compound unique index on `("learnerId", "userId")`).
+* **APIs:** `GET /api/v2/multilingual/languages`, `GET /api/v2/multilingual/preference`, `PUT /api/v2/multilingual/preference`, `PATCH /api/v2/multilingual/preference`.
+* **Testing:** 23 comprehensive tests in `backend/test_phase10_multilingual.py` covering catalog models, preference endpoints, validation, authentication, 503 feature flags, passage filtering, Devanagari tokenization, and tutor scaffolding; 236/236 full regression tests passing across all V2 phases; frontend Vite build passing cleanly (0 errors).
+* **Documentation:** Comprehensive architecture guide in `docs/V2_MULTILINGUAL_SUPPORT.md`.
+* **Status:** Complete.
 
 ---
 

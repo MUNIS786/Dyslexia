@@ -60,6 +60,7 @@ class TutorContext(BaseModel):
     recentReading: Optional[Dict[str, Any]] = None  # e.g. {"comprehension": 75, "fluency": 70, "wordsRead": 120}
     accessibility: Optional[Dict[str, Any]] = None  # e.g. {"font": "OpenDyslexic", "fontSize": 20}
     speechSignals: Optional[Dict[str, Any]] = None  # e.g. {"accuracy": 82.0, "wpm": 75.0}
+    language: str = Field(default="en", description="Target language ('en', 'mr', 'hi')")
 
 
 class TutorRequest(BaseModel):
@@ -67,6 +68,7 @@ class TutorRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=2000, description="Student's question or message")
     activePassageId: Optional[str] = Field(default=None, description="Optional ID of passage being read")
     activeWord: Optional[str] = Field(default=None, description="Optional word queried from DifficultWords")
+    language: Optional[str] = Field(default=None, description="Optional target language ('en', 'mr', 'hi')")
     history: Optional[List[Dict[str, Any]]] = Field(default_factory=list, description="Previous conversation turns (up to 6)")
 
 

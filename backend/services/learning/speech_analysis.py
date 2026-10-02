@@ -51,9 +51,12 @@ def normalize_text_to_tokens(text: Optional[str]) -> List[str]:
     if not cleaned:
         return []
 
+    # Replace Devanagari punctuation (Danda । and Double Danda ॥) with spaces
+    cleaned = re.sub(r"[\u0964\u0965]", " ", cleaned)
+
     # Replace punctuation characters (including underscore) except apostrophe with spaces
-    # Punctuation: .,!?;:"()[]{}/\_*~`@#$%^&+=<>|
-    cleaned = re.sub(r"[^\w\s']|_", " ", cleaned)
+    # Preserves Latin word characters, digits, apostrophes, and Devanagari script (\u0900-\u097F)
+    cleaned = re.sub(r"[^\w\s'\u0900-\u097F]|_", " ", cleaned)
 
     tokens: List[str] = []
     for raw in cleaned.split():

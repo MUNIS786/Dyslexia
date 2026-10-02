@@ -55,7 +55,7 @@ export function useSpeechReading() {
   }, [])
 
   // Start reading aloud with microphone
-  const startListening = useCallback(() => {
+  const startListening = useCallback((langCode = 'en-US') => {
     if (!isSpeechSupported) {
       setSpeechState('unsupported')
       toast('Speech recognition is not supported in this browser. You can still read silently or use Listen Mode!')
@@ -77,7 +77,11 @@ export function useSpeechReading() {
       const recognition = new SpeechRecognition()
       recognition.continuous = true
       recognition.interimResults = true
-      recognition.lang = 'en-US'
+      let locale = langCode || 'en-US'
+      if (locale === 'mr') locale = 'mr-IN'
+      else if (locale === 'hi') locale = 'hi-IN'
+      else if (locale === 'en') locale = 'en-IN'
+      recognition.lang = locale
       recognition.maxAlternatives = 1
 
       recognition.onstart = () => {

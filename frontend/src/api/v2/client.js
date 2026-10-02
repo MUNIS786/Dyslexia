@@ -27,7 +27,7 @@ export const learningV2API = {
 }
 
 export const readingV2API = {
-  getRecommendation: () => api.get('/v2/reading/recommendation').then((r) => r.data),
+  getRecommendation: (params) => api.get('/v2/reading/recommendation', { params }).then((r) => r.data),
   getPassages: (params) => api.get('/v2/reading/passages', { params }).then((r) => r.data),
   getPassage: (passageId) => api.get(`/v2/reading/passages/${passageId}`).then((r) => r.data),
   startSession: (data) => api.post('/v2/reading/session/start', data).then((r) => r.data),
@@ -95,6 +95,15 @@ export const gamificationV2API = {
     api.get(`/v2/gamification/teacher/learner/${studentId}`).then((r) => r.data),
 }
 
+export const multilingualV2API = {
+  getLanguages: () =>
+    api.get('/v2/multilingual/languages').then((r) => r.data),
+  getPreference: () =>
+    api.get('/v2/multilingual/preference').then((r) => r.data),
+  updatePreference: (language) =>
+    api.put('/v2/multilingual/preference', { language }).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -104,6 +113,7 @@ export default {
   teacher: teacherV2API,
   intervention: interventionV2API,
   gamification: gamificationV2API,
+  multilingual: multilingualV2API,
 }
 
 

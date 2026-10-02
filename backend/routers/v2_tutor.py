@@ -78,6 +78,7 @@ async def tutor_chat(
 async def get_tutor_context(
     activePassageId: Optional[str] = Query(None, description="Optional active passage ID"),
     activeWord: Optional[str] = Query(None, description="Optional active word queried"),
+    language: Optional[str] = Query(None, description="Optional language preference"),
     learnerId: Optional[str] = Query(None, description="Optional learner ID; students can only view self"),
     current_user: dict = Depends(get_current_user),
 ):
@@ -103,6 +104,7 @@ async def get_tutor_context(
             learner_id=target_learner_id,
             active_passage_id=activePassageId,
             active_word=activeWord,
+            language=language,
         )
         return ctx
     except Exception as e:

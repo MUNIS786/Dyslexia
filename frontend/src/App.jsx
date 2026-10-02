@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { NotifProvider } from './context/NotifContext'
+import { I18nProvider } from './i18n/I18nContext'
 import { LoadingScreen } from './components/ui'
 import { useSession } from './hooks/useSession'
 
@@ -143,19 +144,21 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <NotifProvider>
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                fontFamily: 'var(--font-family)',
-                fontSize: '1rem',
-              },
-            }}
-          />
-          <AppRoutes />
-        </NotifProvider>
+        <I18nProvider>
+          <NotifProvider>
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  fontFamily: 'var(--font-family)',
+                  fontSize: '1rem',
+                },
+              }}
+            />
+            <AppRoutes />
+          </NotifProvider>
+        </I18nProvider>
       </AuthProvider>
     </BrowserRouter>
   )

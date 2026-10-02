@@ -174,14 +174,14 @@ export function useReadingCoach() {
   // Word interactions (Definitions & Audio Pronunciation)
   const handleWordClick = useCallback((wordText) => {
     if (!wordText || !activePassage) return
-    const cleanWord = wordText.replace(/[^\w]/g, '').toLowerCase()
+    const cleanWord = wordText.replace(/[^\w\u0900-\u097F]/g, '').toLowerCase()
     if (!cleanWord) return
 
     setDifficultWords((prev) => (prev.includes(cleanWord) ? prev : [...prev, cleanWord]))
 
     // Find in predefined passage vocabulary
     const vocabMatch = (activePassage.vocabulary || []).find(
-      (v) => v.word.toLowerCase() === cleanWord
+      (v) => (v.word || '').toLowerCase() === cleanWord
     )
 
     if (vocabMatch) {
@@ -200,15 +200,18 @@ export function useReadingCoach() {
 
   const practiceWordAudio = useCallback((wordText) => {
     if (!ttsSupported || !wordText) return
-    const cleanWord = wordText.replace(/[^\w]/g, '')
+    const cleanWord = wordText.replace(/[^\w\u0900-\u097F]/g, '')
     setPracticedWords((prev) => (prev.includes(cleanWord) ? prev : [...prev, cleanWord]))
 
     window.speechSynthesis.cancel()
     const utter = new SpeechSynthesisUtterance(cleanWord)
     utter.rate = 0.85
-    utter.lang = 'en-IN'
+    let ttsLang = 'en-IN'
+    if (activePassage?.language === 'mr') ttsLang = 'mr-IN'
+    else if (activePassage?.language === 'hi') ttsLang = 'hi-IN'
+    utter.lang = ttsLang
     window.speechSynthesis.speak(utter)
-  }, [ttsSupported])
+  }, [ttsSupported, activePassage])
 
   // Browser TTS for Passage (Listen Mode)
   const playPassageTTS = useCallback((textToSpeak) => {
@@ -219,7 +222,10 @@ export function useReadingCoach() {
     window.speechSynthesis.cancel()
     const utter = new SpeechSynthesisUtterance(textToSpeak)
     utter.rate = 0.85
-    utter.lang = 'en-IN'
+    let ttsLang = 'en-IN'
+    if (activePassage?.language === 'mr') ttsLang = 'mr-IN'
+    else if (activePassage?.language === 'hi') ttsLang = 'hi-IN'
+    utter.lang = ttsLang
 
     utter.onboundary = (e) => {
       if (e.name === 'word') {
@@ -239,7 +245,7 @@ export function useReadingCoach() {
     setReplaysUsed((prev) => prev + 1)
     utterRef.current = utter
     window.speechSynthesis.speak(utter)
-  }, [ttsSupported])
+  }, [ttsSupported, activePassage])
 
   const stopPassageTTS = useCallback(() => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -348,8 +354,8 @@ export function useReadingCoach() {
 
   // Speech Recognition Callbacks
   const handleStartSpeech = useCallback(() => {
-    speech.startListening()
-  }, [speech])
+    speech.startListening(activePassage?.language || 'en-US')
+  }, [speech, activePassage])
 
   const handleStopSpeech = useCallback(async () => {
     if (!session || !activePassage) return null

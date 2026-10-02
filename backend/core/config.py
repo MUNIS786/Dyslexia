@@ -25,7 +25,10 @@ class Settings:
     V2_TEACHER_ANALYTICS: bool = os.environ.get("V2_TEACHER_ANALYTICS", "true").lower() in ("true", "1", "yes")
     V2_INTERVENTION_EFFECTIVENESS: bool = os.environ.get("V2_INTERVENTION_EFFECTIVENESS", "true").lower() in ("true", "1", "yes")
     V2_GAMIFICATION: bool = os.environ.get("V2_GAMIFICATION", "true").lower() in ("true", "1", "yes")
-    V2_MULTILINGUAL: bool = os.environ.get("V2_MULTILINGUAL", "false").lower() in ("true", "1", "yes")
+    V2_MULTILINGUAL: bool = (
+        os.environ.get("V2_MULTILINGUAL_SUPPORT", os.environ.get("V2_MULTILINGUAL", "true"))
+    ).lower() in ("true", "1", "yes")
+    V2_MULTILINGUAL_SUPPORT: bool = V2_MULTILINGUAL
     V2_PARENT_PORTAL: bool = os.environ.get("V2_PARENT_PORTAL", "false").lower() in ("true", "1", "yes")
 
     @classmethod
@@ -41,6 +44,7 @@ class Settings:
             "V2_INTERVENTION_EFFECTIVENESS": cls.V2_INTERVENTION_EFFECTIVENESS,
             "V2_GAMIFICATION": cls.V2_GAMIFICATION,
             "V2_MULTILINGUAL": cls.V2_MULTILINGUAL,
+            "V2_MULTILINGUAL_SUPPORT": cls.V2_MULTILINGUAL,
             "V2_PARENT_PORTAL": cls.V2_PARENT_PORTAL,
         }
 
