@@ -3,7 +3,7 @@ import os
 import time
 import bcrypt
 import jwt as pyjwt
-from fastapi import Header, HTTPException, status
+from fastapi import Header, HTTPException, status, Depends
 from typing import Optional
 
 JWT_SECRET = os.environ.get("JWT_SECRET", "dyslexaid-dev-secret-change-in-prod")
@@ -60,8 +60,13 @@ async def get_current_user(authorization: Optional[str] = Header(None)):
     return user
 
 
-async def require_teacher(authorization: Optional[str] = Header(None)):
-    user = await get_current_user(authorization)
+async def require_teacher(user: dict = Depends(get_current_user)):
     if user.get("role") != "teacher":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Teacher role required")
+    return user
+
+
+async def require_parent(user: dict = Depends(get_current_user)):
+    if user.get("role") != "parent":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Parent role required")
     return user

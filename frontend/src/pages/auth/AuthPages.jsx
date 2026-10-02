@@ -59,7 +59,7 @@ export function LoginPage() {
     try {
       const user = await login(form.email, form.password)
       toast.success(t('auth.welcomeBack', { name: user.name }))
-      navigate(user.role === 'teacher' ? '/teacher' : '/student')
+      navigate(user.role === 'teacher' ? '/teacher' : user.role === 'parent' ? '/parent/dashboard' : '/student')
     } catch (err) {
       setError(err.response?.data?.detail || t('auth.loginFailed', 'Login failed. Check your details.'))
     } finally {
@@ -134,7 +134,7 @@ export function RegisterPage() {
       localStorage.setItem('dyslexaid_token', data.token)
       await login(form.email, form.password)
       toast.success(t('auth.welcome', { name: data.user.name }))
-      navigate(data.user.role === 'teacher' ? '/teacher' : '/student/screening')
+      navigate(data.user.role === 'teacher' ? '/teacher' : data.user.role === 'parent' ? '/parent/dashboard' : '/student/screening')
     } catch (err) {
       setError(err.response?.data?.detail || t('auth.registerFailed', 'Registration failed. Try a different email.'))
     } finally {
@@ -173,6 +173,7 @@ export function RegisterPage() {
           options={[
             { value: 'student', label: t('auth.student', '🧑‍🎓 Student') },
             { value: 'teacher', label: t('auth.teacher', '👩‍🏫 Teacher') },
+            { value: 'parent', label: t('auth.parent', '👨‍👩‍👧 Parent / Guardian') },
           ]}
         />
         <Input

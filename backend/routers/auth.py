@@ -59,7 +59,7 @@ async def signup(req: SignupReq):
         raise HTTPException(409, "Email already registered")
 
     uid = str(uuid.uuid4())
-    role = req.role if req.role in ("student", "teacher") else "student"
+    role = req.role if req.role in ("student", "teacher", "parent") else "student"
     classroom_code = f"DA-{uid[:6].upper()}" if role == "teacher" else None
     now = int(time.time())
 

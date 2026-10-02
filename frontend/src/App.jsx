@@ -30,6 +30,7 @@ import AssignmentsPage from './pages/teacher/AssignmentsPage'
 import TeacherScanPage from './pages/teacher/TeacherScanPage'
 import TeacherAnalyticsPage from './pages/teacher/TeacherAnalyticsPage'
 import InterventionsPage from './pages/teacher/InterventionsPage'
+import ParentDashboardPage from './pages/parent/ParentDashboardPage'
 import Layout from './components/shared/Layout'
 
 function ProtectedRoute({ children, role }) {
@@ -37,7 +38,7 @@ function ProtectedRoute({ children, role }) {
   if (loading) return <LoadingScreen />
   if (!user) return <Navigate to="/login" replace />
   if (role && user.role !== role) {
-    return <Navigate to={user.role === 'teacher' ? '/teacher' : '/student'} replace />
+    return <Navigate to={user.role === 'teacher' ? '/teacher' : user.role === 'parent' ? '/parent/dashboard' : '/student'} replace />
   }
   if (
     user.role === 'student' &&
@@ -133,6 +134,11 @@ function AppRoutes() {
       } />
       <Route path="/teacher/chat" element={
         <ProtectedRoute role="teacher"><Layout><ChatPage /></Layout></ProtectedRoute>
+      } />
+
+      <Route path="/parent" element={<Navigate to="/parent/dashboard" replace />} />
+      <Route path="/parent/dashboard" element={
+        <ProtectedRoute role="parent"><Layout><ParentDashboardPage /></Layout></ProtectedRoute>
       } />
 
       <Route path="*" element={<Navigate to="/login" replace />} />

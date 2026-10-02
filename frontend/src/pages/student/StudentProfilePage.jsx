@@ -2,7 +2,7 @@
  * frontend/src/pages/student/StudentProfilePage.jsx
  * Dedicated V2 Student Learner Intelligence Profile Page.
  */
-import React from 'react'
+import React, { useState } from 'react'
 import {
   useLearnerProfile,
   LearnerProfileHeader,
@@ -19,10 +19,12 @@ import {
   LearnerProfileSkeleton,
   LearnerErrorState,
 } from '../../features/learner'
+import StudentParentConnectionsModal from '../../features/parent/StudentParentConnectionsModal'
 import toast from 'react-hot-toast'
 
 export default function StudentProfilePage() {
   const { profile, loading, error, refresh, updateProfile } = useLearnerProfile()
+  const [connectionsModalOpen, setConnectionsModalOpen] = useState(false)
 
   if (loading) {
     return (
@@ -126,8 +128,35 @@ export default function StudentProfilePage() {
         />
       </section>
 
-      {/* 9. Educational Platform Disclaimer */}
+      {/* 9. Family & Guardian Connections */}
+      <div className="bg-white rounded-2xl p-5 border border-[#E5E0D8] shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-[#FFF8F0] rounded-xl flex items-center justify-center text-2xl">
+            👨‍👩‍👧
+          </div>
+          <div>
+            <h3 className="font-bold text-gray-800 dyslexia-text">Family & Guardian Connections</h3>
+            <p className="text-xs text-gray-500 dyslexia-text">
+              Share an invitation code or approve family access to your reading journey.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => setConnectionsModalOpen(true)}
+          className="px-4 py-2 rounded-xl text-sm font-bold bg-[#FFF8F0] text-[#1A6B6B] border border-[#1A6B6B] hover:bg-[#1A6B6B] hover:text-white transition-colors"
+        >
+          👨‍👩‍👧 Manage Family Access
+        </button>
+      </div>
+
+      {/* 10. Educational Platform Disclaimer */}
       <LearnerDisclaimer />
+
+      <StudentParentConnectionsModal
+        open={connectionsModalOpen}
+        onClose={() => setConnectionsModalOpen(false)}
+      />
     </div>
   )
 }

@@ -32,6 +32,10 @@ const TEACHER_NAV = [
   { to: '/teacher/chat', label: 'AI Chat', i18nKey: 'nav.aiChat', icon: '💬' },
 ]
 
+const PARENT_NAV = [
+  { to: '/parent/dashboard', label: 'Parent Portal', i18nKey: 'nav.parentPortal', icon: '👨‍👩‍👧', end: true },
+]
+
 export default function Layout({ children }) {
   const { user, logout } = useAuth()
   const { unread } = useNotifs()
@@ -41,7 +45,7 @@ export default function Layout({ children }) {
   const [notifOpen, setNotifOpen] = useState(false)
   const { notifs, markAllRead } = useNotifs()
 
-  const nav = user?.role === 'teacher' ? TEACHER_NAV : STUDENT_NAV
+  const nav = user?.role === 'teacher' ? TEACHER_NAV : user?.role === 'parent' ? PARENT_NAV : STUDENT_NAV
 
   const handleLogout = () => {
     logout()

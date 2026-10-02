@@ -104,6 +104,30 @@ export const multilingualV2API = {
     api.put('/v2/multilingual/preference', { language }).then((r) => r.data),
 }
 
+export const parentV2API = {
+  getProfile: () => api.get('/v2/parent/profile').then((r) => r.data),
+  getLearners: () => api.get('/v2/parent/learners').then((r) => r.data),
+  claimCode: (code, relationship = 'parent') =>
+    api.post('/v2/parent/link/claim-code', { code, relationship }).then((r) => r.data),
+  requestLink: (studentIdentifier, relationship = 'parent') =>
+    api.post('/v2/parent/link/request', { studentIdentifier, relationship }).then((r) => r.data),
+  revokeLink: (linkId) => api.post(`/v2/parent/links/${linkId}/revoke`).then((r) => r.data),
+  getDashboard: (studentId = null) =>
+    api.get('/v2/parent/dashboard', { params: studentId ? { student_id: studentId } : {} }).then((r) => r.data),
+  getLearnerActivity: (studentId, limit = 15) =>
+    api.get(`/v2/parent/learners/${studentId}/activity`, { params: { limit } }).then((r) => r.data),
+  generateInvitationCode: (studentId = null) =>
+    api.post('/v2/parent/invitations/generate', { studentId }).then((r) => r.data),
+  getStudentRequests: () => api.get('/v2/parent/student/requests').then((r) => r.data),
+  approveRequest: (requestId) =>
+    api.post(`/v2/parent/student/requests/${requestId}/approve`).then((r) => r.data),
+  rejectRequest: (requestId) =>
+    api.post(`/v2/parent/student/requests/${requestId}/reject`).then((r) => r.data),
+  getStudentActiveLinks: () => api.get('/v2/parent/student/links').then((r) => r.data),
+  studentRevokeLink: (linkId) =>
+    api.post(`/v2/parent/student/links/${linkId}/revoke`).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -114,6 +138,7 @@ export default {
   intervention: interventionV2API,
   gamification: gamificationV2API,
   multilingual: multilingualV2API,
+  parent: parentV2API,
 }
 
 

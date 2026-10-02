@@ -29,7 +29,7 @@ PHASE 9: Gamification & Engagement (COMPLETE)
     ↓
 PHASE 10: Multilingual Support (COMPLETE)
     ↓
-PHASE 11: Parent & Guardian Portal (At-Home Habits, Joint Goal Setting)
+PHASE 11: Parent & Guardian Portal (COMPLETE)
     ↓
 PHASE 12: PWA & Offline Sync (Service Worker, IndexedDB Offline Telemetry Queue)
     ↓
@@ -159,15 +159,15 @@ PHASE 15: Production Optimization (Docker, CDN Edge Caching, Load Testing)
 
 ---
 
-### Phase 11: Parent & Guardian Portal
-* **Objective:** Provide parents with clear visibility into their child's reading journey without academic jargon.
-* **Backend Changes:** Parent role authorization, secure student linkage tokens (`parent_links`).
-* **Frontend Changes:** Mobile-friendly Parent Dashboard: daily reading minutes, celebratory wins, recommended home reading routines.
-* **Database Changes:** `parent_links` collection.
-* **APIs:** `POST /api/v2/parent/link`, `GET /api/v2/parent/student/{id}/overview`.
-* **ML/AI Requirements:** Plain-language summary generation translating clinical terms into parent-friendly insights.
-* **Testing Requirements:** Authorization security tests: ensure parents can never access other children's data.
-* **Dependencies:** None.
+### Phase 11: Parent & Guardian Portal (COMPLETE)
+* **Objective:** Provide parents with clear visibility into their child's reading journey without academic or clinical jargon, promoting at-home reading encouragement.
+* **Backend Status:** Implemented in `backend/models/v2_parent.py`, `backend/routers/v2_parent.py`, `backend/services/parent/parent_service.py`, `backend/deps/deps.py` (`require_parent`), and `backend/core/config.py` (`V2_PARENT_PORTAL`).
+* **Frontend Status:** Implemented in `frontend/src/features/parent/` (`ParentDashboard.jsx`, `LinkChildModal.jsx`, `StudentParentConnectionsModal.jsx`), `frontend/src/pages/parent/ParentDashboardPage.jsx`, updated `App.jsx`, `Layout.jsx`, `AuthPages.jsx`, `StudentProfilePage.jsx`, and `client.js` (`parentV2API`).
+* **Database Collections:** `parent_links` (indexed on `("parentId", "studentId", "status")`, `("studentId", "status")`, and `("parentId", "status")`) and `parent_invitations` (indexed on `codeHash`, `("studentId", "status")`, and `expiresAt`).
+* **APIs:** `GET /api/v2/parent/profile`, `GET /api/v2/parent/learners`, `POST /api/v2/parent/link/claim-code`, `POST /api/v2/parent/link/request`, `POST /api/v2/parent/links/{id}/revoke`, `GET /api/v2/parent/dashboard`, `GET /api/v2/parent/learners/{id}/dashboard`, `GET /api/v2/parent/learners/{id}/activity`, `POST /api/v2/parent/invitations/generate`, `GET /api/v2/parent/student/requests`, `POST /api/v2/parent/student/requests/{id}/approve`, `POST /api/v2/parent/student/requests/{id}/reject`, `GET /api/v2/parent/student/links`, `POST /api/v2/parent/student/links/{id}/revoke`.
+* **Testing:** 19 comprehensive tests in `backend/test_phase11_parent_portal.py` covering authentication, authorization, cryptographic code claiming, pending requests, approval/rejection, immediate revocation, isolation, empty states, and feature flags; 255/255 regression tests passing across all V2 phases; frontend Vite build passing cleanly (0 errors).
+* **Documentation:** Comprehensive architecture guide in `docs/V2_PARENT_GUARDIAN_PORTAL.md`.
+* **Status:** Complete.
 
 ---
 

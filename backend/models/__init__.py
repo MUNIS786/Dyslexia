@@ -78,6 +78,19 @@ from .v2_multilingual import (
     LanguagePreferenceUpdate,
     LanguagePreferenceResponse,
 )
+from .v2_parent import (
+    ParentLinkItem,
+    ParentProfileSummary,
+    ClaimCodeRequest,
+    LinkRequestCreate,
+    InvitationCreateResponse,
+    HomePracticeSuggestion,
+    ParentRecentSession,
+    ParentRecentActivity,
+    ParentLearningOverview,
+    ParentProgressTrend,
+    ParentDashboardResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -142,6 +155,17 @@ __all__ = [
     "LanguageInfo",
     "LanguagePreferenceUpdate",
     "LanguagePreferenceResponse",
+    "ParentLinkItem",
+    "ParentProfileSummary",
+    "ClaimCodeRequest",
+    "LinkRequestCreate",
+    "InvitationCreateResponse",
+    "HomePracticeSuggestion",
+    "ParentRecentSession",
+    "ParentRecentActivity",
+    "ParentLearningOverview",
+    "ParentProgressTrend",
+    "ParentDashboardResponse",
 ]
 
 
