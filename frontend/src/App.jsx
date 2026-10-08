@@ -12,6 +12,7 @@ import StudentHome from './pages/student/StudentHome'
 import StudentProfilePage from './pages/student/StudentProfilePage'
 import AdaptiveLearningPage from './pages/student/AdaptiveLearningPage'
 import ReadingCoachPage from './pages/student/ReadingCoachPage'
+import LearningInsightsPage from './pages/student/LearningInsightsPage'
 import TutorPage from './pages/student/TutorPage'
 import RewardsPage from './pages/student/RewardsPage'
 import ScreeningTest from './pages/student/ScreeningTest'
@@ -49,6 +50,7 @@ function ProtectedRoute({ children, role }) {
     !window.location.pathname.includes('profile') &&
     !window.location.pathname.includes('adaptive-learning') &&
     !window.location.pathname.includes('reading-coach') &&
+    !window.location.pathname.includes('insights') &&
     !window.location.pathname.includes('tutor')
   ) {
     return <Navigate to="/student/screening" replace />
@@ -74,6 +76,9 @@ function AppRoutes() {
       } />
       <Route path="/student/reading-coach" element={
         <ProtectedRoute role="student"><Layout><ReadingCoachPage /></Layout></ProtectedRoute>
+      } />
+      <Route path="/student/insights" element={
+        <ProtectedRoute role="student"><Layout><LearningInsightsPage /></Layout></ProtectedRoute>
       } />
       <Route path="/student/tutor" element={
         <ProtectedRoute role="student"><Layout><TutorPage /></Layout></ProtectedRoute>

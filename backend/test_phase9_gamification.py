@@ -196,8 +196,8 @@ class TestStreakCalculations(unittest.IsolatedAsyncioTestCase):
         mock_cursor_att = MagicMock()
         mock_cursor_att.to_list = AsyncMock(return_value=[
             {"completedAt": now_ts},
-            {"completedAt": now_ts - 3600},
-            {"completedAt": now_ts - 7200},
+            {"completedAt": now_ts - 60},
+            {"completedAt": now_ts - 120},
         ])
         mock_db.activity_attempts.find.return_value = mock_cursor_att
 

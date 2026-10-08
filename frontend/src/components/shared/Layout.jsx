@@ -11,6 +11,7 @@ const STUDENT_NAV = [
   { to: '/student/profile', label: 'Learning Profile', i18nKey: 'nav.learningProfile', icon: '🌟' },
   { to: '/student/adaptive-learning', label: 'Adaptive Practice', i18nKey: 'nav.adaptivePractice', icon: '🎯' },
   { to: '/student/reading-coach', label: 'Reading Coach', i18nKey: 'nav.readingCoach', icon: '📖' },
+  { to: '/student/insights', label: 'Learning Insights', i18nKey: 'nav.insights', icon: '📈' },
   { to: '/student/tutor', label: 'AI Tutor', i18nKey: 'nav.aiTutor', icon: '🤖' },
   { to: '/student/tasks', label: 'Daily Tasks', i18nKey: 'nav.dailyTasks', icon: '✅' },
   { to: '/student/rewards', label: 'Rewards', i18nKey: 'nav.rewards', icon: '🏆' },

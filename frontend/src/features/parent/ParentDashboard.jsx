@@ -4,6 +4,7 @@ import { Card, Button, StatCard, Badge, EmptyState, PageHeader, Spinner, Modal }
 import { useTranslation } from '../../i18n/I18nContext'
 import { parentV2API } from '../../api/v2/client'
 import LinkChildModal from './LinkChildModal'
+import { ParentProgressSection } from '../../components/insights'
 
 export default function ParentDashboard() {
   const { t } = useTranslation()
@@ -243,6 +244,9 @@ export default function ParentDashboard() {
               color="green"
             />
           </div>
+
+          {/* Phase 13: Multi-window Learning Insights & Consistency Progress */}
+          <ParentProgressSection studentId={learner.studentId} />
 
           {/* Main 2-Column Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

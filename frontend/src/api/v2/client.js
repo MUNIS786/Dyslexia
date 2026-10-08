@@ -135,6 +135,17 @@ export const accessibilityV2API = {
   resetPreferences: () => api.post('/v2/accessibility/preferences/reset').then((r) => r.data),
 }
 
+export const insightsV2API = {
+  getStudentInsights: (period = '30d') =>
+    api.get('/v2/learning-insights/student', { params: { period } }).then((r) => r.data),
+  getTeacherClassOverview: (period = '30d') =>
+    api.get('/v2/learning-insights/teacher/overview', { params: { period } }).then((r) => r.data),
+  getTeacherLearnerInsights: (learnerId, period = '30d') =>
+    api.get(`/v2/learning-insights/teacher/${learnerId}`, { params: { period } }).then((r) => r.data),
+  getParentLearnerInsights: (learnerId, period = '30d') =>
+    api.get(`/v2/learning-insights/parent/${learnerId}`, { params: { period } }).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -147,6 +158,7 @@ export default {
   multilingual: multilingualV2API,
   parent: parentV2API,
   accessibility: accessibilityV2API,
+  insights: insightsV2API,
 }
 
 

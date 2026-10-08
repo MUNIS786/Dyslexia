@@ -96,6 +96,17 @@ from .v2_accessibility import (
     AccessibilityPreferencesPatch,
     AccessibilityPreferencesResponse,
 )
+from .v2_learning_insights import (
+    TrendDirection,
+    DataSufficiencyStatus,
+    MetricTrend,
+    TimelineDataPoint,
+    StudentProgressSummary,
+    StudentInsightsResponse,
+    LearnerInsightCardItem,
+    ClassInsightsOverviewResponse,
+    ParentInsightsResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -174,6 +185,15 @@ __all__ = [
     "V2AccessibilityPreferences",
     "AccessibilityPreferencesPatch",
     "AccessibilityPreferencesResponse",
+    "TrendDirection",
+    "DataSufficiencyStatus",
+    "MetricTrend",
+    "TimelineDataPoint",
+    "StudentProgressSummary",
+    "StudentInsightsResponse",
+    "LearnerInsightCardItem",
+    "ClassInsightsOverviewResponse",
+    "ParentInsightsResponse",
 ]
 
 

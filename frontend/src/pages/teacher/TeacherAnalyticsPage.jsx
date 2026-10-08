@@ -15,6 +15,7 @@ import {
   LearnerRosterTable,
   LearnerAnalyticsModal,
 } from '../../features/teacher/analytics'
+import { ClassInsightsSection } from '../../components/insights'
 import toast from 'react-hot-toast'
 
 export default function TeacherAnalyticsPage() {
@@ -159,6 +160,18 @@ export default function TeacherAnalyticsPage() {
             <div className="space-y-6">
               {/* 1. Overview Metric Cards */}
               <ClassOverviewCards overview={overviewData} />
+
+              {/* Phase 13: Learning Insights & Longitudinal Progress Reports */}
+              <ClassInsightsSection
+                onSelectLearner={(learnerId) => {
+                  const found = learnersData.find((l) => (l.studentId || l.learnerId || l.id) === learnerId)
+                  if (found) {
+                    setSelectedLearner(found)
+                  } else {
+                    setSelectedLearner({ studentId: learnerId })
+                  }
+                }}
+              />
 
               {/* 2. Common Priorities & Educational Insights Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
