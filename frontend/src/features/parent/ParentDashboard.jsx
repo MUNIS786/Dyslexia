@@ -5,6 +5,7 @@ import { useTranslation } from '../../i18n/I18nContext'
 import { parentV2API } from '../../api/v2/client'
 import LinkChildModal from './LinkChildModal'
 import { ParentProgressSection } from '../../components/insights'
+import { ParentSuggestedPracticeCard } from '../../components/recommendations'
 
 export default function ParentDashboard() {
   const { t } = useTranslation()
@@ -247,6 +248,9 @@ export default function ParentDashboard() {
 
           {/* Phase 13: Multi-window Learning Insights & Consistency Progress */}
           <ParentProgressSection studentId={learner.studentId} />
+
+          {/* Phase 14: Personalized Home Practice Recommendations & Reading Tips */}
+          <ParentSuggestedPracticeCard studentId={learner.studentId} />
 
           {/* Main 2-Column Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

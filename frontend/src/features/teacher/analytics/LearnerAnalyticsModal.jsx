@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { teacherV2API, gamificationV2API } from '../../../api/v2/client'
+import { TeacherRecommendedFocusCard } from '../../../components/recommendations'
 
 export default function LearnerAnalyticsModal({
   studentId,
@@ -260,6 +261,9 @@ export default function LearnerAnalyticsModal({
                       </div>
                     </div>
                   </div>
+
+                  {/* Phase 14: Recommended Focus & Pedagogical Evidence */}
+                  <TeacherRecommendedFocusCard learnerId={studentId} />
 
                   {/* Practice Engagement & Consistency */}
                   {gamificationData && (

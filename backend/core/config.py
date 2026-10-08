@@ -32,6 +32,7 @@ class Settings:
     V2_PARENT_PORTAL: bool = os.environ.get("V2_PARENT_PORTAL", "true").lower() in ("true", "1", "yes")
     V2_ACCESSIBILITY_PREFERENCES: bool = os.environ.get("V2_ACCESSIBILITY_PREFERENCES", "true").lower() in ("true", "1", "yes")
     V2_LEARNING_INSIGHTS: bool = os.environ.get("V2_LEARNING_INSIGHTS", "true").lower() in ("true", "1", "yes")
+    V2_LEARNING_RECOMMENDATIONS: bool = os.environ.get("V2_LEARNING_RECOMMENDATIONS", "true").lower() in ("true", "1", "yes")
 
     @classmethod
     def get_feature_flags(cls) -> Dict[str, bool]:
@@ -50,6 +51,7 @@ class Settings:
             "V2_PARENT_PORTAL": cls.V2_PARENT_PORTAL,
             "V2_ACCESSIBILITY_PREFERENCES": cls.V2_ACCESSIBILITY_PREFERENCES,
             "V2_LEARNING_INSIGHTS": cls.V2_LEARNING_INSIGHTS,
+            "V2_LEARNING_RECOMMENDATIONS": cls.V2_LEARNING_RECOMMENDATIONS,
         }
 
     @classmethod

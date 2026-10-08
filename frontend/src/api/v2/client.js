@@ -146,6 +146,17 @@ export const insightsV2API = {
     api.get(`/v2/learning-insights/parent/${learnerId}`, { params: { period } }).then((r) => r.data),
 }
 
+export const recommendationsV2API = {
+  getStudentRecommendations: (period = 'today') =>
+    api.get('/v2/learning-recommendations/student', { params: { period } }).then((r) => r.data),
+  refreshStudentRecommendations: (period = 'today') =>
+    api.post('/v2/learning-recommendations/student/refresh', null, { params: { period } }).then((r) => r.data),
+  getTeacherLearnerRecommendations: (learnerId, period = 'today') =>
+    api.get(`/v2/learning-recommendations/teacher/${learnerId}`, { params: { period } }).then((r) => r.data),
+  getParentLearnerRecommendations: (learnerId, period = 'today') =>
+    api.get(`/v2/learning-recommendations/parent/${learnerId}`, { params: { period } }).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -159,6 +170,7 @@ export default {
   parent: parentV2API,
   accessibility: accessibilityV2API,
   insights: insightsV2API,
+  recommendations: recommendationsV2API,
 }
 
 

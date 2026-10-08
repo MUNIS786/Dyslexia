@@ -107,6 +107,16 @@ from .v2_learning_insights import (
     ClassInsightsOverviewResponse,
     ParentInsightsResponse,
 )
+from .v2_learning_recommendations import (
+    RecommendationCategory,
+    RecommendationConfidence,
+    StudyPlanItem,
+    RecommendationItem,
+    StudyPlan,
+    StudentRecommendationsResponse,
+    TeacherLearnerRecommendationsResponse,
+    ParentLearnerRecommendationsResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -194,6 +204,14 @@ __all__ = [
     "LearnerInsightCardItem",
     "ClassInsightsOverviewResponse",
     "ParentInsightsResponse",
+    "RecommendationCategory",
+    "RecommendationConfidence",
+    "StudyPlanItem",
+    "RecommendationItem",
+    "StudyPlan",
+    "StudentRecommendationsResponse",
+    "TeacherLearnerRecommendationsResponse",
+    "ParentLearnerRecommendationsResponse",
 ]
 
 
