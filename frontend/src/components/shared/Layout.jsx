@@ -13,6 +13,7 @@ const STUDENT_NAV = [
   { to: '/student/reading-coach', label: 'Reading Coach', i18nKey: 'nav.readingCoach', icon: '📖' },
   { to: '/student/insights', label: 'Learning Insights', i18nKey: 'nav.insights', icon: '📈' },
   { to: '/student/recommendations', label: 'Next Steps & Plan', i18nKey: 'nav.recommendations', icon: '🧭' },
+  { to: '/student/activity', label: 'Personalized Activities', i18nKey: 'nav.personalizedContent', icon: '✨' },
   { to: '/student/tutor', label: 'AI Tutor', i18nKey: 'nav.aiTutor', icon: '🤖' },
   { to: '/student/tasks', label: 'Daily Tasks', i18nKey: 'nav.dailyTasks', icon: '✅' },
   { to: '/student/rewards', label: 'Rewards', i18nKey: 'nav.rewards', icon: '🏆' },

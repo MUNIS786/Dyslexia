@@ -117,6 +117,17 @@ from .v2_learning_recommendations import (
     TeacherLearnerRecommendationsResponse,
     ParentLearnerRecommendationsResponse,
 )
+from .v2_personalized_content import (
+    ActivityType,
+    ContentAvailabilityStatus,
+    PersonalizedContentItem,
+    PersonalizedActivityNextResponse,
+    PersonalizedActivitiesListResponse,
+    PersonalizedContentLaunchRequest,
+    PersonalizedContentLaunchResponse,
+    TeacherPersonalizedContentResponse,
+    ParentPersonalizedContentResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -212,6 +223,15 @@ __all__ = [
     "StudentRecommendationsResponse",
     "TeacherLearnerRecommendationsResponse",
     "ParentLearnerRecommendationsResponse",
+    "ActivityType",
+    "ContentAvailabilityStatus",
+    "PersonalizedContentItem",
+    "PersonalizedActivityNextResponse",
+    "PersonalizedActivitiesListResponse",
+    "PersonalizedContentLaunchRequest",
+    "PersonalizedContentLaunchResponse",
+    "TeacherPersonalizedContentResponse",
+    "ParentPersonalizedContentResponse",
 ]
 
 

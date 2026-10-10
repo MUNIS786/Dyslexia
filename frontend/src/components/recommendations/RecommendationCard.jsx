@@ -151,20 +151,33 @@ export default function RecommendationCard({
 
       {/* Action Buttons */}
       <div className="pt-2 border-t border-stone-100 flex flex-wrap items-center justify-between gap-3">
-        <Link
-          to={actionUrl}
-          onClick={onLaunch}
-          className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-            completed
-              ? 'bg-stone-100 text-stone-800 hover:bg-stone-200 focus:ring-stone-400'
-              : 'bg-[#1A6B6B] text-white hover:bg-[#155555] focus:ring-[#1A6B6B]'
-          }`}
-        >
-          <span aria-hidden="true">🚀</span>
-          <span>
-            {completed ? 'Practice Again' : (actionLabel || t('recommendations.startPractice', 'Start Practice'))}
-          </span>
-        </Link>
+        <div className="flex items-center gap-2">
+          {/* Direct Launch */}
+          <Link
+            to={actionUrl}
+            onClick={onLaunch}
+            className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              completed
+                ? 'bg-stone-100 text-stone-800 hover:bg-stone-200 focus:ring-stone-400'
+                : 'bg-[#1A6B6B] text-white hover:bg-[#155555] focus:ring-[#1A6B6B]'
+            }`}
+          >
+            <span aria-hidden="true">🚀</span>
+            <span>
+              {completed ? 'Practice Again' : (actionLabel || t('recommendations.startPractice', 'Start Practice'))}
+            </span>
+          </Link>
+
+          {/* Activity Hub Details */}
+          <Link
+            to={`/student/activity?recommendationId=${encodeURIComponent(recommendation.id)}`}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 transition-all border border-teal-200"
+            title="View activity instructions and steps"
+          >
+            <span aria-hidden="true">✨</span>
+            <span>{t('personalizedContent.exploreActivity', 'Details')}</span>
+          </Link>
+        </div>
 
         {/* AI Tutor Integration */}
         <button

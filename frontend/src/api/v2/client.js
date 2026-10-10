@@ -157,6 +157,32 @@ export const recommendationsV2API = {
     api.get(`/v2/learning-recommendations/parent/${learnerId}`, { params: { period } }).then((r) => r.data),
 }
 
+export const personalizedContentV2API = {
+  getNextActivity: (language = null, activityType = null) =>
+    api
+      .get('/v2/personalized-content/next', {
+        params: {
+          ...(language ? { language } : {}),
+          ...(activityType ? { activity_type: activityType } : {}),
+        },
+      })
+      .then((r) => r.data),
+  getPersonalizedActivities: (params = {}) =>
+    api.get('/v2/personalized-content/activities', { params }).then((r) => r.data),
+  getContentForRecommendation: (recommendationId, language = null) =>
+    api
+      .get(`/v2/personalized-content/recommendation/${recommendationId}`, {
+        params: language ? { language } : {},
+      })
+      .then((r) => r.data),
+  launchActivity: (payload) =>
+    api.post('/v2/personalized-content/launch', payload).then((r) => r.data),
+  getTeacherPersonalizedContent: (learnerId) =>
+    api.get(`/v2/personalized-content/teacher/${learnerId}`).then((r) => r.data),
+  getParentPersonalizedContent: (learnerId) =>
+    api.get(`/v2/personalized-content/parent/${learnerId}`).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -171,6 +197,7 @@ export default {
   accessibility: accessibilityV2API,
   insights: insightsV2API,
   recommendations: recommendationsV2API,
+  personalizedContent: personalizedContentV2API,
 }
 
 
