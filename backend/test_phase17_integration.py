@@ -1087,3 +1087,58 @@ class TestPhase17EndToEndIntegration(unittest.IsolatedAsyncioTestCase):
         })
         parent_link = await verify_parent_student_access(self.parent_user["id"], self.student_user["id"])
         self.assertEqual(parent_link["status"], "active")
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # 23. Adaptive Scaffolding Step-Down on Consecutive Struggles
+    # ──────────────────────────────────────────────────────────────────────────
+    @patch("services.learning.reading_service.recalibrate_from_activity", new_callable=AsyncMock)
+    @patch("services.learning.reading_service.get_learning_state", new_callable=AsyncMock)
+    @patch("services.learning.reading_service.db")
+    async def test_adaptive_scaffolding_step_down_on_consecutive_struggles(
+        self, mock_db, mock_get_state, mock_recal
+    ):
+        """Validates compassionate ZPD step-down (Tier 2 -> Tier 1) when student struggles."""
+        now = int(time.time())
+        t2_passage = [p for p in DEFAULT_PASSAGES if p.get("difficulty") == 2][0]
+
+        session_doc = {
+            "sessionId": "ses-struggle-02",
+            "learnerId": self.student_user["id"],
+            "passageId": t2_passage["passageId"],
+            "difficulty": 2,
+            "status": "in_progress",
+            "wordsPresented": t2_passage.get("wordCount", 90),
+            "createdAt": now - 180,
+        }
+        mock_db.reading_sessions.find_one = AsyncMock(return_value=session_doc)
+        mock_db.reading_passages.find_one = AsyncMock(return_value=t2_passage)
+        mock_get_state.return_value = {
+            "consecutive_passes": 0,
+            "consecutive_failures": 1,
+            "active_difficulty_tier": 2,
+            "rolling_comprehension_scores": [40.0],
+        }
+        mock_db.reading_sessions.update_one = AsyncMock(return_value=MagicMock())
+        mock_db.learning_states.update_one = AsyncMock(return_value=MagicMock())
+        mock_db.progress.update_one = AsyncMock(return_value=MagicMock())
+        mock_db.learner_profiles.find_one = AsyncMock(return_value=None)
+        mock_db.learner_profiles.update_one = AsyncMock(return_value=MagicMock())
+
+        req = ReadingSessionCompleteRequest(
+            sessionId="ses-struggle-02",
+            durationSeconds=140,
+            wordsRead=40,
+            comprehensionAnswers={"wrong_q": 99},
+            completed=True,
+        )
+
+        res = await complete_reading_session(self.student_user["id"], req)
+        self.assertEqual(res["status"], "ok")
+        adaptation = res["adaptation"]
+        self.assertTrue(adaptation["adaptationTriggered"])
+        self.assertEqual(adaptation["previousTier"], 2)
+        self.assertEqual(adaptation["newTier"], 1)
+        self.assertTrue(adaptation["tierChanged"])
+        self.assertIn("gentle reading scaffolding", adaptation["reason"].lower())
+        self.assertIn("Level 1", res["nextStepMessage"])
+        self.assertEqual(res["currentTier"], 1)
