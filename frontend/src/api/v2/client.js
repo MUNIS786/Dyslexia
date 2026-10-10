@@ -183,6 +183,35 @@ export const personalizedContentV2API = {
     api.get(`/v2/personalized-content/parent/${learnerId}`).then((r) => r.data),
 }
 
+export const contentAuthoringV2API = {
+  getItems: (params) =>
+    api.get('/v2/content-authoring/items', { params }).then((r) => r.data),
+  createDraft: (payload) =>
+    api.post('/v2/content-authoring/drafts', payload).then((r) => r.data),
+  getDraft: (contentId) =>
+    api.get(`/v2/content-authoring/drafts/${contentId}`).then((r) => r.data),
+  updateDraft: (contentId, payload) =>
+    api.put(`/v2/content-authoring/drafts/${contentId}`, payload).then((r) => r.data),
+  validateContent: (payload) =>
+    api.post('/v2/content-authoring/validate', payload).then((r) => r.data),
+  submitForReview: (contentId) =>
+    api.post(`/v2/content-authoring/drafts/${contentId}/submit`).then((r) => r.data),
+  getReviewQueue: (params) =>
+    api.get('/v2/content-authoring/review-queue', { params }).then((r) => r.data),
+  submitReviewDecision: (contentId, payload) =>
+    api.post(`/v2/content-authoring/review/${contentId}/decision`, payload).then((r) => r.data),
+  publishItem: (contentId) =>
+    api.post(`/v2/content-authoring/items/${contentId}/publish`).then((r) => r.data),
+  archiveItem: (contentId) =>
+    api.post(`/v2/content-authoring/items/${contentId}/archive`).then((r) => r.data),
+  reviseItem: (contentId) =>
+    api.post(`/v2/content-authoring/items/${contentId}/revise`).then((r) => r.data),
+  getHistory: (contentId) =>
+    api.get(`/v2/content-authoring/items/${contentId}/history`).then((r) => r.data),
+  getTranslations: (translationGroupId) =>
+    api.get(`/v2/content-authoring/translations/${translationGroupId}`).then((r) => r.data),
+}
+
 export default {
   version: versionAPI,
   learner: learnerV2API,
@@ -198,6 +227,7 @@ export default {
   insights: insightsV2API,
   recommendations: recommendationsV2API,
   personalizedContent: personalizedContentV2API,
+  authoring: contentAuthoringV2API,
 }
 
 

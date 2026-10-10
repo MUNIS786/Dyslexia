@@ -35,6 +35,7 @@ import AssignmentsPage from './pages/teacher/AssignmentsPage'
 import TeacherScanPage from './pages/teacher/TeacherScanPage'
 import TeacherAnalyticsPage from './pages/teacher/TeacherAnalyticsPage'
 import InterventionsPage from './pages/teacher/InterventionsPage'
+import ContentAuthoringPage from './pages/teacher/ContentAuthoringPage'
 import ParentDashboardPage from './pages/parent/ParentDashboardPage'
 import Layout from './components/shared/Layout'
 
@@ -143,6 +144,9 @@ function AppRoutes() {
       } />
       <Route path="/teacher/interventions" element={
         <ProtectedRoute role="teacher"><Layout><InterventionsPage /></Layout></ProtectedRoute>
+      } />
+      <Route path="/teacher/content" element={
+        <ProtectedRoute role="teacher"><Layout><ContentAuthoringPage /></Layout></ProtectedRoute>
       } />
       <Route path="/teacher/students" element={
         <ProtectedRoute role="teacher"><Layout><StudentsPage /></Layout></ProtectedRoute>

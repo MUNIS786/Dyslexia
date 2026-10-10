@@ -220,3 +220,17 @@ PHASE 15: Personalized Learning Content & Activity Engine (COMPLETE)
 * **Testing:** 22 deterministic unit and integration tests in `backend/test_phase15_personalized_content.py`; 335/335 total backend tests passing without regression; clean Vite production bundle build (0 errors) and ESLint (0 errors, 0 warnings).
 * **Documentation:** Comprehensive architecture and reference guide in `docs/V2_PERSONALIZED_CONTENT.md`.
 * **Status:** Complete.
+
+---
+
+### Phase 16: Learning Content Authoring & Quality Management (COMPLETE)
+* **Objective:** Give authorized educators and administrators a controlled workflow for creating, editing, validating, reviewing, and publishing educational content (passages, vocabulary annotations, comprehension questions) for DyslexAid.
+* **Non-Clinical Guarantee:** Strictly educational authoring and linguistic clarity curation. Zero clinical or medical diagnostic claims.
+* **Backend Status:** Implemented in `backend/models/v2_content_authoring.py`, `backend/services/learning/content_authoring.py`, `backend/routers/v2_content_authoring.py`, and `backend/core/config.py` (`V2_CONTENT_AUTHORING`).
+* **Frontend Status:** Implemented in `frontend/src/components/authoring/` (`ContentEditor.jsx`, `ContentPreview.jsx`, `ContentValidationPanel.jsx`, `ContentReviewQueue.jsx`, `ContentReviewModal.jsx`, `ContentVersionHistoryModal.jsx`), `frontend/src/pages/teacher/ContentAuthoringPage.jsx` (`/teacher/content`), updated `App.jsx`, `Layout.jsx`, and `client.js` (`contentAuthoringV2API`).
+* **Multilingual & Accessibility:** Full 3-language localization (`en`, `hi`, `mr`), automatic Devanagari script integrity verification, and linked translation completeness indicators.
+* **Discovery Gating:** Only `PUBLISHED` content is eligible for Phase 15 student discovery. In-flight and historical learning records remain intact when content is revised or archived.
+* **APIs:** `GET /api/v2/content-authoring/items`, `POST /api/v2/content-authoring/drafts`, `GET /api/v2/content-authoring/drafts/{id}`, `PUT /api/v2/content-authoring/drafts/{id}`, `POST /api/v2/content-authoring/validate`, `POST /api/v2/content-authoring/drafts/{id}/submit`, `GET /api/v2/content-authoring/review-queue`, `POST /api/v2/content-authoring/review/{id}/decision`, `POST /api/v2/content-authoring/items/{id}/publish`, `POST /api/v2/content-authoring/items/{id}/archive`, `POST /api/v2/content-authoring/items/{id}/revise`, `GET /api/v2/content-authoring/items/{id}/history`, `GET /api/v2/content-authoring/translations/{group_id}`.
+* **Testing:** 23 comprehensive tests in `backend/test_phase16_content_authoring.py` covering feature flags, separation of duties, lifecycle transitions, deterministic quality validation, multilingual Unicode preservation, and Phase 15 publication gates; 358/358 total backend tests passing without regression; clean Vite production bundle build (0 errors) and ESLint (0 errors, 0 warnings).
+* **Documentation:** Comprehensive architecture and reference guide in `docs/V2_CONTENT_AUTHORING.md`.
+* **Status:** Complete.

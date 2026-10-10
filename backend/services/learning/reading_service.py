@@ -885,9 +885,17 @@ async def get_passages(
 ) -> List[Dict[str, Any]]:
     """
     Retrieves catalog passages matching optional tier, domain, and language filters.
+    Only returns eligible PUBLISHED (or legacy active) passages.
+    Excludes DRAFT, IN_REVIEW, CHANGES_REQUESTED, ARCHIVED, and REJECTED content.
     Falls back to offline in-memory catalog if database is temporarily unavailable.
     """
-    query: Dict[str, Any] = {"active": True}
+    query: Dict[str, Any] = {
+        "active": True,
+        "$or": [
+            {"status": "PUBLISHED"},
+            {"status": {"$exists": False}},  # Legacy seed records
+        ],
+    }
     if tier is not None:
         query["difficulty"] = clamp_tier(tier)
     if domain:
@@ -906,6 +914,10 @@ async def get_passages(
     # Offline fallback
     filtered = []
     for p in DEFAULT_PASSAGES:
+        if not p.get("active", True):
+            continue
+        if p.get("status") in ("DRAFT", "IN_REVIEW", "CHANGES_REQUESTED", "ARCHIVED", "REJECTED"):
+            continue
         if tier is not None and p["difficulty"] != clamp_tier(tier):
             continue
         if domain and p["domain"] != domain:
@@ -950,6 +962,10 @@ async def start_reading_session(
     passage = await get_passage_by_id(req.passageId)
     if not passage:
         raise ValueError(f"Passage '{req.passageId}' not found.")
+
+    status = passage.get("status")
+    if status in ("DRAFT", "IN_REVIEW", "CHANGES_REQUESTED", "ARCHIVED", "REJECTED") or not passage.get("active", True):
+        raise ValueError(f"Passage '{req.passageId}' is not available for reading activities.")
 
     words_presented = int(passage.get("wordCount", len(passage.get("text", "").split())))
 

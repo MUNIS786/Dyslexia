@@ -31,6 +31,7 @@ const TEACHER_NAV = [
   { to: '/teacher', label: 'Dashboard', i18nKey: 'nav.dashboard', icon: '📊', end: true },
   { to: '/teacher/analytics', label: 'Class Analytics', i18nKey: 'nav.classAnalytics', icon: '📈' },
   { to: '/teacher/interventions', label: 'Interventions', i18nKey: 'nav.interventions', icon: '🎯' },
+  { to: '/teacher/content', label: 'Content Authoring', i18nKey: 'nav.contentAuthoring', icon: '✍️' },
   { to: '/teacher/students', label: 'Students', i18nKey: 'nav.students', icon: '👥' },
   { to: '/teacher/assignments', label: 'Assignments', i18nKey: 'nav.assignments', icon: '📝' },
   { to: '/teacher/scan', label: 'Scan & Convert', i18nKey: 'nav.scanConvert', icon: '📷' },

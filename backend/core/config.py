@@ -34,6 +34,7 @@ class Settings:
     V2_LEARNING_INSIGHTS: bool = os.environ.get("V2_LEARNING_INSIGHTS", "true").lower() in ("true", "1", "yes")
     V2_LEARNING_RECOMMENDATIONS: bool = os.environ.get("V2_LEARNING_RECOMMENDATIONS", "true").lower() in ("true", "1", "yes")
     V2_PERSONALIZED_CONTENT: bool = os.environ.get("V2_PERSONALIZED_CONTENT", "true").lower() in ("true", "1", "yes")
+    V2_CONTENT_AUTHORING: bool = os.environ.get("V2_CONTENT_AUTHORING", "true").lower() in ("true", "1", "yes")
 
     @classmethod
     def get_feature_flags(cls) -> Dict[str, bool]:
@@ -54,6 +55,7 @@ class Settings:
             "V2_LEARNING_INSIGHTS": cls.V2_LEARNING_INSIGHTS,
             "V2_LEARNING_RECOMMENDATIONS": cls.V2_LEARNING_RECOMMENDATIONS,
             "V2_PERSONALIZED_CONTENT": cls.V2_PERSONALIZED_CONTENT,
+            "V2_CONTENT_AUTHORING": cls.V2_CONTENT_AUTHORING,
         }
 
     @classmethod

@@ -128,6 +128,18 @@ from .v2_personalized_content import (
     TeacherPersonalizedContentResponse,
     ParentPersonalizedContentResponse,
 )
+from .v2_content_authoring import (
+    ContentLifecycleState,
+    ContentValidationIssue,
+    ContentValidationResult,
+    ContentDraftCreateRequest,
+    ContentDraftUpdateRequest,
+    ContentReviewDecisionRequest,
+    ContentAuditLogEntry,
+    ContentItemResponse,
+    ContentListResponse,
+    ContentHistoryResponse,
+)
 
 __all__ = [
     "V2LearnerProfile",
@@ -232,6 +244,16 @@ __all__ = [
     "PersonalizedContentLaunchResponse",
     "TeacherPersonalizedContentResponse",
     "ParentPersonalizedContentResponse",
+    "ContentLifecycleState",
+    "ContentValidationIssue",
+    "ContentValidationResult",
+    "ContentDraftCreateRequest",
+    "ContentDraftUpdateRequest",
+    "ContentReviewDecisionRequest",
+    "ContentAuditLogEntry",
+    "ContentItemResponse",
+    "ContentListResponse",
+    "ContentHistoryResponse",
 ]
 
 

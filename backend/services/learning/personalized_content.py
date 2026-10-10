@@ -89,16 +89,67 @@ async def _get_learner_accessibility_config(learner_id: str) -> Dict[str, Any]:
     return default_cfg
 
 
+async def _get_eligible_reading_passages() -> List[Dict[str, Any]]:
+    """
+    Fetches all eligible published reading passages from database,
+    falling back to or combining with DEFAULT_PASSAGES.
+    Excludes any DRAFT, IN_REVIEW, CHANGES_REQUESTED, ARCHIVED, or REJECTED content.
+    """
+    eligible = []
+    seen_ids = set()
+    try:
+        cursor = db.reading_passages.find(
+            {
+                "active": True,
+                "$or": [
+                    {"status": "PUBLISHED"},
+                    {"status": {"$exists": False}},  # Legacy seed records
+                ],
+            },
+            {"_id": 0}
+        ).sort("difficulty", 1)
+        db_passages = await cursor.to_list(length=200)
+        for p in db_passages:
+            pid = p.get("passageId")
+            if pid and pid not in seen_ids:
+                seen_ids.add(pid)
+                eligible.append(p)
+    except Exception as e:
+        logger.warning(f"Error fetching eligible passages from db: {e}")
+
+    for p in DEFAULT_PASSAGES:
+        pid = p.get("passageId")
+        if pid and pid not in seen_ids:
+            if p.get("active", True) and p.get("status") not in ("DRAFT", "IN_REVIEW", "CHANGES_REQUESTED", "ARCHIVED", "REJECTED"):
+                seen_ids.add(pid)
+                eligible.append(dict(p))
+
+    return eligible if eligible else [
+        p for p in DEFAULT_PASSAGES
+        if p.get("active", True) and p.get("status") not in ("DRAFT", "IN_REVIEW", "CHANGES_REQUESTED", "ARCHIVED", "REJECTED")
+    ]
+
+
 def _find_passage_for_tier_and_language(
     tier: int,
     requested_lang: str,
+    candidate_passages: Optional[List[Dict[str, Any]]] = None,
 ) -> tuple[Dict[str, Any], str, ContentAvailabilityStatus, Optional[str]]:
     """
     Finds a reading passage matching the target difficulty tier and requested language.
     If exact language is unavailable for the tier, falls back honestly to English.
     Never pretends an English passage is in Marathi or Hindi.
+    Excludes draft, in-review, changes-requested, and archived content.
     """
-    all_passages = DEFAULT_PASSAGES
+    if candidate_passages is None:
+        all_passages = [
+            p for p in DEFAULT_PASSAGES
+            if p.get("active", True) and p.get("status") not in ("DRAFT", "IN_REVIEW", "CHANGES_REQUESTED", "ARCHIVED", "REJECTED")
+        ]
+        if not all_passages:
+            all_passages = DEFAULT_PASSAGES
+    else:
+        all_passages = candidate_passages
 
     # 1. Look for exact match: same tier and requested language
     exact_matches = [
@@ -230,11 +281,12 @@ async def get_next_personalized_activity(
     activity_item: Optional[PersonalizedContentItem] = None
     status: ContentAvailabilityStatus = "EXACT_MATCH"
     message: Optional[str] = None
+    eligible_passages = await _get_eligible_reading_passages()
 
     if target_type == "GUIDED_READING":
         # Check if stretch
         effective_tier = current_tier + 1 if rec_category == "STRETCH" and current_tier < 5 else current_tier
-        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(effective_tier, pref_lang)
+        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(effective_tier, pref_lang, candidate_passages=eligible_passages)
         status = avail_status
         message = fallback_msg
 
@@ -314,7 +366,7 @@ async def get_next_personalized_activity(
 
     elif target_type == "ORAL_READING_SPEECH":
         # Speech practice with reading coach
-        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(current_tier, pref_lang)
+        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(current_tier, pref_lang, candidate_passages=eligible_passages)
         status = avail_status
         message = fallback_msg
         pas_id = pas.get("passageId", "pas-t1-001")
@@ -415,7 +467,7 @@ async def get_next_personalized_activity(
         )
 
     elif target_type == "VOCABULARY_PRACTICE":
-        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(current_tier, pref_lang)
+        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(current_tier, pref_lang, candidate_passages=eligible_passages)
         pas_id = pas.get("passageId", "pas-t1-001")
         vocab = pas.get("vocabulary", [])
         words = [v.get("word") for v in vocab if isinstance(v, dict)]
@@ -492,11 +544,12 @@ async def list_personalized_activities(
 
     completions = await _check_today_completions(learner_id)
     access_cfg = await _get_learner_accessibility_config(learner_id)
+    eligible_passages = await _get_eligible_reading_passages()
 
     activities: List[PersonalizedContentItem] = []
 
     # 1. Guided Reading Passage at active_tier
-    pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(active_tier, pref_lang)
+    pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(active_tier, pref_lang, candidate_passages=eligible_passages)
     pas_id = pas.get("passageId", "pas-t1-001")
     pas_title = pas.get("title", "Reading Story")
     vocab = [v.get("word") for v in pas.get("vocabulary", []) if isinstance(v, dict)]
@@ -709,6 +762,7 @@ async def get_content_for_recommendation(
     current_tier = rec_res.currentAdaptiveTier
     access_cfg = await _get_learner_accessibility_config(learner_id)
     completions = await _check_today_completions(learner_id)
+    eligible_passages = await _get_eligible_reading_passages()
 
     # Determine activity type
     if category == "DIFFICULT_WORD_PRACTICE":
@@ -742,7 +796,7 @@ async def get_content_for_recommendation(
         )
 
     elif category == "SPEECH_PRACTICE":
-        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(current_tier, pref_lang)
+        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(current_tier, pref_lang, candidate_passages=eligible_passages)
         pas_id = pas.get("passageId", "pas-t1-001")
         return PersonalizedContentItem(
             activityId=f"act-oral-{pas_id}",
@@ -773,7 +827,7 @@ async def get_content_for_recommendation(
 
     elif category == "STRETCH":
         stretch_tier = min(5, current_tier + 1)
-        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(stretch_tier, pref_lang)
+        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(stretch_tier, pref_lang, candidate_passages=eligible_passages)
         pas_id = pas.get("passageId", "pas-t1-001")
         return PersonalizedContentItem(
             activityId=f"act-stretch-{pas_id}",
@@ -804,7 +858,7 @@ async def get_content_for_recommendation(
 
     else:
         # Default: GUIDED_READING or REVIEW
-        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(current_tier, pref_lang)
+        pas, actual_lang, avail_status, fallback_msg = _find_passage_for_tier_and_language(current_tier, pref_lang, candidate_passages=eligible_passages)
         pas_id = pas.get("passageId", "pas-t1-001")
         return PersonalizedContentItem(
             activityId=f"act-guide-{pas_id}",
