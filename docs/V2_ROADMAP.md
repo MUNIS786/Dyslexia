@@ -234,3 +234,15 @@ PHASE 15: Personalized Learning Content & Activity Engine (COMPLETE)
 * **Testing:** 23 comprehensive tests in `backend/test_phase16_content_authoring.py` covering feature flags, separation of duties, lifecycle transitions, deterministic quality validation, multilingual Unicode preservation, and Phase 15 publication gates; 358/358 total backend tests passing without regression; clean Vite production bundle build (0 errors) and ESLint (0 errors, 0 warnings).
 * **Documentation:** Comprehensive architecture and reference guide in `docs/V2_CONTENT_AUTHORING.md`.
 * **Status:** Complete.
+
+---
+
+### Phase 17: End-to-End Learning Journey & System Integration (COMPLETE)
+* **Objective:** Unify, harden, and validate the full cross-phase learning journey across Student, Teacher, and Parent personas (Phases 1–16), ensuring strict contract adherence, reliable progress persistence, tenant isolation, and optimized delivery.
+* **Non-Clinical Guarantee:** Strictly educational accommodation, practice progression, and transparent progress indicators. Zero clinical or medical diagnostic claims.
+* **System Integration Scope:** Validated end-to-end flows: student auth -> screening/onboarding -> level-appropriate reading -> session telemetry persistence -> adaptive tier progression -> insights & recommendations -> published content discovery -> teacher classroom management & content authoring lifecycle -> parent verified link access & immediate revocation.
+* **Bundle & Performance Optimization:** Converted all 28 frontend route pages in `frontend/src/App.jsx` to React lazy code splitting with `<Suspense>`. Dropped initial production bundle from 807 kB to 332 kB (58.8% reduction), eliminating all chunk-size warnings. Permitted pre-screening access to accessibility settings.
+* **Backend Verification:** Implemented comprehensive automated test suite `backend/test_phase17_integration.py` covering 22 critical cross-phase integration and reliability scenarios.
+* **Testing:** 22/22 integration tests passing in `backend/test_phase17_integration.py`; 380/380 total backend tests passing without a single regression across all phases; clean Vite production bundle build (0 errors) and ESLint (0 errors, 0 warnings).
+* **Documentation:** Comprehensive architecture, journey coverage, and contract inventory in `docs/V2_INTEGRATION_TESTING.md`.
+* **Status:** Complete.
