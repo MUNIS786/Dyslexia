@@ -146,7 +146,7 @@ export const notifAPI = {
   // ✅ FIXED (no BASE error)
   streamUrl: () => {
     const token = localStorage.getItem('dyslexaid_token')
-    return `/api/notifications/stream?token=${token}`
+    return `${API_BASE}/notifications/stream?token=${token}`
   },
 }
 

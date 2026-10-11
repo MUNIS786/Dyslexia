@@ -65,7 +65,8 @@ function ProtectedRoute({ children, role }) {
     !window.location.pathname.includes('personalized-content') &&
     !window.location.pathname.includes('tutor') &&
     !window.location.pathname.includes('accessibility') &&
-    !window.location.pathname.includes('settings')
+    !window.location.pathname.includes('settings') &&
+    !window.location.pathname.includes('classroom')
   ) {
     return <Navigate to="/student/screening" replace />
   }
