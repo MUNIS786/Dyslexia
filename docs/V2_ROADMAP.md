@@ -38,6 +38,12 @@ PHASE 13: Learning Insights & Progress Reports (COMPLETE)
 PHASE 14: Personalized Learning Recommendations & Study Plan Engine (COMPLETE)
     ↓
 PHASE 15: Personalized Learning Content & Activity Engine (COMPLETE)
+    ↓
+PHASE 16: Learning Content Authoring & Quality Management (COMPLETE)
+    ↓
+PHASE 17: End-to-End Learning Journey & System Integration (COMPLETE)
+    ↓
+PHASE 18: Production Readiness, Deployment & Observability (COMPLETE)
 ```
 
 ---
@@ -245,4 +251,17 @@ PHASE 15: Personalized Learning Content & Activity Engine (COMPLETE)
 * **Backend Verification:** Implemented comprehensive automated test suite `backend/test_phase17_integration.py` covering 22 critical cross-phase integration and reliability scenarios.
 * **Testing:** 22/22 integration tests passing in `backend/test_phase17_integration.py`; 380/380 total backend tests passing without a single regression across all phases; clean Vite production bundle build (0 errors) and ESLint (0 errors, 0 warnings).
 * **Documentation:** Comprehensive architecture, journey coverage, and contract inventory in `docs/V2_INTEGRATION_TESTING.md`.
+* **Status:** Complete.
+
+---
+
+### Phase 18: Production Readiness, Deployment & Observability (COMPLETE)
+* **Objective:** Prepare DyslexAid V2 for controlled, reproducible production deployment with robust configuration validation, separated liveness and readiness probes, structured request tracing, sensitive data redaction, graceful database lifecycle handling, and automated CI workflows.
+* **Non-Clinical Guarantee:** Strictly educational accommodation, practice progression, and transparent progress indicators. Zero clinical or medical diagnostic claims.
+* **Configuration & Secrets:** Centralized 12-factor configuration with environment validation in `backend/core/config.py`. Enforces strong JWT secrets (≥ 16 chars) and explicit CORS origins in production. Safe `.env.example` template with zero credentials.
+* **Health & Observability:** Independent liveness probe (`GET /api/health` & `GET /health`) and database-backed readiness probe (`GET /api/ready` & `GET /ready`) with 2.0s bounded timeout. `RequestObservabilityMiddleware` injects/propagates `X-Request-ID`, logs latency, and sanitizes unexpected exceptions into safe HTTP 500 JSON payloads. `RedactingFilter` purges Bearer tokens and passwords from logs.
+* **Database Reliability & Lifecycle:** Bounded MongoDB connection timeouts (`serverSelectionTimeoutMS=3000`, `connectTimeoutMS=3000`), non-blocking startup error handling, and graceful client connection pool termination on shutdown. Comprehensive index coverage across Phases 1–16 collections.
+* **Deployment & CI:** Production `Dockerfile` with non-root security, `docker-compose.yml`, and `deploy/nginx.conf` reverse-proxy template. Automated GitHub Actions CI workflow in `.github/workflows/ci.yml` verifying backend pytest, frontend linting, and Vite production bundle build.
+* **Testing:** 15/15 focused production readiness tests in `backend/test_phase18_production_readiness.py`; 397/397 total backend tests passing without a single regression across all phases; clean Vite production bundle build (0 errors) and ESLint (0 errors, 0 warnings).
+* **Documentation:** Comprehensive operations, architecture, and deployment report in `docs/V2_PRODUCTION_READINESS.md`.
 * **Status:** Complete.

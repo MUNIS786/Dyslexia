@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// Centralized base (uses Vite proxy → /api → backend)
-const API_BASE = '/api'
+// Centralized base (supports VITE_API_BASE for production deployments, falling back to Vite proxy /api)
+const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE) || '/api'
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -15,13 +15,27 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Handle auth errors globally
+// Handle auth errors and network failures globally
 api.interceptors.response.use(
   (r) => r,
   (err) => {
     if (err.response?.status === 401) {
       localStorage.removeItem('dyslexaid_token')
-      window.location.href = '/login'
+      if (
+        typeof window !== 'undefined' &&
+        !window.location.pathname.startsWith('/login') &&
+        !window.location.pathname.startsWith('/signup')
+      ) {
+        window.location.href = '/login'
+      }
+    }
+    // Tag user-friendly operational messages without leaking stack traces
+    if (!err.response) {
+      err.userMessage = 'Network connection unavailable. Please check your internet connection.'
+    } else if (err.response.status === 503) {
+      err.userMessage = 'Service is temporarily unavailable. Please try again shortly.'
+    } else if (err.response.status >= 500) {
+      err.userMessage = 'A server error occurred. Our team has been notified.'
     }
     return Promise.reject(err)
   }

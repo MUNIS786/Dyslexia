@@ -5,16 +5,41 @@ Real users start with zero data — demo data only seeds once if DB is empty.
 import os
 import time
 import uuid
+import asyncio
+import logging
 import bcrypt
 from motor.motor_asyncio import AsyncIOMotorClient
+from core.config import settings
 
-MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
-DB_NAME = os.environ.get("DB_NAME", "dyslexaid")
+logger = logging.getLogger("dyslexaid.database")
 
-client = AsyncIOMotorClient(MONGO_URL)
+MONGO_URL = os.environ.get("MONGO_URL", settings.MONGO_URL)
+DB_NAME = os.environ.get("DB_NAME", settings.DB_NAME)
+
+client = AsyncIOMotorClient(
+    MONGO_URL,
+    serverSelectionTimeoutMS=getattr(settings, "DB_SERVER_SELECTION_TIMEOUT_MS", 3000),
+    connectTimeoutMS=getattr(settings, "DB_CONNECT_TIMEOUT_MS", 3000),
+)
 db = client[DB_NAME]
 
 ASSESSMENT_SCHEMA_VERSION = 2
+
+
+async def check_database_health(timeout_seconds: float = 2.0) -> dict:
+    """
+    Performs a safe, read-only ping against MongoDB.
+    Returns dependency health status without exposing credentials or internal connection strings.
+    """
+    try:
+        start_time = time.perf_counter()
+        await asyncio.wait_for(client.admin.command("ping"), timeout=timeout_seconds)
+        latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
+        return {"connected": True, "latency_ms": latency_ms, "status": "connected"}
+    except Exception as e:
+        logger.warning("Database health check ping failed: %s", type(e).__name__)
+        return {"connected": False, "status": "disconnected", "error_type": type(e).__name__}
+
 
 
 def hash_password(password: str) -> str:
@@ -82,6 +107,12 @@ def _default_reading_profile() -> dict:
 # ─── Indexes ────────────────────────────────────────────────────────────────
 
 async def init_db():
+    try:
+        await asyncio.wait_for(client.admin.command("ping"), timeout=2.0)
+    except Exception as e:
+        logger.warning("MongoDB unavailable during init_db (%s). Indexes and demo seeding deferred.", type(e).__name__)
+        return
+
     await db.users.create_index("email", unique=True)
     await db.users.create_index("id", unique=True)
     await db.users.create_index("classroomCode")
@@ -199,6 +230,32 @@ async def init_db():
         pass
     await db.reward_events.create_index([("learnerId", 1), ("createdAt", -1)])
     await db.reward_events.create_index("eventType")
+
+    # Phase 11: Parent Portal
+    try:
+        await db.parent_invitations.create_index([("studentId", 1), ("status", 1)])
+        await db.parent_invitations.create_index("codeHash")
+        await db.parent_links.create_index([("parentId", 1), ("studentId", 1)], unique=True)
+        await db.parent_links.create_index("parentId")
+        await db.parent_links.create_index("studentId")
+        await db.parent_requests.create_index([("parentId", 1), ("studentId", 1)])
+        await db.parent_requests.create_index("studentId")
+    except Exception:
+        pass
+
+    # Phase 12: Accessibility Preferences
+    try:
+        await db.accessibility_preferences.create_index("learnerId", unique=True)
+    except Exception:
+        pass
+
+    # Phase 15 & 16: Activity Launches & Content Authoring
+    try:
+        await db.activity_launches.create_index([("learnerId", 1), ("launchedAt", -1)])
+        await db.activity_launches.create_index("activityId")
+        await db.content_audit_logs.create_index([("contentId", 1), ("timestamp", -1)])
+    except Exception:
+        pass
 
     try:
         from services.learning.activity_recommender import seed_learning_activities

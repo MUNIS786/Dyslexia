@@ -5,10 +5,17 @@ import bcrypt
 import jwt as pyjwt
 from fastapi import Header, HTTPException, status, Depends
 from typing import Optional
+from core.config import settings
 
-JWT_SECRET = os.environ.get("JWT_SECRET", "dyslexaid-dev-secret-change-in-prod")
 JWT_ALG = "HS256"
 JWT_EXP_DAYS = 30
+
+
+def get_jwt_secret() -> str:
+    return getattr(settings, "JWT_SECRET", os.environ.get("JWT_SECRET", "dyslexaid-dev-secret-change-in-prod"))
+
+
+JWT_SECRET = get_jwt_secret()
 
 
 def hash_password(password: str) -> str:
@@ -28,12 +35,12 @@ def make_token(user_id: str) -> str:
         "iat": int(time.time()),
         "exp": int(time.time()) + 60 * 60 * 24 * JWT_EXP_DAYS,
     }
-    return pyjwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
+    return pyjwt.encode(payload, get_jwt_secret(), algorithm=JWT_ALG)
 
 
 def verify_token(token: str) -> Optional[str]:
     try:
-        payload = pyjwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
+        payload = pyjwt.decode(token, get_jwt_secret(), algorithms=[JWT_ALG])
         return payload["sub"]
     except Exception:
         return None
