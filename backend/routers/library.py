@@ -14,7 +14,8 @@ router = APIRouter(tags=["library"])
 class DocSaveReq(BaseModel):
     title: str
     language: Optional[str] = "english"
-    original: str
+    original: Optional[str] = None
+    text: Optional[str] = None
     simplified: Optional[str] = ""
     bullet_points: Optional[list] = []
     highlights: Optional[list] = []
@@ -33,13 +34,16 @@ async def list_library(authorization: Optional[str] = Header(None)):
 @router.post("/library")
 async def save_doc(req: DocSaveReq, authorization: Optional[str] = Header(None)):
     user = await get_current_user(authorization)
+    original_text = req.original or req.text or ""
+    if not original_text:
+        raise HTTPException(400, "Document content (original or text) is required")
     doc = {
         "id": "doc-" + str(uuid.uuid4())[:8],
         "userId": user["id"],
         "title": req.title or "Untitled",
         "language": req.language or "english",
-        "wordCount": len((req.simplified or req.original).split()),
-        "original": req.original,
+        "wordCount": len((req.simplified or original_text).split()),
+        "original": original_text,
         "simplified": req.simplified or "",
         "bullet_points": req.bullet_points or [],
         "highlights": req.highlights or [],

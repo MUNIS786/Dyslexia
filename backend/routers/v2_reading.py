@@ -139,7 +139,8 @@ async def start_session(
     learner_id = current_user.get("id")
     try:
         result = await start_reading_session(learner_id=learner_id, req=req)
-        return result
+        session_id = result.get("session", {}).get("sessionId") if isinstance(result, dict) else None
+        return {**result, "sessionId": session_id} if isinstance(result, dict) else result
     except ValueError as ve:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

@@ -9,7 +9,7 @@ Defines schemas for:
 - Explicit educational, non-clinical disclaimers
 """
 from typing import Optional, List, Dict, Any, Literal
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 # Valid relationship statuses
 ParentLinkStatus = Literal["pending", "active", "rejected", "revoked", "expired"]
@@ -53,11 +53,22 @@ class LinkRequestCreate(BaseModel):
 class InvitationCreateResponse(BaseModel):
     """Response returned when a student or teacher generates a parent link invitation code."""
     invitationCode: str
+    code: Optional[str] = None
     expiresAt: int
     studentId: str
     studentName: str
     success: bool = True
     message: str = "Share this code with your parent or guardian. It expires in 48 hours."
+
+    @model_validator(mode="before")
+    @classmethod
+    def populate_code(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "code" not in data and "invitationCode" in data:
+                data["code"] = data["invitationCode"]
+            elif "invitationCode" not in data and "code" in data:
+                data["invitationCode"] = data["code"]
+        return data
 
 
 class HomePracticeSuggestion(BaseModel):

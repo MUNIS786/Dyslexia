@@ -4,7 +4,7 @@ import time
 import bcrypt
 import jwt as pyjwt
 from fastapi import Header, HTTPException, status, Depends
-from typing import Optional
+from typing import Optional, Any, Union
 from core.config import settings
 
 JWT_ALG = "HS256"
@@ -67,13 +67,17 @@ async def get_current_user(authorization: Optional[str] = Header(None)):
     return user
 
 
-async def require_teacher(user: dict = Depends(get_current_user)):
-    if user.get("role") != "teacher":
+async def require_teacher(user: Any = Depends(get_current_user)):
+    if isinstance(user, str) or user is None:
+        user = await get_current_user(user)
+    if not isinstance(user, dict) or user.get("role") != "teacher":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Teacher role required")
     return user
 
 
-async def require_parent(user: dict = Depends(get_current_user)):
-    if user.get("role") != "parent":
+async def require_parent(user: Any = Depends(get_current_user)):
+    if isinstance(user, str) or user is None:
+        user = await get_current_user(user)
+    if not isinstance(user, dict) or user.get("role") != "parent":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Parent role required")
     return user

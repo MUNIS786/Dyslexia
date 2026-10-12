@@ -14,8 +14,8 @@ intervention caused an improvement, nor does it provide clinical or diagnostic c
 """
 import time
 import uuid
-from typing import Optional, List, Dict, Any, Set
-from pydantic import BaseModel, Field, field_validator
+from typing import Optional, List, Dict, Any, Set, Union
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 # Controlled Lifecycle Statuses
@@ -91,6 +91,7 @@ class TeacherObservation(BaseModel):
 class V2Intervention(BaseModel):
     """Complete persisted intervention record."""
     interventionId: str = Field(..., description="Unique identifier, e.g. intv_a1b2c3d4")
+    id: Optional[str] = None
     teacherId: str = Field(..., description="Creator teacher user ID")
     learnerId: str = Field(..., description="Target student user ID")
     classroomCode: str = Field(..., description="Authorized classroom code")
@@ -106,6 +107,16 @@ class V2Intervention(BaseModel):
     createdAt: int = Field(default_factory=lambda: int(time.time()))
     updatedAt: int = Field(default_factory=lambda: int(time.time()))
 
+    @model_validator(mode="before")
+    @classmethod
+    def populate_id(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if not data.get("id") and data.get("interventionId"):
+                data["id"] = data["interventionId"]
+            elif not data.get("interventionId") and data.get("id"):
+                data["interventionId"] = data["id"]
+        return data
+
     @field_validator("status")
     @classmethod
     def validate_status(cls, v: str) -> str:
@@ -118,20 +129,53 @@ class V2Intervention(BaseModel):
 
 class InterventionCreateRequest(BaseModel):
     """Payload to create and establish baseline for a learning support activity."""
-    learnerId: str = Field(..., min_length=1, description="Student user ID")
-    goal: str = Field(..., min_length=3, max_length=200, description="Educational goal")
-    targetDomain: str = Field(..., min_length=2, max_length=100, description="Target learning domain")
-    supportActivity: str = Field(..., min_length=3, max_length=500, description="Description of support activity")
-    startDate: Optional[int] = Field(default=None, description="Start epoch timestamp in seconds")
-    plannedReviewDate: Optional[int] = Field(default=None, description="Optional planned review date in seconds")
+    learnerId: Optional[str] = Field(default=None, description="Student user ID")
+    studentId: Optional[str] = Field(default=None, description="Alias for learnerId")
+    goal: Optional[str] = Field(default=None, min_length=3, max_length=200, description="Educational goal")
+    title: Optional[str] = Field(default=None, min_length=3, max_length=200, description="Alias for goal")
+    targetDomain: Optional[str] = Field(default=None, min_length=2, max_length=100, description="Target learning domain")
+    targetArea: Optional[str] = Field(default=None, min_length=2, max_length=100, description="Alias for targetDomain")
+    supportActivity: Optional[str] = Field(default=None, min_length=3, max_length=500, description="Description of support activity")
+    description: Optional[str] = Field(default=None, min_length=3, max_length=500, description="Alias for supportActivity")
+    tier: Optional[int] = Field(default=None, ge=1, le=5)
+    startDate: Optional[Union[int, str]] = Field(default=None, description="Start epoch timestamp or ISO string")
+    durationWeeks: Optional[int] = None
+    plannedReviewDate: Optional[Union[int, str]] = Field(default=None, description="Optional planned review date")
     initialNotes: Optional[str] = Field(default=None, max_length=1000)
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_aliases(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if not data.get("learnerId") and data.get("studentId"):
+                data["learnerId"] = data["studentId"]
+            if not data.get("goal") and data.get("title"):
+                data["goal"] = data["title"]
+            if not data.get("targetDomain") and data.get("targetArea"):
+                data["targetDomain"] = data["targetArea"]
+            if not data.get("supportActivity") and data.get("description"):
+                data["supportActivity"] = data["description"]
+            # Convert string dates to epoch timestamps
+            sd = data.get("startDate")
+            if isinstance(sd, str):
+                try:
+                    data["startDate"] = int(time.mktime(time.strptime(sd[:10], "%Y-%m-%d")))
+                except Exception:
+                    data["startDate"] = int(time.time())
+            prd = data.get("plannedReviewDate")
+            if isinstance(prd, str):
+                try:
+                    data["plannedReviewDate"] = int(time.mktime(time.strptime(prd[:10], "%Y-%m-%d")))
+                except Exception:
+                    data["plannedReviewDate"] = None
+        return data
 
     @field_validator("plannedReviewDate")
     @classmethod
-    def validate_dates(cls, v: Optional[int], info) -> Optional[int]:
-        if v is not None:
+    def validate_dates(cls, v: Optional[Union[int, str]], info) -> Optional[Union[int, str]]:
+        if v is not None and isinstance(v, (int, float)):
             start = info.data.get("startDate")
-            if start is not None and v < start:
+            if start is not None and isinstance(start, (int, float)) and v < start:
                 raise ValueError("plannedReviewDate cannot be earlier than startDate.")
         return v
 
@@ -156,12 +200,40 @@ class InterventionTransitionRequest(BaseModel):
 
 class ManualFollowUpRequest(BaseModel):
     """Optional payload if teacher records an interim assessment observation."""
-    metricName: str
-    value: float
+    metricName: str = Field(default="reading_accuracy")
+    value: float = Field(default=85.0)
     unit: Optional[str] = "%"
     scale: Optional[str] = "0-100%"
     source: Optional[str] = "teacher_observed_assessment"
     notes: Optional[str] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_measurement(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "metricName" not in data or not data.get("metricName"):
+                if "accuracy" in data:
+                    data["metricName"] = "reading_accuracy"
+                    data["value"] = float(data["accuracy"])
+                elif "wpm" in data:
+                    data["metricName"] = "words_per_minute"
+                    data["value"] = float(data["wpm"])
+                    data["unit"] = "wpm"
+                    data["scale"] = "words_per_minute"
+                elif "comprehension" in data:
+                    data["metricName"] = "reading_comprehension_accuracy"
+                    data["value"] = float(data["comprehension"])
+                elif "score" in data:
+                    data["metricName"] = "performance_score"
+                    data["value"] = float(data["score"])
+                else:
+                    data["metricName"] = "general_progress"
+            if "value" not in data:
+                for k in ("accuracy", "comprehension", "score", "wpm"):
+                    if k in data:
+                        data["value"] = float(data[k])
+                        break
+        return data
 
 
 # ─── Comparison & Effectiveness Report Models ────────────────────────────────

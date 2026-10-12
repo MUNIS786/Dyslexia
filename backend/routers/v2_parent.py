@@ -181,7 +181,7 @@ async def get_learner_activity(
 
 @router.post("/invitations/generate", response_model=InvitationCreateResponse)
 async def create_invitation_code(
-    req: GenerateInvitationReq,
+    req: Optional[GenerateInvitationReq] = None,
     current_user: dict = Depends(get_current_user),
 ):
     """
@@ -189,6 +189,8 @@ async def create_invitation_code(
     Callable by the student themselves or a teacher for an enrolled student.
     """
     _check_feature_flag()
+    if req is None:
+        req = GenerateInvitationReq()
     user_role = current_user.get("role")
     user_id = current_user.get("id")
 

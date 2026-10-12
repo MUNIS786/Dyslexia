@@ -147,11 +147,17 @@ async def generate_learner_recommendations(
     )
     current_tier_name = TIER_NAMES.get(current_tier, "Foundation")
 
-    current_level = int(
-        profile_doc.get("learning_level")
-        or profile_doc.get("level")
-        or current_tier
-    )
+    level_raw = profile_doc.get("learning_level") or profile_doc.get("learningLevel") or profile_doc.get("level")
+    if isinstance(level_raw, dict):
+        current_level = int(level_raw.get("level") or current_tier)
+    elif level_raw is not None:
+        try:
+            current_level = int(level_raw)
+        except (ValueError, TypeError):
+            current_level = current_tier
+    else:
+        current_level = current_tier
+    current_level = clamp_tier(current_level)
     current_level_name = TIER_NAMES.get(current_level, "Foundation")
 
     consecutive_passes = int(state_doc.get("consecutive_passes", 0))

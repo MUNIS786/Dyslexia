@@ -13,7 +13,7 @@ These models support educational content authoring and quality management.
 They do NOT represent clinical, diagnostic, or medical assessment claims.
 """
 from typing import Optional, List, Dict, Any, Union, Literal
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from models.v2_reading import ReadingQuestion, ReadingVocabularyWord
 
@@ -62,6 +62,16 @@ class ContentDraftCreateRequest(BaseModel):
     translationGroupId: Optional[str] = Field(default=None, description="UUID linking translated equivalents across languages")
     accessibility: Dict[str, Any] = Field(default_factory=dict, description="Recommended display presets")
 
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_aliases(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "difficulty" not in data and "difficultyTier" in data:
+                data["difficulty"] = data["difficultyTier"]
+            if "skillTags" not in data and "targetSkills" in data:
+                data["skillTags"] = data["targetSkills"]
+        return data
+
 
 class ContentDraftUpdateRequest(BaseModel):
     """Payload to update an existing editable draft (DRAFT or CHANGES_REQUESTED)."""
@@ -82,9 +92,21 @@ class ContentDraftUpdateRequest(BaseModel):
 
 class ContentReviewDecisionRequest(BaseModel):
     """Payload submitted by an authorized reviewer/peer when evaluating submitted content."""
-    decision: Literal["APPROVE", "REQUEST_CHANGES", "REJECT"] = Field(..., description="Review outcome")
-    feedback: Optional[str] = Field(default=None, description="Actionable reviewer comments (mandatory if requesting changes or rejecting)")
+    decision: str = Field(..., description="Review outcome: APPROVE, REQUEST_CHANGES, REJECT")
+    feedback: Optional[str] = Field(default=None, description="Actionable reviewer comments")
     notes: Optional[str] = Field(default=None, description="Optional internal editorial notes")
+
+    @field_validator("decision")
+    @classmethod
+    def normalize_decision(cls, v: str) -> str:
+        d = (v or "").strip().upper()
+        if d in ("APPROVE", "APPROVED"):
+            return "APPROVE"
+        if d in ("REJECT", "REJECTED"):
+            return "REJECT"
+        if d in ("REQUEST_CHANGES", "REQUESTCHANGES", "CHANGES_REQUESTED"):
+            return "REQUEST_CHANGES"
+        raise ValueError(f"Decision must be one of: 'APPROVE', 'REQUEST_CHANGES', 'REJECT', got '{v}'")
 
 
 class ContentAuditLogEntry(BaseModel):
@@ -104,6 +126,7 @@ class ContentAuditLogEntry(BaseModel):
 class ContentItemResponse(BaseModel):
     """Complete content document response for authorized educators and reviewers."""
     contentId: str = Field(..., description="Authoring system unique content UUID")
+    id: Optional[str] = None
     passageId: str = Field(..., description="Catalog-compatible passage identifier, e.g. 'pas-auth-...'")
     version: int = Field(default=1, description="Version number of this content")
     title: str = Field(..., description="Passage title")
@@ -121,6 +144,16 @@ class ContentItemResponse(BaseModel):
     status: ContentLifecycleState = Field(default="DRAFT", description="Current lifecycle state")
     authorId: str = Field(..., description="User ID of author")
     authorName: Optional[str] = Field(default=None, description="Author display name")
+
+    @model_validator(mode="before")
+    @classmethod
+    def populate_id(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if not data.get("id") and data.get("contentId"):
+                data["id"] = data["contentId"]
+            elif not data.get("contentId") and data.get("id"):
+                data["contentId"] = data["id"]
+        return data
     tenantId: Optional[str] = Field(default=None, description="Classroom code or school tenant identifier")
     reviewerId: Optional[str] = Field(default=None, description="Reviewer ID if evaluated")
     reviewerRole: Optional[str] = Field(default=None)

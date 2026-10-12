@@ -15,7 +15,7 @@ Zero clinical, neurological, or medical diagnoses are generated or stored.
 import time
 import logging
 from datetime import datetime, timezone
-from typing import Optional, Dict, Any, List, Tuple
+from typing import Optional, Dict, Any, List, Tuple, Union
 from fastapi import HTTPException, status
 
 from database.database import db
@@ -54,8 +54,14 @@ def get_time_cutoff(time_range: str) -> Optional[int]:
 
 # ─── Teacher Authorization & Scoping ──────────────────────────────────────────
 
-async def get_teacher_classroom_code(teacher: dict) -> Optional[str]:
+async def get_teacher_classroom_code(teacher: Union[dict, str]) -> Optional[str]:
     """Retrieves the active classroom code for an authenticated teacher."""
+    if isinstance(teacher, str):
+        t_user = await db.users.find_one({"id": teacher}, {"_id": 0, "classroomCode": 1})
+        if t_user and t_user.get("classroomCode"):
+            return t_user["classroomCode"]
+        c = await db.classrooms.find_one({"teacherId": teacher}, {"_id": 0, "code": 1})
+        return c.get("code") if c else None
     code = teacher.get("classroomCode")
     if code:
         return code
@@ -64,11 +70,12 @@ async def get_teacher_classroom_code(teacher: dict) -> Optional[str]:
     return c.get("code") if c else None
 
 
-async def verify_teacher_student_access(teacher: dict, student_id: str) -> dict:
+async def verify_teacher_student_access(teacher: Union[dict, str], student_id: str) -> dict:
     """
     Verifies that the target student is enrolled in the teacher's classroom.
     Raises 403 Forbidden or 404 Not Found if access is unauthorized.
     """
+    teacher_id = teacher if isinstance(teacher, str) else teacher.get("id")
     teacher_code = await get_teacher_classroom_code(teacher)
     if not teacher_code:
         raise HTTPException(
@@ -89,7 +96,7 @@ async def verify_teacher_student_access(teacher: dict, student_id: str) -> dict:
     student_classroom = student.get("classroomJoined")
     if student_classroom != teacher_code:
         logger.warning(
-            f"Unauthorized teacher analytics access attempt: Teacher {teacher.get('id')} "
+            f"Unauthorized teacher analytics access attempt: Teacher {teacher_id} "
             f"(code: {teacher_code}) requested Student {student_id} (code: {student_classroom})"
         )
         raise HTTPException(
