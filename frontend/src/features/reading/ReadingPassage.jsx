@@ -92,9 +92,9 @@ export default function ReadingPassage({
         <span
           key={i}
           onClick={() => onWordClick(token)}
-          className={`inline-block px-0.5 rounded-sm transition-all cursor-pointer select-text hover:bg-amber-200/70 hover:scale-105 active:bg-amber-300 ${
+          className={`inline rounded-sm transition-colors cursor-pointer select-text hover:bg-amber-200/70 active:bg-amber-300 ${
             isVocabulary
-              ? 'border-b-2 border-dashed border-teal-600 font-semibold text-teal-950'
+              ? 'border-b-2 border-dashed border-teal-600 font-semibold text-teal-950 px-0.5'
               : 'hover:text-teal-900'
           }`}
           title="Click to see definition and pronunciation"

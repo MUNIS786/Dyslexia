@@ -156,7 +156,11 @@ function ClickableText({ text, highlights, onWordClick, wordIndex }) {
   return (
     <p
       className="dyslexia-text"
-      style={{ lineHeight: 'var(--line-spacing)', letterSpacing: 'var(--letter-spacing)' }}
+      style={{
+        lineHeight: 'var(--line-spacing, 1.75)',
+        letterSpacing: 'var(--letter-spacing, 0.04em)',
+        wordSpacing: 'var(--word-spacing, 0.04em)',
+      }}
     >
       {chunks.map((chunk, i) => {
         if (/^\s+$/.test(chunk)) return <span key={i}>{chunk}</span>

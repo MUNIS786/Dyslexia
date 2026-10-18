@@ -345,7 +345,7 @@ export function PageHeader({ icon, title, subtitle, action, breadcrumb, classNam
       {breadcrumb && <div className="mb-2 text-xs text-slate-500 font-medium">{breadcrumb}</div>}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="dyslexia-text text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+          <h1 className="dyslexia-text text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-2.5">
             {icon && <span aria-hidden="true" className="text-2xl sm:text-3xl shrink-0">{icon}</span>}
             <span>{title}</span>
           </h1>
@@ -471,7 +471,11 @@ export function ReadingText({ text = '', highlights = [], wordIndex = -1 }) {
   return (
     <p
       className="dyslexia-text"
-      style={{ lineHeight: 'var(--line-spacing, 1.75)', letterSpacing: 'var(--letter-spacing, 0.04em)' }}
+      style={{
+        lineHeight: 'var(--line-spacing, 1.75)',
+        letterSpacing: 'var(--letter-spacing, 0.04em)',
+        wordSpacing: 'var(--word-spacing, 0.04em)',
+      }}
     >
       {textWords.map((chunk, i) => {
         if (/^\s+$/.test(chunk)) return <span key={i}>{chunk}</span>

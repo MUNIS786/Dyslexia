@@ -134,7 +134,7 @@ export default function Layout({ children }) {
               📖
             </div>
             <div>
-              <p className="font-extrabold text-slate-900 text-lg leading-tight tracking-tight">
+              <p className="font-extrabold text-slate-900 text-lg leading-tight">
                 DyslexAid <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded-md">V2</span>
               </p>
               <span
