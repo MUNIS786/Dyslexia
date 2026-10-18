@@ -105,13 +105,13 @@ export function I18nProvider({ children }) {
       text = getNestedValue(fallbackDict, key)
     }
 
-    // 3. Fallback to raw key if completely absent
+    // 3. Fallback to fallback string or raw key if completely absent
     if (!text) {
-      return key
+      return typeof params === 'string' ? params : key
     }
 
     // 4. Perform parameter interpolation
-    return params ? interpolate(text, params) : text
+    return params && typeof params === 'object' ? interpolate(text, params) : text
   }, [locale])
 
   const activeLocaleMeta = useMemo(() => {

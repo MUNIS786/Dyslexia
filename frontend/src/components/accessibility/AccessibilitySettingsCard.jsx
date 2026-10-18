@@ -20,7 +20,8 @@ const FONT_OPTIONS = [
 ]
 
 const BG_THEMES = [
-  { bg: '#FFF8F0', text: '#1A2A2A', label: 'Warm Cream (Recommended)' },
+  { bg: '#F8FAFC', text: '#1E293B', label: 'Modern Slate (Default)' },
+  { bg: '#FFF8F0', text: '#1A2A2A', label: 'Warm Cream (Reading)' },
   { bg: '#FFFFFF', text: '#1A2A2A', label: 'Crisp White' },
   { bg: '#FFFDE0', text: '#1A2A2A', label: 'Soft Yellow' },
   { bg: '#E8F4F8', text: '#1A2060', label: 'Calm Blue' },

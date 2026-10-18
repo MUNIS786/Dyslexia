@@ -17,8 +17,8 @@ export const DEFAULT_ACCESSIBILITY_PREFERENCES = {
   letterSpacing: 0.08,
   wordSpacing: 0.05,
   contentWidth: 'standard', // 'standard' (max-w-4xl) | 'narrow' (max-w-xl) | 'compact' (max-w-2xl)
-  bgColor: '#FFF8F0',
-  textColor: '#1A2A2A',
+  bgColor: '#F8FAFC',
+  textColor: '#1E293B',
   highContrast: false,
   reducedMotion: false,
   readingRuler: false,

@@ -90,7 +90,7 @@ export default function AccessibilityToolbar() {
         >
           {/* Header */}
           <div className="flex items-center justify-between pb-2 border-b border-stone-100">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-teal-800 flex items-center gap-1.5">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
               <span>👓</span>
               <span>{t('accessibility.quickTools', 'Reading Tools')}</span>
             </span>
@@ -107,7 +107,7 @@ export default function AccessibilityToolbar() {
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-bold text-stone-700">
               <span>{t('accessibility.textSize', 'Text Size')}</span>
-              <span className="font-mono text-teal-700">{fontSize}px</span>
+              <span className="font-mono text-indigo-600">{fontSize}px</span>
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -123,7 +123,7 @@ export default function AccessibilityToolbar() {
                 type="button"
                 onClick={() => updatePreference('fontSize', Math.min(32, fontSize + 2))}
                 disabled={fontSize >= 32}
-                className="flex-1 py-1.5 bg-[#1A6B6B] hover:bg-[#145555] disabled:opacity-40 text-white rounded-xl text-xs font-extrabold transition-all cursor-pointer"
+                className="flex-1 py-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white rounded-xl text-xs font-extrabold transition-all cursor-pointer shadow-xs"
                 aria-label="Increase text size"
               >
                 A+
@@ -173,7 +173,7 @@ export default function AccessibilityToolbar() {
               type="button"
               onClick={() => updatePreference('highContrast', !highContrast)}
               className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${
-                highContrast ? 'bg-teal-700' : 'bg-stone-200'
+                highContrast ? 'bg-indigo-600' : 'bg-stone-200'
               }`}
               role="switch"
               aria-checked={highContrast}
@@ -206,7 +206,7 @@ export default function AccessibilityToolbar() {
                   onClick={() => updatePreference('tintOverlay', tint.id)}
                   className={`flex-1 py-1 text-[11px] font-bold rounded-xl border transition-all cursor-pointer ${
                     tintOverlay === tint.id
-                      ? 'ring-2 ring-teal-600 scale-105 font-extrabold shadow-2xs'
+                      ? 'ring-2 ring-indigo-600 scale-105 font-extrabold shadow-2xs'
                       : 'hover:opacity-80'
                   } ${tint.border}`}
                   style={{ backgroundColor: tint.color }}
@@ -231,7 +231,7 @@ export default function AccessibilityToolbar() {
             <Link
               to="/student/accessibility"
               onClick={() => setIsOpen(false)}
-              className="text-teal-700 hover:text-teal-900 font-bold flex items-center gap-1"
+              className="text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1"
             >
               <span>{t('accessibility.allSettings', 'All Settings')}</span>
               <span>→</span>
