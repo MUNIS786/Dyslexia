@@ -26,7 +26,7 @@ export default function TutorPromptChips({ onSelectPrompt, disabled = false }) {
           type="button"
           disabled={disabled}
           onClick={() => onSelectPrompt(p.query)}
-          className="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 transition-all active:scale-95 disabled:opacity-50 cursor-pointer shadow-2xs hover:shadow-xs"
+          className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 transition-all active:scale-95 disabled:opacity-50 cursor-pointer shadow-2xs hover:shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
         >
           {p.label}
         </button>

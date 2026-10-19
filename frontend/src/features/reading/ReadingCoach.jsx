@@ -14,7 +14,7 @@ import ReadingPassage from './ReadingPassage'
 import DifficultWords from './DifficultWords'
 import ComprehensionQuestion from './ComprehensionQuestion'
 import ReadingSessionResult from './ReadingSessionResult'
-import { Spinner } from '../../components/ui'
+import { Button, Spinner } from '../../components/ui'
 import { useNavigate } from 'react-router-dom'
 
 export default function ReadingCoach() {
@@ -99,8 +99,8 @@ export default function ReadingCoach() {
   if (loading && !activePassage) {
     return (
       <div className="min-h-[400px] flex flex-col items-center justify-center gap-3">
-        <Spinner size="lg" />
-        <p className="text-sm font-bold text-stone-600">
+        <Spinner size="lg" color="primary" />
+        <p className="dyslexia-text text-sm font-bold text-slate-600">
           Preparing your personalized reading story...
         </p>
       </div>
@@ -109,16 +109,13 @@ export default function ReadingCoach() {
 
   if (error && !activePassage) {
     return (
-      <div className="max-w-md mx-auto text-center p-8 bg-white rounded-3xl border border-stone-200 space-y-4">
-        <span className="text-4xl block">📖</span>
-        <h3 className="text-lg font-bold text-stone-900">Reading Coach Ready</h3>
-        <p className="text-xs text-stone-600">{error}</p>
-        <button
-          onClick={refetchRecommendation}
-          className="px-5 py-2.5 bg-[#1A6B6B] text-white rounded-xl font-bold text-sm cursor-pointer"
-        >
+      <div className="max-w-md mx-auto text-center p-8 bg-white rounded-3xl border border-slate-200 space-y-4 shadow-card">
+        <span className="text-4xl block" aria-hidden="true">📖</span>
+        <h3 className="dyslexia-text text-lg font-bold text-slate-900">Reading Coach Ready</h3>
+        <p className="dyslexia-text text-xs text-slate-600">{error}</p>
+        <Button onClick={refetchRecommendation} size="md">
           Try Again
-        </button>
+        </Button>
       </div>
     )
   }

@@ -5,8 +5,8 @@
  * Displays syllable breakdown, simple definition, example sentence,
  * and audio pronunciation via browser SpeechSynthesis.
  */
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '../../components/ui'
 
 export default function DifficultWords({
   wordInfo,
@@ -29,32 +29,40 @@ export default function DifficultWords({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-fade-in">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs"
+      onClick={onClose}
+    >
       <div
-        className="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border-2 border-teal-500 space-y-4"
+        className="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-200 space-y-4"
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="word-title"
       >
         {/* Header with audio button */}
-        <div className="flex items-center justify-between gap-3 border-b border-stone-100 pb-3">
+        <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">🔍</span>
+            <span className="text-2xl" aria-hidden="true">🔍</span>
             <div>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 capitalize">
+              <h3 id="word-title" className="dyslexia-text text-xl sm:text-2xl font-extrabold text-slate-900 capitalize">
                 {word}
               </h3>
               {phonetic && (
-                <span className="text-xs text-stone-500 font-medium">/{phonetic}/</span>
+                <span className="text-xs text-slate-500 font-medium">/{phonetic}/</span>
               )}
             </div>
           </div>
 
           {ttsSupported && (
             <button
+              type="button"
               onClick={() => onPracticeAudio(word)}
-              className="p-3 bg-teal-50 hover:bg-teal-100 text-teal-800 rounded-2xl border border-teal-200 transition-all flex items-center gap-1.5 text-xs font-bold cursor-pointer"
+              className="p-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl border border-indigo-200 transition-all flex items-center gap-1.5 text-xs font-bold cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600"
               title="Listen to pronunciation"
+              aria-label={`Listen to pronunciation of ${word}`}
             >
-              <span>🔊</span>
+              <span aria-hidden="true">🔊</span>
               <span>Listen</span>
             </button>
           )}
@@ -70,7 +78,7 @@ export default function DifficultWords({
               {syllables.map((syl, i) => (
                 <span
                   key={i}
-                  className="bg-white px-2.5 py-1 rounded-xl text-sm font-extrabold text-amber-900 border border-amber-300 shadow-2xs"
+                  className="bg-white px-2.5 py-1 rounded-xl text-sm font-extrabold text-amber-900 border border-amber-300 shadow-2xs font-mono"
                 >
                   {syl}
                 </span>
@@ -81,10 +89,10 @@ export default function DifficultWords({
 
         {/* Meaning / Definition */}
         <div className="space-y-1">
-          <span className="text-xs font-bold text-stone-500 uppercase tracking-wide">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
             Meaning:
           </span>
-          <p className="text-sm sm:text-base text-stone-800 font-medium leading-relaxed bg-stone-50 p-3.5 rounded-2xl border border-stone-200">
+          <p className="dyslexia-text text-sm sm:text-base text-slate-800 font-medium leading-relaxed bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
             {definition}
           </p>
         </div>
@@ -92,34 +100,35 @@ export default function DifficultWords({
         {/* Example Sentence */}
         {exampleSentence && (
           <div className="space-y-1">
-            <span className="text-xs font-bold text-stone-500 uppercase tracking-wide">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
               Example in a sentence:
             </span>
-            <p className="text-xs sm:text-sm text-stone-700 italic bg-teal-50/60 p-3 rounded-2xl border border-teal-100">
-              "{exampleSentence}"
+            <p className="dyslexia-text text-xs sm:text-sm text-slate-700 italic bg-indigo-50/50 p-3 rounded-2xl border border-indigo-100">
+              &ldquo;{exampleSentence}&rdquo;
             </p>
           </div>
         )}
 
         {/* Actions: Ask Tutor + Close */}
-        <div className="flex items-center gap-2 pt-1">
-          <button
+        <div className="flex items-center gap-2 pt-2">
+          <Button
+            variant="accent"
             onClick={handleAskTutor}
-            className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 active:scale-[0.98] text-white font-bold rounded-2xl text-xs sm:text-sm transition-all shadow-xs cursor-pointer flex items-center justify-center gap-1.5"
+            className="flex-1 text-xs sm:text-sm"
             title="Ask Personal AI Tutor to explain more"
           >
             <span>🤖</span>
             <span>Ask AI Tutor</span>
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
             onClick={onClose}
-            className="flex-1 py-3 bg-[#1A6B6B] hover:bg-[#145555] active:scale-[0.98] text-white font-bold rounded-2xl text-xs sm:text-sm transition-all shadow-xs cursor-pointer"
+            className="flex-1 text-xs sm:text-sm"
           >
             Got It! 👍
-          </button>
+          </Button>
         </div>
       </div>
     </div>
   )
 }
-

@@ -7,7 +7,7 @@
  * - What's next (explainable adaptive progression update)
  * - Action: Try Next Reading or Back to Home
  */
-import React from 'react'
+import { Card, Button, Badge } from '../../components/ui'
 
 export default function ReadingSessionResult({
   result,
@@ -23,11 +23,9 @@ export default function ReadingSessionResult({
     wordsRead = 0,
     durationSeconds = 0,
     practicedWordsCount = 0,
-    overallScore = 80,
     comprehensionScore = 80,
     adaptation = {},
     nextStepMessage,
-    currentTier = 1,
   } = result
 
   const formatMinutes = (secs) => {
@@ -47,23 +45,23 @@ export default function ReadingSessionResult({
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
+    <div className="max-w-2xl mx-auto space-y-6">
       {/* Celebration Header Card */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 text-center shadow-sm border border-stone-200">
-        <div className="w-20 h-20 mx-auto mb-4 bg-amber-100 rounded-3xl flex items-center justify-center text-4xl shadow-inner animate-bounce">
+      <Card className="p-6 sm:p-8 text-center shadow-card border-slate-200 space-y-3">
+        <div className="w-20 h-20 mx-auto mb-2 bg-amber-100 rounded-3xl flex items-center justify-center text-4xl shadow-inner">
           {praiseEmoji}
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 mb-2">
+        <h1 className="dyslexia-text text-2xl sm:text-3xl font-extrabold text-slate-900">
           {comprehensionScore >= 75 ? 'Super Reading!' : 'Nice Job Finishing!'}
         </h1>
-        <p className="text-base sm:text-lg text-stone-700 font-medium max-w-md mx-auto">
+        <p className="dyslexia-text text-base sm:text-lg text-slate-600 font-medium max-w-md mx-auto">
           {performancePraise}
         </p>
 
         {/* Level Up Banner if Tier Changed */}
         {adaptation?.tierChanged && adaptation.newTier > adaptation.previousTier && (
-          <div className="mt-5 p-4 bg-emerald-50 border-2 border-emerald-300 rounded-2xl text-emerald-900 font-extrabold text-base flex items-center justify-center gap-2">
+          <div className="mt-4 p-4 bg-emerald-50 border-2 border-emerald-300 rounded-2xl text-emerald-900 font-extrabold text-base flex items-center justify-center gap-2">
             <span>🎉</span>
             <span>LEVEL UP! You unlocked Reading Level {adaptation.newTier}!</span>
           </div>
@@ -71,110 +69,113 @@ export default function ReadingSessionResult({
 
         {/* Gamification Points & Badges Reward Callout */}
         {result?.gamification && result.gamification.pointsAwarded > 0 && (
-          <div id="reading-gamification-reward" className="mt-4 p-3.5 bg-amber-50 rounded-2xl border border-amber-200 flex items-center justify-between text-xs font-bold text-amber-950">
+          <div id="reading-gamification-reward" className="mt-4 p-3.5 bg-amber-50 rounded-2xl border border-amber-200 flex items-center justify-between text-xs font-bold text-amber-950 dyslexia-text">
             <div className="flex items-center gap-2">
               <span className="text-xl" aria-hidden="true">🏆</span>
               <span>{result.gamification.celebrationMessage || `+${result.gamification.pointsAwarded} Learning Points Earned!`}</span>
             </div>
-            <span className="bg-amber-100 text-amber-900 px-2.5 py-1 rounded-full border border-amber-300">
+            <Badge color="amber">
               Total: {result.gamification.totalPoints} pts
-            </span>
+            </Badge>
           </div>
         )}
-      </div>
+      </Card>
 
       {/* What You Did — Stat Cards */}
-      <div className="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-stone-200">
-        <h3 className="text-xs font-bold text-stone-500 uppercase tracking-wide mb-4">
+      <Card className="p-6 sm:p-7 shadow-card border-slate-200">
+        <h2 className="dyslexia-text text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
           What You Accomplished
-        </h3>
+        </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="bg-[#FFF8F0] p-4 rounded-2xl border border-amber-200 text-center">
+          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
             <span className="text-xl block mb-1">📖</span>
-            <span className="text-lg sm:text-xl font-extrabold text-stone-900 block">
+            <span className="text-lg sm:text-xl font-extrabold text-slate-900 block">
               {wordsRead}
             </span>
-            <span className="text-xs text-stone-600 font-medium">Words Read</span>
+            <span className="text-xs text-slate-500 font-medium dyslexia-text">Words Read</span>
           </div>
 
-          <div className="bg-sky-50 p-4 rounded-2xl border border-sky-200 text-center">
+          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
             <span className="text-xl block mb-1">⏱️</span>
-            <span className="text-lg sm:text-xl font-extrabold text-stone-900 block">
+            <span className="text-lg sm:text-xl font-extrabold text-slate-900 block">
               {formatMinutes(durationSeconds)}
             </span>
-            <span className="text-xs text-stone-600 font-medium">Reading Time</span>
+            <span className="text-xs text-slate-500 font-medium dyslexia-text">Reading Time</span>
           </div>
 
-          <div className="bg-teal-50 p-4 rounded-2xl border border-teal-200 text-center">
+          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
             <span className="text-xl block mb-1">❓</span>
-            <span className="text-lg sm:text-xl font-extrabold text-stone-900 block">
+            <span className="text-lg sm:text-xl font-extrabold text-slate-900 block">
               {correctCount}/{totalQuestions}
             </span>
-            <span className="text-xs text-stone-600 font-medium">Questions</span>
+            <span className="text-xs text-slate-500 font-medium dyslexia-text">Questions</span>
           </div>
 
-          <div className="bg-purple-50 p-4 rounded-2xl border border-purple-200 text-center">
+          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
             <span className="text-xl block mb-1">💡</span>
-            <span className="text-lg sm:text-xl font-extrabold text-stone-900 block">
+            <span className="text-lg sm:text-xl font-extrabold text-slate-900 block">
               {practicedWordsCount}
             </span>
-            <span className="text-xs text-stone-600 font-medium">New Words</span>
+            <span className="text-xs text-slate-500 font-medium dyslexia-text">New Words</span>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Voice Reading Practice Badge if Speech Mode was used */}
       {result.speechWordAccuracy !== undefined && (
-        <div className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-3xl p-5 border border-teal-200 flex items-center justify-between gap-3">
+        <Card className="bg-gradient-to-r from-teal-50 to-emerald-50 p-5 border-teal-200 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="text-3xl">🎙️</span>
             <div>
-              <h4 className="text-sm font-extrabold text-stone-900">
+              <h3 className="dyslexia-text text-sm font-extrabold text-slate-900">
                 Voice Reading Practice
-              </h4>
-              <p className="text-xs text-stone-600">
+              </h3>
+              <p className="dyslexia-text text-xs text-slate-600 mt-0.5">
                 {Math.round(result.speechWordAccuracy)}% words read clearly • {Math.round(result.speechWordsPerMinute || 0)} WPM pace
               </p>
             </div>
           </div>
-          <span className="px-3 py-1 bg-white rounded-xl text-teal-800 font-extrabold text-xs border border-teal-200">
+          <Badge color="teal" className="text-xs font-extrabold">
             Score: {Math.round(result.speechPracticeScore || result.speechWordAccuracy)}/100
-          </span>
-        </div>
+          </Badge>
+        </Card>
       )}
 
       {/* What's Next Adaptive Decision */}
-      <div className="bg-[#FFF8F0] rounded-3xl p-6 sm:p-7 border-2 border-[#E8A020]/40">
+      <Card className="bg-amber-50/70 p-6 sm:p-7 border-amber-200">
         <div className="flex items-start gap-3">
           <span className="text-2xl shrink-0">🧭</span>
           <div>
-            <h4 className="text-xs font-bold text-amber-900 uppercase tracking-wide mb-1">
-              What We'll Do Next
-            </h4>
-            <p className="text-stone-800 text-sm sm:text-base font-medium leading-relaxed">
+            <h3 className="dyslexia-text text-xs font-bold text-amber-900 uppercase tracking-wider mb-1">
+              What We&apos;ll Do Next
+            </h3>
+            <p className="dyslexia-text text-slate-800 text-sm sm:text-base font-medium leading-relaxed">
               {nextStepMessage || "You're doing great! Let's explore your next reading recommendation."}
             </p>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-        <button
+        <Button
           onClick={onTryNextReading}
-          className="w-full sm:flex-1 py-4 bg-[#1A6B6B] hover:bg-[#145555] active:scale-[0.98] text-white font-bold text-base rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+          size="lg"
+          className="w-full sm:flex-1 shadow-md"
         >
           <span>Try Next Reading</span>
           <span>🚀</span>
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="outline"
           onClick={onGoHome}
-          className="w-full sm:w-auto px-6 py-4 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-base rounded-2xl transition-all cursor-pointer"
+          size="lg"
+          className="w-full sm:w-auto"
         >
           Back to Home
-        </button>
+        </Button>
       </div>
     </div>
   )
