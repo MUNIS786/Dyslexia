@@ -4,37 +4,82 @@ import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from '../../i18n/I18nContext'
 import LanguageSelector from '../../components/shared/LanguageSelector'
 import { authAPI } from '../../api/client'
-import { Button, Input, Select, Alert } from '../../components/ui'
+import { Button, Input, Card, Alert } from '../../components/ui'
 import toast from 'react-hot-toast'
 
 function AuthShell({ children, title, subtitle }) {
   const { t } = useTranslation()
+
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4 relative"
+      className="min-h-screen flex flex-col justify-between p-4 sm:p-6 relative bg-slate-50/70"
       style={{ backgroundColor: 'var(--bg-color)' }}
     >
-      {/* Top right language selector */}
-      <div className="absolute top-4 right-4 z-20">
-        <LanguageSelector />
-      </div>
+      {/* Top Header Bar */}
+      <header className="w-full max-w-4xl mx-auto flex items-center justify-between py-2">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-slate-700 hover:text-indigo-600 font-bold transition-colors text-sm dyslexia-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 rounded-lg px-2 py-1"
+          aria-label={t('auth.backToHome', 'Back to Home')}
+        >
+          <span aria-hidden="true">←</span>
+          <span>{t('auth.backToHome', 'Back to Home')}</span>
+        </Link>
+        <div className="flex items-center gap-3">
+          <LanguageSelector />
+        </div>
+      </header>
 
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-[#1A6B6B] rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg">
-            📖
+      {/* Main Container */}
+      <main className="w-full max-w-md mx-auto my-auto py-4">
+        {/* Brand Banner */}
+        <div className="text-center mb-6">
+          <Link to="/" className="inline-flex flex-col items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 rounded-2xl p-1">
+            <div className="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-2xl mb-2.5 shadow-md group-hover:scale-105 transition-transform">
+              📖
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="dyslexia-text text-2xl font-black text-slate-900 tracking-normal">
+                DyslexAid
+              </span>
+              <span className="text-xs font-bold text-indigo-600 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded-md">
+                V2
+              </span>
+            </div>
+          </Link>
+          <p className="dyslexia-text text-slate-500 text-sm mt-1">
+            {t('auth.tagline', 'Reading companion for every student')}
+          </p>
+        </div>
+
+        {/* Card Form */}
+        <Card className="p-6 sm:p-8 space-y-5 shadow-card border-slate-200">
+          <div className="border-b border-slate-100 pb-3">
+            <h1 className="dyslexia-text text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug">
+              {title}
+            </h1>
+            {subtitle && (
+              <p className="dyslexia-text text-slate-500 text-sm mt-1">
+                {subtitle}
+              </p>
+            )}
           </div>
-          <h1 className="dyslexia-text text-3xl font-bold text-[#1A6B6B]">DyslexAid</h1>
-          <p className="dyslexia-text text-gray-500 mt-1">{t('auth.tagline', 'Reading companion for every student')}</p>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-md border border-[#E5E0D8] p-6">
-          <h2 className="dyslexia-text text-xl font-bold mb-1">{title}</h2>
-          <p className="dyslexia-text text-gray-500 text-sm mb-6">{subtitle}</p>
           {children}
+        </Card>
+
+        {/* Audience Indicator */}
+        <div className="mt-6 text-center text-xs text-slate-400 dyslexia-text">
+          <span>Accessible Learning for </span>
+          <span className="font-semibold text-slate-600">Students</span> •{' '}
+          <span className="font-semibold text-slate-600">Teachers</span> •{' '}
+          <span className="font-semibold text-slate-600">Parents</span>
         </div>
-      </div>
+      </main>
+
+      {/* Subtle Footer */}
+      <footer className="w-full max-w-4xl mx-auto text-center py-4 text-xs text-slate-400 dyslexia-text">
+        DyslexAid V2 • Universal Accessible Reading Platform
+      </footer>
     </div>
   )
 }
@@ -44,15 +89,17 @@ export function LoginPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '' })
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    if (e) e.preventDefault()
     setError('')
     if (!form.email || !form.password) {
-      setError(t('auth.fillAllFields', 'Please fill in all fields.'))
+      setError(t('auth.fillAllFields', 'Please fill in all required fields.'))
       return
     }
     setLoading(true)
@@ -68,36 +115,56 @@ export function LoginPage() {
   }
 
   return (
-    <AuthShell title={t('auth.loginTitle', 'Welcome back 👋')} subtitle={t('auth.loginSubtitle', 'Sign in to continue learning')}>
-      <div className="flex flex-col gap-4">
+    <AuthShell
+      title={t('auth.loginTitle', 'Welcome back 👋')}
+      subtitle={t('auth.loginSubtitle', 'Sign in to continue learning')}
+    >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {error && <Alert type="error">{error}</Alert>}
         <Input
-          label={t('auth.email', '📧 Email')}
+          label={t('auth.email', '📧 Email Address')}
           type="email"
           placeholder="your@email.com"
           value={form.email}
           onChange={set('email')}
           autoComplete="email"
+          required
         />
         <Input
           label={t('auth.password', '🔑 Password')}
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           placeholder="Your password"
           value={form.password}
           onChange={set('password')}
           autoComplete="current-password"
-          onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+          required
+          rightAdornment={
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="p-1 text-slate-400 hover:text-slate-600 focus:outline-none focus:text-indigo-600 rounded"
+              aria-label={showPassword ? t('auth.hidePassword', 'Hide password') : t('auth.showPassword', 'Show password')}
+              title={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? '👁️' : '🙈'}
+            </button>
+          }
         />
-        <Button onClick={handleSubmit} loading={loading} size="lg" className="w-full mt-2">
-          {t('auth.signIn', 'Sign In')}
+        <Button
+          type="submit"
+          loading={loading}
+          size="lg"
+          className="w-full mt-2"
+        >
+          {t('auth.signIn', 'Sign In')} →
         </Button>
-        <p className="dyslexia-text text-center text-sm text-gray-500">
+        <p className="dyslexia-text text-center text-sm text-slate-600 pt-2">
           {t('auth.newUser', 'New user?')}{' '}
-          <Link to="/register" className="text-[#1A6B6B] font-semibold hover:underline">
+          <Link to="/register" className="text-indigo-600 font-bold hover:underline">
             {t('auth.createAccount', 'Create account')}
           </Link>
         </p>
-      </div>
+      </form>
     </AuthShell>
   )
 }
@@ -114,22 +181,28 @@ export function RegisterPage() {
     schoolName: '',
     age: '',
   })
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    if (e) e.preventDefault()
     setError('')
     if (!form.name || !form.email || !form.password) {
       setError(t('auth.fillAllFields', 'Please fill in all required fields.'))
+      return
+    }
+    if (form.password.length < 6) {
+      setError(t('auth.passwordTooShort', 'Password must be at least 6 characters.'))
       return
     }
     setLoading(true)
     try {
       const data = await authAPI.signup({
         ...form,
-        age: form.age ? parseInt(form.age) : undefined,
+        age: form.age ? parseInt(form.age, 10) : undefined,
       })
       localStorage.setItem('dyslexaid_token', data.token)
       await login(form.email, form.password)
@@ -143,45 +216,90 @@ export function RegisterPage() {
   }
 
   return (
-    <AuthShell title={t('auth.registerTitle', 'Create your account ✨')} subtitle={t('auth.registerSubtitle', 'Join thousands of learners today')}>
-      <div className="flex flex-col gap-4">
+    <AuthShell
+      title={t('auth.registerTitle', 'Create your account ✨')}
+      subtitle={t('auth.registerSubtitle', 'Join thousands of learners today')}
+    >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {error && <Alert type="error">{error}</Alert>}
         <Input
           label={t('auth.fullName', '👤 Full Name')}
           placeholder="Your full name"
           value={form.name}
           onChange={set('name')}
+          required
         />
         <Input
-          label={t('auth.email', '📧 Email')}
+          label={t('auth.email', '📧 Email Address')}
           type="email"
           placeholder="your@email.com"
           value={form.email}
           onChange={set('email')}
+          autoComplete="email"
+          required
         />
         <Input
           label={t('auth.password', '🔑 Password')}
-          type="password"
-          placeholder="Choose a strong password"
+          type={showPassword ? 'text' : 'password'}
+          placeholder="At least 6 characters"
           value={form.password}
           onChange={set('password')}
+          autoComplete="new-password"
+          required
+          helperText={t('auth.passwordTooShort', 'Password must be at least 6 characters.')}
+          rightAdornment={
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="p-1 text-slate-400 hover:text-slate-600 focus:outline-none focus:text-indigo-600 rounded"
+              aria-label={showPassword ? t('auth.hidePassword', 'Hide password') : t('auth.showPassword', 'Show password')}
+              title={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? '👁️' : '🙈'}
+            </button>
+          }
         />
-        <Select
-          label={t('auth.role', '👔 I am a...')}
-          value={form.role}
-          onChange={set('role')}
-          options={[
-            { value: 'student', label: t('auth.student', '🧑‍🎓 Student') },
-            { value: 'teacher', label: t('auth.teacher', '👩‍🏫 Teacher') },
-            { value: 'parent', label: t('auth.parent', '👨‍👩‍👧 Parent / Guardian') },
-          ]}
-        />
+
+        {/* Role Selector */}
+        <div className="flex flex-col gap-1.5">
+          <label className="dyslexia-text font-bold text-sm text-slate-800">
+            {t('auth.role', '👔 I am a...')}
+          </label>
+          <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Account Role">
+            {[
+              { value: 'student', icon: '🧑‍🎓', label: t('auth.student', 'Student') },
+              { value: 'teacher', icon: '👩‍🏫', label: t('auth.teacher', 'Teacher') },
+              { value: 'parent', icon: '👨‍👩‍👧', label: t('auth.parent', 'Parent') },
+            ].map((r) => {
+              const isSelected = form.role === r.value
+              return (
+                <button
+                  key={r.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={isSelected}
+                  onClick={() => setForm((f) => ({ ...f, role: r.value }))}
+                  className={`flex flex-col items-center justify-center p-2.5 rounded-xl border-2 transition-all min-h-[58px] dyslexia-text cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 ${
+                    isSelected
+                      ? 'border-indigo-600 bg-indigo-50/70 text-indigo-900 font-bold shadow-2xs'
+                      : 'border-slate-200 hover:border-slate-300 text-slate-700 bg-white'
+                  }`}
+                >
+                  <span className="text-xl mb-1">{r.icon}</span>
+                  <span className="text-xs leading-none">{r.label}</span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
         <Input
           label={t('auth.schoolName', '🏫 School Name')}
           placeholder="Your school name"
           value={form.schoolName}
           onChange={set('schoolName')}
         />
+
         {form.role === 'student' && (
           <Input
             label={t('auth.age', '🎂 Age')}
@@ -193,16 +311,22 @@ export function RegisterPage() {
             max="25"
           />
         )}
-        <Button onClick={handleSubmit} loading={loading} size="lg" className="w-full mt-2">
-          {t('auth.createAccount', 'Create Account')}
+
+        <Button
+          type="submit"
+          loading={loading}
+          size="lg"
+          className="w-full mt-2"
+        >
+          {t('auth.createAccount', 'Create Account')} →
         </Button>
-        <p className="dyslexia-text text-center text-sm text-gray-500">
+        <p className="dyslexia-text text-center text-sm text-slate-600 pt-2">
           {t('auth.haveAccount', 'Already have an account?')}{' '}
-          <Link to="/login" className="text-[#1A6B6B] font-semibold hover:underline">
+          <Link to="/login" className="text-indigo-600 font-bold hover:underline">
             {t('auth.signIn', 'Sign in')}
           </Link>
         </p>
-      </div>
+      </form>
     </AuthShell>
   )
 }

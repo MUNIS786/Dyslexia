@@ -135,7 +135,7 @@ export function Button({
 }
 
 // ─── Input ────────────────────────────────────────────────────────────────
-export function Input({ label, error, helperText, id, className = '', ...props }) {
+export function Input({ label, error, helperText, id, className = '', rightAdornment, ...props }) {
   const inputId = id || (label ? `input-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}` : undefined)
   const errorId = error && inputId ? `${inputId}-error` : undefined
   const helperId = helperText && inputId ? `${inputId}-helper` : undefined
@@ -147,16 +147,23 @@ export function Input({ label, error, helperText, id, className = '', ...props }
           {label}
         </label>
       )}
-      <input
-        id={inputId}
-        aria-invalid={!!error}
-        aria-describedby={errorId || helperId}
-        className={`w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800
-          focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition-colors min-h-[44px]
-          placeholder:text-slate-400 disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed
-          dyslexia-text ${error ? 'border-rose-400 focus:border-rose-600 focus:ring-rose-100' : ''} ${className}`}
-        {...props}
-      />
+      <div className="relative flex items-center">
+        <input
+          id={inputId}
+          aria-invalid={!!error}
+          aria-describedby={errorId || helperId}
+          className={`w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800
+            focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition-colors min-h-[44px]
+            placeholder:text-slate-400 disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed
+            dyslexia-text ${rightAdornment ? 'pr-12' : ''} ${error ? 'border-rose-400 focus:border-rose-600 focus:ring-rose-100' : ''} ${className}`}
+          {...props}
+        />
+        {rightAdornment && (
+          <div className="absolute right-3 flex items-center text-slate-400">
+            {rightAdornment}
+          </div>
+        )}
+      </div>
       {error && (
         <p id={errorId} className="text-rose-600 text-xs sm:text-sm font-semibold flex items-center gap-1.5" role="alert">
           <span aria-hidden="true">⚠️</span> {error}

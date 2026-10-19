@@ -13,6 +13,7 @@ import Layout from './components/shared/Layout'
 import { LoginPage, RegisterPage } from './pages/auth/AuthPages'
 
 // Code-split route pages (Phase 17 bundle optimization)
+const LandingPage = lazy(() => import('./pages/LandingPage'))
 const StudentHome = lazy(() => import('./pages/student/StudentHome'))
 const StudentProfilePage = lazy(() => import('./pages/student/StudentProfilePage'))
 const AdaptiveLearningPage = lazy(() => import('./pages/student/AdaptiveLearningPage'))
@@ -78,6 +79,8 @@ function AppRoutes() {
   return (
     <Suspense fallback={<LoadingScreen />}>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/landing" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
