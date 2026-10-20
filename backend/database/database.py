@@ -407,33 +407,53 @@ def build_teacher_note_doc(teacher_id: str, student_id: str, classroom_code: str
 # ─── Demo seeding ───────────────────────────────────────────────────────────
 
 async def _seed_demo_data():
-    existing = await db.users.count_documents({"isDemo": True})
-    if existing > 0:
-        return
-
+    """
+    Idempotently seeds demo accounts, classroom, students, initial assignment,
+    and parent account with authorized parent-student link.
+    Guarantees:
+    - Safe to re-run on fresh or existing databases.
+    - Never overwrites existing accounts, passwords, or profile fields.
+    - Never duplicates or reactivates existing/revoked parent links.
+    - Missing demo entities (e.g. parent) are backfilled even if other demo users exist.
+    """
     now = int(time.time())
-    teacher_id = str(uuid.uuid4())
 
-    await db.users.insert_one({
-        "id": teacher_id, "name": "Mrs. Anjali Sharma",
-        "email": "teacher@demo.school", "passwordHash": hash_password("Demo@123"),
-        "role": "teacher", "classroomCode": "DA-DEMO",
-        "schoolName": "Government Primary School, Pune",
-        "readingProfile": None, "onboardingComplete": True,
-        "languages": ["english", "hindi", "marathi"], "classroomJoined": None,
-        "settings": _default_settings(), "isDemo": True, "createdAt": now,
-    })
-
-    try:
-        await db.classrooms.insert_one({
-            "code": "DA-DEMO", "teacherId": teacher_id,
-            "teacherName": "Mrs. Anjali Sharma",
+    # 1. Teacher & Classroom
+    teacher = await db.users.find_one({"email": "teacher@demo.school"})
+    if not teacher:
+        teacher_id = str(uuid.uuid4())
+        await db.users.insert_one({
+            "id": teacher_id, "name": "Mrs. Anjali Sharma",
+            "email": "teacher@demo.school", "passwordHash": hash_password("Demo@123"),
+            "role": "teacher", "classroomCode": "DA-DEMO",
             "schoolName": "Government Primary School, Pune",
-            "subject": "English & Reading", "createdAt": now,
+            "readingProfile": None, "onboardingComplete": True,
+            "languages": ["english", "hindi", "marathi"], "classroomJoined": None,
+            "settings": _default_settings(), "isDemo": True, "createdAt": now,
         })
-    except Exception:
-        pass
+        try:
+            await db.classrooms.insert_one({
+                "code": "DA-DEMO", "teacherId": teacher_id,
+                "teacherName": "Mrs. Anjali Sharma",
+                "schoolName": "Government Primary School, Pune",
+                "subject": "English & Reading", "createdAt": now,
+            })
+        except Exception:
+            pass
+    else:
+        teacher_id = teacher.get("id")
+        if not await db.classrooms.find_one({"code": "DA-DEMO"}):
+            try:
+                await db.classrooms.insert_one({
+                    "code": "DA-DEMO", "teacherId": teacher_id,
+                    "teacherName": teacher.get("name", "Mrs. Anjali Sharma"),
+                    "schoolName": teacher.get("schoolName", "Government Primary School, Pune"),
+                    "subject": "English & Reading", "createdAt": now,
+                })
+            except Exception:
+                pass
 
+    # 2. Demo Students
     demo_students = [
         {"name": "Aarav Sharma", "email": "aarav@demo.school", "language": "english",
          "profile": {**_default_reading_profile(), "type": "Phonological Dyslexia", "primaryProfile": "Phonological Dyslexia",
@@ -476,84 +496,160 @@ async def _seed_demo_data():
 
     student_ids = []
     for s in demo_students:
-        sid = str(uuid.uuid4())
-        student_ids.append((sid, s["name"]))
-        await db.users.insert_one({
-            "id": sid, "name": s["name"], "email": s["email"],
-            "passwordHash": hash_password("Demo@123"), "role": "student",
-            "classroomCode": None, "schoolName": "Government Primary School, Pune",
-            "readingProfile": s["profile"], "onboardingComplete": True,
-            "languages": [s["language"]], "classroomJoined": "DA-DEMO",
-            "settings": _default_settings(), "isDemo": True, "createdAt": now,
-        })
-        prog = _default_progress()
-        prog.update(s["prog"])
-        await db.progress.insert_one({"userId": sid, **prog})
-        await db.libraries.insert_one({
-            "id": "doc-" + str(uuid.uuid4())[:8], "userId": sid,
-            "title": "The Water Cycle", "language": "english", "wordCount": 60,
-            "source": "scan",
-            "original": "The water cycle describes the continuous movement of water on the Earth.",
-            "simplified": "Water moves in a cycle. Sun heats water. Water rises as vapor. Clouds form. Rain falls.",
-            "bullet_points": ["Water moves in a cycle.", "Sun heats water into vapor.", "Rain falls from clouds."],
-            "highlights": ["water cycle", "vapor", "clouds"], "createdAt": now,
-        })
+        existing_student = await db.users.find_one({"email": s["email"]})
+        if not existing_student:
+            sid = str(uuid.uuid4())
+            student_ids.append((sid, s["name"]))
+            await db.users.insert_one({
+                "id": sid, "name": s["name"], "email": s["email"],
+                "passwordHash": hash_password("Demo@123"), "role": "student",
+                "classroomCode": None, "schoolName": "Government Primary School, Pune",
+                "readingProfile": s["profile"], "onboardingComplete": True,
+                "languages": [s["language"]], "classroomJoined": "DA-DEMO",
+                "settings": _default_settings(), "isDemo": True, "createdAt": now,
+            })
+            prog = _default_progress()
+            prog.update(s["prog"])
+            await db.progress.insert_one({"userId": sid, **prog})
+            await db.libraries.insert_one({
+                "id": "doc-" + str(uuid.uuid4())[:8], "userId": sid,
+                "title": "The Water Cycle", "language": "english", "wordCount": 60,
+                "source": "scan",
+                "original": "The water cycle describes the continuous movement of water on the Earth.",
+                "simplified": "Water moves in a cycle. Sun heats water. Water rises as vapor. Clouds form. Rain falls.",
+                "bullet_points": ["Water moves in a cycle.", "Sun heats water into vapor.", "Rain falls from clouds."],
+                "highlights": ["water cycle", "vapor", "clouds"], "createdAt": now,
+            })
 
-        screening_doc = build_screening_result_doc(
-            user_id=sid,
-            result={
-                "score": s["profile"]["score"], "level": s["profile"]["level"],
-                "type": s["profile"]["type"], "primary_profile": s["profile"]["primaryProfile"],
-                "risk_level": s["profile"]["riskLevel"], "confidence": s["profile"]["confidence"],
-                "learning_profiles": s["profile"]["learningProfiles"],
-                "strengths": s["profile"]["strengths"], "weaknesses": s["profile"]["weaknesses"],
-                "learning_style": s["profile"]["learningStyle"],
-                "ui_settings": s["profile"]["uiSettings"],
-                "interventions": [s["profile"]["recommendation"]],
-                "cognitive_profile": {}, "domain_scores": {},
-            },
-            student_age=10, language=s["language"], answers_count=20,
-        )
-        await db.screening_results.insert_one(screening_doc)
-        await db.prediction_history.insert_one(
-            build_prediction_history_doc(sid, screening_doc["id"], screening_doc["result"], "rule_based")
-        )
-        await db.users.update_one(
-            {"id": sid},
-            {"$set": {"readingProfile.lastScreeningId": screening_doc["id"]}},
-        )
-
-    aid = str(uuid.uuid4())
-    await db.assignments.insert_one({
-        "id": aid, "classroomCode": "DA-DEMO",
-        "teacherId": teacher_id, "teacherName": "Mrs. Anjali Sharma",
-        "title": "Read Chapter 2: The Water Cycle",
-        "description": "Read the simplified Water Cycle passage and answer the quiz.",
-        "originalText": "The water cycle describes the continuous movement of water on, above, and below the surface of the Earth. Water evaporates from oceans due to heat from the sun.",
-        "simplifiedText": "Water moves in a cycle. The sun heats water. Water rises as vapor. Clouds form. Rain falls.",
-        "language": "english", "createdAt": now, "dueDate": now + 86400 * 7, "isDemo": True,
-    })
-
-    for i, (sid, sname) in enumerate(student_ids[:2]):
-        try:
-            await db.submissions.update_one(
-                {"assignmentId": aid, "studentId": sid},
-                {"$set": {"id": str(uuid.uuid4()), "assignmentId": aid, "studentId": sid, "studentName": sname, "score": [72, 85][i], "comment": "Done", "answers": [], "submittedAt": now}},
-                upsert=True,
+            screening_doc = build_screening_result_doc(
+                user_id=sid,
+                result={
+                    "score": s["profile"]["score"], "level": s["profile"]["level"],
+                    "type": s["profile"]["type"], "primary_profile": s["profile"]["primaryProfile"],
+                    "risk_level": s["profile"]["riskLevel"], "confidence": s["profile"]["confidence"],
+                    "learning_profiles": s["profile"]["learningProfiles"],
+                    "strengths": s["profile"]["strengths"], "weaknesses": s["profile"]["weaknesses"],
+                    "learning_style": s["profile"]["learningStyle"],
+                    "ui_settings": s["profile"]["uiSettings"],
+                    "interventions": [s["profile"]["recommendation"]],
+                    "cognitive_profile": {}, "domain_scores": {},
+                },
+                student_age=10, language=s["language"], answers_count=20,
             )
-        except Exception:
-            pass
+            await db.screening_results.insert_one(screening_doc)
+            await db.prediction_history.insert_one(
+                build_prediction_history_doc(sid, screening_doc["id"], screening_doc["result"], "rule_based")
+            )
+            await db.users.update_one(
+                {"id": sid},
+                {"$set": {"readingProfile.lastScreeningId": screening_doc["id"]}},
+            )
+        else:
+            student_ids.append((existing_student.get("id"), existing_student.get("name")))
 
-    for sid, sname in student_ids:
-        await db.notifications.insert_one({
-            "id": str(uuid.uuid4()), "userId": sid,
-            "title": "New Assignment",
-            "message": "Mrs. Anjali Sharma assigned: Read Chapter 2: The Water Cycle",
-            "type": "assignment", "assignmentId": aid, "read": False, "createdAt": now,
+    # 3. Classroom Assignment & Submissions
+    existing_assignment = await db.assignments.find_one({"classroomCode": "DA-DEMO"})
+    if not existing_assignment and teacher_id:
+        aid = str(uuid.uuid4())
+        await db.assignments.insert_one({
+            "id": aid, "classroomCode": "DA-DEMO",
+            "teacherId": teacher_id, "teacherName": "Mrs. Anjali Sharma",
+            "title": "Read Chapter 2: The Water Cycle",
+            "description": "Read the simplified Water Cycle passage and answer the quiz.",
+            "originalText": "The water cycle describes the continuous movement of water on, above, and below the surface of the Earth. Water evaporates from oceans due to heat from the sun.",
+            "simplifiedText": "Water moves in a cycle. The sun heats water. Water rises as vapor. Clouds form. Rain falls.",
+            "language": "english", "createdAt": now, "dueDate": now + 86400 * 7, "isDemo": True,
         })
 
-    await db.teacher_notes.insert_one(
-        build_teacher_note_doc(teacher_id, student_ids[2][0], "DA-DEMO", "Needs specialist referral follow-up.")
-    )
+        for i, (sid, sname) in enumerate(student_ids[:2]):
+            try:
+                await db.submissions.update_one(
+                    {"assignmentId": aid, "studentId": sid},
+                    {"$set": {"id": str(uuid.uuid4()), "assignmentId": aid, "studentId": sid, "studentName": sname, "score": [72, 85][i], "comment": "Done", "answers": [], "submittedAt": now}},
+                    upsert=True,
+                )
+            except Exception:
+                pass
 
-    print("[seed] Demo ready — teacher@demo.school | aarav/priya/ravi/sneha@demo.school | Demo@123 | code: DA-DEMO")
+        for sid, sname in student_ids:
+            await db.notifications.insert_one({
+                "id": str(uuid.uuid4()), "userId": sid,
+                "title": "New Assignment",
+                "message": "Mrs. Anjali Sharma assigned: Read Chapter 2: The Water Cycle",
+                "type": "assignment", "assignmentId": aid, "read": False, "createdAt": now,
+            })
+
+        if len(student_ids) >= 3:
+            await db.teacher_notes.insert_one(
+                build_teacher_note_doc(teacher_id, student_ids[2][0], "DA-DEMO", "Needs specialist referral follow-up.")
+            )
+
+    # 4. Parent demo account & authorized relationship seeding
+    parent_user = await db.users.find_one({"email": "parent@demo.school"})
+    if not parent_user:
+        parent_id = str(uuid.uuid4())
+        parent_doc = {
+            "id": parent_id,
+            "name": "Meera Sharma",
+            "email": "parent@demo.school",
+            "passwordHash": hash_password("Demo@123"),
+            "role": "parent",
+            "classroomCode": None,
+            "schoolName": "Government Primary School, Pune",
+            "readingProfile": None,
+            "onboardingComplete": True,
+            "languages": ["english", "hindi"],
+            "classroomJoined": None,
+            "settings": _default_settings(),
+            "isDemo": True,
+            "createdAt": now,
+        }
+        await db.users.insert_one(parent_doc)
+        parent_user = parent_doc
+    else:
+        parent_id = parent_user.get("id")
+        if parent_user.get("role") != "parent":
+            logger.warning(
+                "Demo parent account parent@demo.school exists with unexpected role '%s'. Skipping parent link creation.",
+                parent_user.get("role")
+            )
+            parent_id = None
+
+    # Link parent to Aarav Sharma if both exist and no link already exists
+    if parent_id and parent_user.get("role") == "parent":
+        aarav_user = await db.users.find_one({"email": "aarav@demo.school"})
+        if aarav_user:
+            if aarav_user.get("role") == "student":
+                aarav_id = aarav_user.get("id")
+                existing_link = await db.parent_links.find_one(
+                    {"parentId": parent_id, "studentId": aarav_id}
+                )
+                if not existing_link:
+                    link_doc = {
+                        "id": str(uuid.uuid4()),
+                        "parentId": parent_id,
+                        "parentName": parent_user.get("name", "Meera Sharma"),
+                        "parentEmail": parent_user.get("email", "parent@demo.school"),
+                        "studentId": aarav_id,
+                        "studentName": aarav_user.get("name", "Aarav Sharma"),
+                        "relationship": "Mother",
+                        "status": "active",
+                        "verifiedAt": now,
+                        "verifiedBy": "invitation_code",
+                        "requestedAt": now,
+                        "createdAt": now,
+                        "revokedAt": None,
+                        "revokedBy": None,
+                    }
+                    await db.parent_links.insert_one(link_doc)
+            else:
+                logger.warning(
+                    "Account aarav@demo.school exists with non-student role '%s'; demo parent link skipped.",
+                    aarav_user.get("role")
+                )
+        else:
+            logger.warning("Intended demo student aarav@demo.school not found; demo parent link skipped.")
+
+    print("[seed] Demo ready — teacher@demo.school | aarav/priya/ravi/sneha@demo.school | parent@demo.school | Demo@123 | code: DA-DEMO")
+
+seed_demo_data = _seed_demo_data

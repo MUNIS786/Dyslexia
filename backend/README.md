@@ -25,13 +25,20 @@ API docs: http://localhost:8000/docs
 Health:   http://localhost:8000/api/health
 
 ### Demo Credentials (auto-seeded on first start)
-| Role    | Email                    | Password  | Classroom |
-|---------|--------------------------|-----------|-----------|
-| Teacher | teacher@demo.school      | Demo@123  | DA-DEMO   |
-| Student | aarav@demo.school        | Demo@123  | DA-DEMO   |
-| Student | priya@demo.school        | Demo@123  | DA-DEMO   |
-| Student | ravi@demo.school         | Demo@123  | DA-DEMO   |
-| Student | sneha@demo.school        | Demo@123  | DA-DEMO   |
+| Role    | Email                    | Password  | Details / Classroom |
+|---------|--------------------------|-----------|---------------------|
+| Teacher | teacher@demo.school      | Demo@123  | Classroom: DA-DEMO  |
+| Student | aarav@demo.school        | Demo@123  | Classroom: DA-DEMO  |
+| Student | priya@demo.school        | Demo@123  | Classroom: DA-DEMO  |
+| Student | ravi@demo.school         | Demo@123  | Classroom: DA-DEMO  |
+| Student | sneha@demo.school        | Demo@123  | Classroom: DA-DEMO  |
+| Parent  | parent@demo.school       | Demo@123  | Mother of Aarav Sharma |
+
+> **Note on Parent Demo Account & Relationship Seeding:**
+> - `parent@demo.school` (Meera Sharma) is seeded with role `parent` and `isDemo: true`.
+> - An active, authorized parent–student link to `aarav@demo.school` (`relationship: "Mother"`, `status: "active"`, `verifiedBy: "invitation_code"`) is established automatically upon initial seed.
+> - Seeding is fully idempotent: re-running does not reset passwords, overwrite user profile attributes, or duplicate/reactivate existing relationships.
+> - **Prerequisite & Limitation:** The parent–student relationship requires `aarav@demo.school` to exist with `role: "student"`. If a relationship record already exists (including a revoked link), seeding preserves the existing state and will not silently reactivate it.
 
 ---
 
