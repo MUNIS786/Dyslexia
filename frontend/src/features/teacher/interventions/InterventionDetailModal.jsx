@@ -197,7 +197,7 @@ export default function InterventionDetailModal({
 
         {loading ? (
           <div className="py-16 text-center space-y-3">
-            <div className="w-10 h-10 border-3 border-[#1A6B6B] border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="w-10 h-10 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto" />
             <p className="text-xs text-stone-500 font-bold uppercase tracking-wider">
               Gathering educational measurements & calculating changes...
             </p>
@@ -215,7 +215,7 @@ export default function InterventionDetailModal({
                   Target Domain & Goal
                 </span>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-xs font-bold text-[#1A6B6B] uppercase tracking-wider px-2 py-0.5 bg-teal-50 rounded-md border border-teal-200">
+                  <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider px-2 py-0.5 bg-indigo-50 rounded-md border border-indigo-200">
                     {intervention.targetDomain.replace('_', ' ')}
                   </span>
                   <p className="text-base font-bold text-stone-900">{intervention.goal}</p>
@@ -281,7 +281,7 @@ export default function InterventionDetailModal({
                 <button
                   type="button"
                   onClick={loadData}
-                  className="text-xs font-bold text-[#1A6B6B] hover:text-[#155353] flex items-center gap-1"
+                  className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1"
                 >
                   <span>🔄</span> Refresh Practice Data
                 </button>
@@ -310,7 +310,7 @@ export default function InterventionDetailModal({
                   <button
                     type="button"
                     onClick={() => setShowManualForm(true)}
-                    className="text-xs font-bold text-[#1A6B6B] hover:text-[#155353]"
+                    className="text-xs font-bold text-indigo-600 hover:text-indigo-800"
                   >
                     + Add Interim Observation
                   </button>
@@ -368,7 +368,7 @@ export default function InterventionDetailModal({
                     <button
                       type="submit"
                       disabled={savingManual}
-                      className="px-3.5 py-1.5 bg-[#1A6B6B] text-white font-bold rounded-lg shadow-2xs"
+                      className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-xs"
                     >
                       {savingManual ? 'Saving...' : 'Save Observation'}
                     </button>
@@ -424,7 +424,7 @@ export default function InterventionDetailModal({
                   <button
                     type="button"
                     onClick={handleStart}
-                    className="px-5 py-2.5 bg-[#1A6B6B] hover:bg-[#155353] text-white text-xs font-bold rounded-xl shadow-2xs transition-all"
+                    className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all"
                   >
                     ▶ Start Support Activity
                   </button>

@@ -100,7 +100,7 @@ export default function AssignmentsPage() {
       <PageHeader icon="📝" title="Assignments" subtitle="Create and manage class assignments." />
 
       {/* Tabs */}
-      <div className="flex gap-2 bg-white rounded-xl p-1 border border-[#E5E0D8]">
+      <div className="flex gap-2 bg-white rounded-xl p-1 border border-slate-200 shadow-2xs">
         {[
           { id: 'list', label: '📋 My Assignments' },
           { id: 'create', label: '+ Create New' },
@@ -109,7 +109,7 @@ export default function AssignmentsPage() {
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`flex-1 py-2.5 rounded-lg dyslexia-text text-sm font-semibold transition-all
-              ${tab === t.id ? 'bg-[#1A6B6B] text-white' : 'text-gray-600 hover:bg-gray-50'}`}
+              ${tab === t.id ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'}`}
           >
             {t.label}
           </button>
@@ -219,7 +219,7 @@ export default function AssignmentsPage() {
           <h2 className="dyslexia-text font-bold text-lg mb-4">✏️ New Assignment</h2>
 
           {/* Input mode toggle */}
-          <div className="flex gap-2 mb-4 bg-gray-100 rounded-xl p-1">
+          <div className="flex gap-2 mb-4 bg-slate-100 rounded-xl p-1">
             {[
               { id: 'text', label: '✏️ Type Text' },
               { id: 'file', label: '📁 Upload File' },
@@ -228,7 +228,7 @@ export default function AssignmentsPage() {
                 key={m.id}
                 onClick={() => setUploadMode(m.id)}
                 className={`flex-1 py-2 rounded-lg dyslexia-text text-sm font-semibold transition-all
-                  ${uploadMode === m.id ? 'bg-white shadow-sm text-[#1A6B6B]' : 'text-gray-500'}`}
+                  ${uploadMode === m.id ? 'bg-white shadow-sm text-indigo-600 font-bold' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 {m.label}
               </button>
@@ -237,10 +237,10 @@ export default function AssignmentsPage() {
 
           <div className="flex flex-col gap-4">
             <div>
-              <label className="dyslexia-text font-semibold block mb-1">📌 Title</label>
+              <label className="dyslexia-text font-semibold block mb-1 text-slate-800">📌 Title</label>
               <input
-                className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-                  focus:outline-none focus:border-[#1A6B6B]"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                 placeholder="Assignment title"
                 value={form.title}
                 onChange={set('title')}
@@ -248,10 +248,10 @@ export default function AssignmentsPage() {
             </div>
 
             <div>
-              <label className="dyslexia-text font-semibold block mb-1">📝 Description (optional)</label>
+              <label className="dyslexia-text font-semibold block mb-1 text-slate-800">📝 Description (optional)</label>
               <textarea
-                className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-                  focus:outline-none focus:border-[#1A6B6B] resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 resize-none"
                 rows={2}
                 placeholder="Instructions for students"
                 value={form.description}
@@ -264,10 +264,10 @@ export default function AssignmentsPage() {
 
             {uploadMode === 'text' ? (
               <div>
-                <label className="dyslexia-text font-semibold block mb-1">📄 Assignment Text</label>
+                <label className="dyslexia-text font-semibold block mb-1 text-slate-800">📄 Assignment Text</label>
                 <textarea
-                  className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-                    focus:outline-none focus:border-[#1A6B6B] resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 resize-none"
                   rows={6}
                   placeholder="Paste or type the assignment text here…"
                   value={form.originalText}
@@ -280,13 +280,13 @@ export default function AssignmentsPage() {
                   onChange={(e) => setUploadFile(e.target.files[0])} />
                 <div
                   onClick={() => fileRef.current?.click()}
-                  className="border-2 border-dashed border-[#1A6B6B] rounded-xl p-6 text-center cursor-pointer hover:bg-[#E0F2F2]"
+                  className="border-2 border-dashed border-indigo-400 rounded-xl p-6 text-center cursor-pointer hover:bg-indigo-50/50 transition-colors"
                 >
                   <p className="text-3xl mb-2">📤</p>
-                  <p className="dyslexia-text text-sm text-[#1A6B6B] font-semibold">
+                  <p className="dyslexia-text text-sm text-indigo-600 font-semibold">
                     {uploadFile ? uploadFile.name : 'Click to select a file'}
                   </p>
-                  <p className="dyslexia-text text-xs text-gray-400 mt-1">
+                  <p className="dyslexia-text text-xs text-slate-400 mt-1">
                     PDF, image, Word, or text — auto OCR + dyslexia-friendly conversion
                   </p>
                 </div>
@@ -294,11 +294,11 @@ export default function AssignmentsPage() {
             )}
 
             <div>
-              <label className="dyslexia-text font-semibold block mb-1">🏆 Max Score</label>
+              <label className="dyslexia-text font-semibold block mb-1 text-slate-800">🏆 Max Score</label>
               <input
                 type="number"
-                className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-                  focus:outline-none focus:border-[#1A6B6B]"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                 placeholder="100"
                 value={form.maxScore}
                 onChange={set('maxScore')}

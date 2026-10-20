@@ -94,7 +94,7 @@ export default function LearnerRosterTable({
             placeholder="Search learner..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full sm:w-64 pl-8 pr-3 py-1.5 text-xs bg-stone-50 border border-stone-200 rounded-full focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B] focus:bg-white transition-all text-stone-800"
+            className="w-full sm:w-64 pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-full focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:bg-white transition-all text-slate-800"
           />
           <span className="absolute left-2.5 top-2 text-stone-400 text-xs">🔍</span>
         </div>
@@ -125,7 +125,7 @@ export default function LearnerRosterTable({
             onClick={() => setFilterTab(tab.id)}
             className={`text-xs font-semibold px-3 py-1.5 rounded-full transition-all shrink-0 flex items-center gap-1.5 ${
               filterTab === tab.id
-                ? 'bg-[#1A6B6B] text-white shadow-2xs'
+                ? 'bg-indigo-600 text-white shadow-xs'
                 : 'text-stone-600 hover:bg-stone-100'
             }`}
           >
@@ -241,8 +241,8 @@ export default function LearnerRosterTable({
                         onClick={() => onSelectLearner(learner)}
                         className={`text-xs font-bold px-3 py-1.5 rounded-xl transition-all ${
                           isSelected
-                            ? 'bg-[#1A6B6B] text-white shadow-2xs'
-                            : 'bg-stone-100 hover:bg-[#1A6B6B] hover:text-white text-stone-700'
+                            ? 'bg-indigo-600 text-white shadow-xs'
+                            : 'bg-slate-100 hover:bg-indigo-600 hover:text-white text-slate-700'
                         }`}
                       >
                         Inspect

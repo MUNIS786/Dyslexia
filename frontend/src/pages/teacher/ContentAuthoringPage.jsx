@@ -230,7 +230,7 @@ export default function ContentAuthoringPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xl">✍️</span>
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1A6B6B]">
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
               Phase 16 Authoring & Quality Management
             </span>
           </div>
@@ -266,7 +266,7 @@ export default function ContentAuthoringPage() {
           onClick={() => setActiveTab('items')}
           className={`py-3 px-2 border-b-2 transition-colors whitespace-nowrap ${
             activeTab === 'items'
-              ? 'border-[#1A6B6B] text-[#1A6B6B]'
+              ? 'border-indigo-600 text-indigo-600'
               : 'border-transparent hover:text-gray-700'
           }`}
         >
@@ -281,7 +281,7 @@ export default function ContentAuthoringPage() {
           }}
           className={`py-3 px-2 border-b-2 transition-colors whitespace-nowrap ${
             activeTab === 'editor'
-              ? 'border-[#1A6B6B] text-[#1A6B6B]'
+              ? 'border-indigo-600 text-indigo-600'
               : 'border-transparent hover:text-gray-700'
           }`}
         >
@@ -293,7 +293,7 @@ export default function ContentAuthoringPage() {
           onClick={() => setActiveTab('queue')}
           className={`py-3 px-2 border-b-2 transition-colors whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === 'queue'
-              ? 'border-[#1A6B6B] text-[#1A6B6B]'
+              ? 'border-indigo-600 text-indigo-600'
               : 'border-transparent hover:text-gray-700'
           }`}
         >
@@ -439,7 +439,7 @@ export default function ContentAuthoringPage() {
                               setActiveValidationResult(item.validationResult)
                               setActiveTab('editor')
                             }}
-                            className="px-3 py-1 text-xs font-bold rounded-lg bg-[#1A6B6B] text-white hover:bg-[#145252]"
+                            className="px-3 py-1 text-xs font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-2xs"
                           >
                             Edit Draft
                           </button>

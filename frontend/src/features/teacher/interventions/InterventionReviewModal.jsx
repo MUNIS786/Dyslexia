@@ -107,7 +107,7 @@ export default function InterventionReviewModal({ isOpen, onClose, intervention,
               <label
                 className={`flex items-start gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all ${
                   decision === 'continue'
-                    ? 'border-[#1A6B6B] bg-teal-50/40 text-stone-900 ring-1 ring-[#1A6B6B]'
+                    ? 'border-indigo-600 bg-indigo-50/40 text-stone-900 ring-1 ring-indigo-600'
                     : 'border-stone-200 bg-white hover:bg-stone-50 text-stone-700'
                 }`}
               >
@@ -117,7 +117,7 @@ export default function InterventionReviewModal({ isOpen, onClose, intervention,
                   value="continue"
                   checked={decision === 'continue'}
                   onChange={() => setDecision('continue')}
-                  className="mt-0.5 text-[#1A6B6B] focus:ring-[#1A6B6B]"
+                  className="mt-0.5 text-indigo-600 focus:ring-indigo-500"
                 />
                 <div>
                   <p className="font-bold text-sm">Continue Support Activity</p>
@@ -185,7 +185,7 @@ export default function InterventionReviewModal({ isOpen, onClose, intervention,
               placeholder="e.g. Student showed steady progress on story comprehension. Will transition to independent reading practice."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B]"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
             />
           </div>
 
@@ -206,7 +206,7 @@ export default function InterventionReviewModal({ isOpen, onClose, intervention,
             <button
               type="submit"
               disabled={submitting}
-              className="px-5 py-2.5 bg-[#1A6B6B] hover:bg-[#155353] text-white text-sm font-bold rounded-xl shadow-2xs transition-all flex items-center gap-2 disabled:opacity-50"
+              className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-xs transition-all flex items-center gap-2 disabled:opacity-50"
             >
               {submitting ? 'Applying Decision...' : 'Confirm Review Decision'}
             </button>

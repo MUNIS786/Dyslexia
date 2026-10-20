@@ -85,7 +85,7 @@ export default function InterventionsPage() {
             id="btn-new-support-activity"
             type="button"
             onClick={() => setCreateModalOpen(true)}
-            className="px-4 py-2.5 bg-[#1A6B6B] hover:bg-[#155353] text-white text-xs sm:text-sm font-bold rounded-xl shadow-2xs transition-all flex items-center gap-1.5"
+            className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5"
           >
             <span>+</span> New Support Activity
           </button>
@@ -100,10 +100,10 @@ export default function InterventionsPage() {
           <p className="text-[11px] text-stone-400 mt-0.5">Instructional activities</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 border border-stone-200 shadow-2xs">
-          <p className="text-xs text-teal-700 font-semibold uppercase tracking-wider">Active Support</p>
-          <p className="text-2xl font-black text-teal-800 mt-1">{activeCount}</p>
-          <p className="text-[11px] text-teal-600 mt-0.5">Currently gathering data</p>
+        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs">
+          <p className="text-xs text-indigo-700 font-semibold uppercase tracking-wider">Active Support</p>
+          <p className="text-2xl font-black text-indigo-900 mt-1">{activeCount}</p>
+          <p className="text-[11px] text-indigo-600 mt-0.5">Currently gathering data</p>
         </div>
 
         <div className="bg-white rounded-2xl p-4 border border-stone-200 shadow-2xs">
@@ -121,9 +121,9 @@ export default function InterventionsPage() {
 
       {/* Main Content Area */}
       {loading ? (
-        <div className="bg-white rounded-3xl p-16 border border-stone-200 text-center space-y-3 shadow-2xs">
-          <div className="w-10 h-10 border-3 border-[#1A6B6B] border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-stone-500 font-bold uppercase tracking-wider">
+        <div className="bg-white rounded-3xl p-16 border border-slate-200 text-center space-y-3 shadow-2xs">
+          <div className="w-10 h-10 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">
             Loading educational interventions...
           </p>
         </div>

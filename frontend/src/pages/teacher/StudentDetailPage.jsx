@@ -146,20 +146,20 @@ export default function StudentDetailPage() {
 
       {/* V2 Learner Intelligence Profile */}
       {v2Profile && (
-        <Card className="border border-teal-200 bg-gradient-to-b from-teal-50/40 to-white">
+        <Card className="border border-indigo-100 bg-gradient-to-b from-indigo-50/40 via-white to-white shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-2xl bg-[#1A6B6B] text-white flex items-center justify-center text-xl shadow-sm">
+              <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-xl shadow-sm">
                 🌟
               </div>
               <div>
-                <h2 className="dyslexia-text font-bold text-lg text-gray-900 flex items-center gap-2">
+                <h2 className="dyslexia-text font-bold text-lg text-slate-900 flex items-center gap-2">
                   Learner Intelligence Profile (V2)
                   <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold border border-emerald-300">
                     Active
                   </span>
                 </h2>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-slate-500">
                   Multidimensional cognitive telemetry & educational accommodation profile
                 </p>
               </div>
@@ -338,12 +338,12 @@ export default function StudentDetailPage() {
               <div key={day} className="flex-1 flex flex-col items-center gap-1">
                 <div className="w-full flex items-end" style={{ height: '64px' }}>
                   <div
-                    className="w-full rounded-t-lg bg-[#1A6B6B]"
+                    className="w-full rounded-t-lg bg-indigo-600 transition-all duration-300"
                     style={{ height: `${Math.max(Math.round((val / maxWeekly) * 100), val > 0 ? 8 : 2)}%` }}
                     title={`${val}min`}
                   />
                 </div>
-                <p className="dyslexia-text text-xs text-gray-400">{day}</p>
+                <p className="dyslexia-text text-xs text-slate-400 font-medium">{day}</p>
               </div>
             )
           })}
@@ -352,22 +352,22 @@ export default function StudentDetailPage() {
 
       {/* AI Plan summary */}
       {plan && (
-        <Card className="bg-gradient-to-br from-[#1A6B6B]/10 to-[#2A8B8B]/5 border-[#1A6B6B]/20">
-          <h2 className="dyslexia-text font-bold text-lg mb-2">🧠 AI Learning Plan</h2>
-          <p className="dyslexia-text text-sm text-gray-600">{plan.summary}</p>
+        <Card className="bg-gradient-to-br from-indigo-50/60 to-purple-50/30 border-indigo-100 shadow-sm">
+          <h2 className="dyslexia-text font-bold text-lg mb-2 text-slate-900">🧠 AI Learning Plan</h2>
+          <p className="dyslexia-text text-sm text-slate-600">{plan.summary}</p>
           {(plan.weeklyGoals || []).slice(0, 2).map((g, i) => (
-            <p key={i} className="dyslexia-text text-sm mt-1">• {g}</p>
+            <p key={i} className="dyslexia-text text-sm mt-1 text-slate-700">• {g}</p>
           ))}
         </Card>
       )}
 
       {/* Generate lesson plan */}
       <Card>
-        <h2 className="dyslexia-text font-bold text-lg mb-3">📋 Generate Lesson Plan</h2>
+        <h2 className="dyslexia-text font-bold text-lg mb-3 text-slate-900">📋 Generate Lesson Plan</h2>
         <div className="flex flex-col gap-3">
           <input
-            className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-              focus:outline-none focus:border-[#1A6B6B]"
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+              focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
             placeholder="Subject (e.g. Reading, Science)"
             value={lessonForm.subject}
             onChange={(e) => setLessonForm((f) => ({ ...f, subject: e.target.value }))}
@@ -384,31 +384,31 @@ export default function StudentDetailPage() {
       {/* Submissions */}
       {(submissions || []).length > 0 && (
         <Card>
-          <h2 className="dyslexia-text font-bold text-lg mb-4">📝 Assignment Submissions</h2>
+          <h2 className="dyslexia-text font-bold text-lg mb-4 text-slate-900">📝 Assignment Submissions</h2>
           <div className="flex flex-col gap-3">
             {submissions.map((sub) => (
               <div
                 key={sub.id}
-                className="p-3 rounded-xl border border-[#E5E0D8] bg-[#FFF8F0]"
+                className="p-4 rounded-xl border border-slate-200 bg-slate-50/60"
               >
                 <div className="flex items-start justify-between gap-3 flex-wrap">
                   <div className="flex-1">
-                    <p className="dyslexia-text font-semibold text-sm">{sub.assignmentTitle}</p>
+                    <p className="dyslexia-text font-semibold text-sm text-slate-900">{sub.assignmentTitle}</p>
                     <div className="flex gap-2 mt-1 flex-wrap">
                       {sub.score != null && (
-                        <Badge color="teal">{sub.score} pts</Badge>
+                        <Badge color="indigo">{sub.score} pts</Badge>
                       )}
                       {sub.graded ? (
                         <Badge color="green">✓ Graded</Badge>
                       ) : (
                         <Badge color="amber">Pending grade</Badge>
                       )}
-                      <span className="dyslexia-text text-xs text-gray-400">
+                      <span className="dyslexia-text text-xs text-slate-400">
                         {new Date(sub.submittedAt || sub.createdAt).toLocaleDateString('en-IN')}
                       </span>
                     </div>
                     {sub.feedback && (
-                      <p className="dyslexia-text text-xs text-gray-500 mt-1">💬 {sub.feedback}</p>
+                      <p className="dyslexia-text text-xs text-slate-500 mt-1">💬 {sub.feedback}</p>
                     )}
                   </div>
                   {!sub.graded && (
@@ -430,18 +430,18 @@ export default function StudentDetailPage() {
       {/* Grade modal */}
       <Modal open={!!gradeModal} onClose={() => setGradeModal(null)} title="📝 Grade Submission">
         <div className="flex flex-col gap-4">
-          <p className="dyslexia-text font-semibold">{gradeModal?.assignmentTitle}</p>
+          <p className="dyslexia-text font-semibold text-slate-900">{gradeModal?.assignmentTitle}</p>
           <input
             type="number"
-            className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-              focus:outline-none focus:border-[#1A6B6B]"
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+              focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
             placeholder="Score (e.g. 85)"
             value={gradeForm.score}
             onChange={(e) => setGradeForm((f) => ({ ...f, score: e.target.value }))}
           />
           <textarea
-            className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-              focus:outline-none focus:border-[#1A6B6B] resize-none"
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+              focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 resize-none"
             rows={3}
             placeholder="Feedback for student (optional)"
             value={gradeForm.feedback}
@@ -461,18 +461,18 @@ export default function StudentDetailPage() {
         {generatingLesson ? (
           <div className="flex flex-col items-center py-8 gap-3">
             <Spinner size="lg" />
-            <p className="dyslexia-text text-[#1A6B6B]">Generating personalised lesson plan…</p>
+            <p className="dyslexia-text text-indigo-600 font-medium">Generating personalised lesson plan…</p>
           </div>
         ) : lessonResult ? (
           <div className="flex flex-col gap-3">
-            <div className="bg-[#FFF8F0] rounded-xl p-4 max-h-80 overflow-y-auto">
-              <pre className="dyslexia-text text-sm whitespace-pre-wrap">{lessonResult}</pre>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 max-h-80 overflow-y-auto">
+              <pre className="dyslexia-text text-sm whitespace-pre-wrap text-slate-800">{lessonResult}</pre>
             </div>
             <Button onClick={() => { setLessonModal(false); setLessonResult(null) }}>Close</Button>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            <p className="dyslexia-text text-sm text-gray-500">
+            <p className="dyslexia-text text-sm text-slate-500">
               Generating a lesson plan for {student.name} ({lessonForm.subject})…
             </p>
             <Button onClick={handleLessonPlan} loading={generatingLesson}>Generate Now</Button>

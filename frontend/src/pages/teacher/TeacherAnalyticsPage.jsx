@@ -92,7 +92,7 @@ export default function TeacherAnalyticsPage() {
                 onClick={() => setTimeRange(r.id)}
                 className={`px-3 py-1 rounded-full font-bold transition-all ${
                   timeRange === r.id
-                    ? 'bg-[#1A6B6B] text-white shadow-2xs'
+                    ? 'bg-indigo-600 text-white shadow-xs'
                     : 'text-stone-600 hover:text-stone-900'
                 }`}
               >
@@ -115,8 +115,8 @@ export default function TeacherAnalyticsPage() {
 
       {/* Loading State */}
       {loading && (
-        <div className="bg-white rounded-3xl p-16 border border-stone-200 shadow-2xs flex flex-col items-center justify-center space-y-3">
-          <div className="w-12 h-12 border-3 border-teal-600 border-t-transparent rounded-full animate-spin" />
+        <div className="bg-white rounded-3xl p-16 border border-slate-200 shadow-2xs flex flex-col items-center justify-center space-y-3">
+          <div className="w-12 h-12 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm font-semibold text-stone-600">
             Synthesizing classroom learning analytics...
           </p>

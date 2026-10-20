@@ -54,7 +54,7 @@ export default function InterventionList({
             placeholder="Search by student, goal, or domain..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B]"
+            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
           />
         </div>
 
@@ -72,7 +72,7 @@ export default function InterventionList({
               onClick={() => setStatusFilter(tab.id)}
               className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
                 statusFilter === tab.id
-                  ? 'bg-[#1A6B6B] text-white shadow-2xs'
+                  ? 'bg-indigo-600 text-white shadow-xs'
                   : 'bg-stone-100 text-stone-600 hover:text-stone-900'
               }`}
             >
@@ -102,7 +102,7 @@ export default function InterventionList({
             <button
               type="button"
               onClick={onOpenCreate}
-              className="px-4 py-2 bg-[#1A6B6B] hover:bg-[#155353] text-white text-xs font-bold rounded-xl shadow-2xs transition-all inline-flex items-center gap-1.5"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-flex items-center gap-1.5"
             >
               <span>+</span> New Support Activity
             </button>
@@ -128,7 +128,7 @@ export default function InterventionList({
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="text-xs font-bold text-stone-900 hover:text-[#1A6B6B] cursor-pointer">
+                      <span className="text-xs font-bold text-stone-900 hover:text-indigo-600 cursor-pointer">
                         {item.learnerName || 'Student'}
                       </span>
                       <p className="text-[11px] text-stone-400 font-mono">
@@ -196,7 +196,7 @@ export default function InterventionList({
                   <button
                     type="button"
                     onClick={() => onSelectIntervention(item.interventionId)}
-                    className="px-3.5 py-1.5 bg-[#1A6B6B] hover:bg-[#155353] text-white text-xs font-bold rounded-xl shadow-2xs transition-all flex items-center gap-1"
+                    className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1"
                   >
                     <span>Inspect & Measure</span> →
                   </button>

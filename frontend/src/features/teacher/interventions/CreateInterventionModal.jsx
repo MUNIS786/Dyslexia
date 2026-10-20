@@ -167,7 +167,7 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
               value={formData.learnerId}
               onChange={(e) => setFormData({ ...formData, learnerId: e.target.value })}
               disabled={loadingLearners || preselectedStudentId}
-              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B] ${
+              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 ${
                 errors.learnerId ? 'border-red-400 bg-red-50/50' : 'border-stone-200 bg-stone-50'
               }`}
             >
@@ -195,7 +195,7 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
               id="select-intervention-domain"
               value={formData.targetDomain}
               onChange={(e) => setFormData({ ...formData, targetDomain: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B]"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
             >
               {DOMAIN_OPTIONS.map((d) => (
                 <option key={d.id} value={d.id}>
@@ -216,7 +216,7 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
               placeholder="e.g. Improve reading comprehension on Grade 2 narrative passages"
               value={formData.goal}
               onChange={(e) => setFormData({ ...formData, goal: e.target.value })}
-              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B] ${
+              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 ${
                 errors.goal ? 'border-red-400 bg-red-50/50' : 'border-stone-200 bg-stone-50'
               }`}
             />
@@ -234,7 +234,7 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
               placeholder="e.g. Conduct daily 15-minute guided repeated reading sessions with pre-reading vocabulary preview"
               value={formData.supportActivity}
               onChange={(e) => setFormData({ ...formData, supportActivity: e.target.value })}
-              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B] ${
+              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 ${
                 errors.supportActivity ? 'border-red-400 bg-red-50/50' : 'border-stone-200 bg-stone-50'
               }`}
             />
@@ -252,7 +252,7 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
                 type="date"
                 value={formData.startDate}
                 onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
               />
               {errors.startDate && <p className="text-xs text-red-600 mt-1">{errors.startDate}</p>}
             </div>
@@ -266,7 +266,7 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
                 type="date"
                 value={formData.plannedReviewDate}
                 onChange={(e) => setFormData({ ...formData, plannedReviewDate: e.target.value })}
-                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B] ${
+                className={`w-full px-3.5 py-2.5 rounded-xl border text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 ${
                   errors.plannedReviewDate ? 'border-red-400 bg-red-50/50' : 'border-stone-200 bg-stone-50'
                 }`}
               />
@@ -285,7 +285,7 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
               placeholder="e.g. Student responds well to visual line guides and syllable breakdowns during reading."
               value={formData.initialNotes}
               onChange={(e) => setFormData({ ...formData, initialNotes: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-[#1A6B6B]"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
             />
           </div>
 
@@ -315,7 +315,7 @@ export default function CreateInterventionModal({ isOpen, onClose, onCreated, pr
               id="btn-create-support-activity-submit"
               type="submit"
               disabled={submitting}
-              className="px-5 py-2.5 bg-[#1A6B6B] hover:bg-[#155353] text-white text-sm font-bold rounded-xl shadow-2xs transition-all flex items-center gap-2 disabled:opacity-50"
+              className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-xs transition-all flex items-center gap-2 disabled:opacity-50"
             >
               {submitting ? 'Establishing Baseline...' : 'Create Support Activity'}
             </button>

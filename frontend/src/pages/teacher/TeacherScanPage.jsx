@@ -94,13 +94,13 @@ export default function TeacherScanPage() {
         />
         <div
           onClick={() => fileRef.current?.click()}
-          className="border-2 border-dashed border-[#1A6B6B] rounded-xl p-8 text-center cursor-pointer hover:bg-[#E0F2F2] transition-colors mb-4"
+          className="border-2 border-dashed border-indigo-400 rounded-xl p-8 text-center cursor-pointer hover:bg-indigo-50/50 transition-colors mb-4"
         >
           <p className="text-4xl mb-2">📤</p>
-          <p className="dyslexia-text font-semibold text-[#1A6B6B]">
+          <p className="dyslexia-text font-semibold text-indigo-600">
             {file ? file.name : 'Click to choose a document'}
           </p>
-          <p className="dyslexia-text text-xs text-gray-400 mt-1">
+          <p className="dyslexia-text text-xs text-slate-400 mt-1">
             PDF, image (OCR), Word, or text file
           </p>
         </div>
@@ -113,8 +113,8 @@ export default function TeacherScanPage() {
       {scanning && (
         <div className="flex flex-col items-center py-10 gap-3">
           <Spinner size="lg" />
-          <p className="dyslexia-text text-[#1A6B6B] font-semibold">Reading and converting document…</p>
-          <p className="dyslexia-text text-sm text-gray-400">This may take a moment for images.</p>
+          <p className="dyslexia-text text-indigo-600 font-semibold">Reading and converting document…</p>
+          <p className="dyslexia-text text-sm text-slate-400">This may take a moment for images.</p>
         </div>
       )}
 
@@ -128,20 +128,20 @@ export default function TeacherScanPage() {
               {result.method && <Badge color="amber">{result.method}</Badge>}
             </div>
           </div>
-          <div className="bg-[#FFF8F0] rounded-xl p-4 mb-4 max-h-64 overflow-y-auto">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-4 max-h-64 overflow-y-auto">
             <ReadingText
               text={result.simplified || result.original || ''}
               highlights={result.highlights || []}
             />
           </div>
           {(result.bullet_points || []).length > 0 && (
-            <div className="bg-white rounded-xl border border-[#E5E0D8] p-4">
-              <p className="dyslexia-text font-semibold text-sm mb-2">• Key Points:</p>
+            <div className="bg-white rounded-xl border border-slate-200 p-4">
+              <p className="dyslexia-text font-semibold text-sm mb-2 text-slate-800">• Key Points:</p>
               <ol className="flex flex-col gap-1.5">
                 {result.bullet_points.map((bp, i) => (
                   <li key={i} className="flex gap-2">
-                    <span className="text-[#1A6B6B] font-bold shrink-0">{i + 1}.</span>
-                    <p className="dyslexia-text text-sm">{bp}</p>
+                    <span className="text-indigo-600 font-bold shrink-0">{i + 1}.</span>
+                    <p className="dyslexia-text text-sm text-slate-700">{bp}</p>
                   </li>
                 ))}
               </ol>
@@ -159,20 +159,20 @@ export default function TeacherScanPage() {
           {!created && (
             <div className="flex flex-col gap-4">
               <input
-                className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-                  focus:outline-none focus:border-[#1A6B6B]"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                 placeholder="Assignment title"
                 value={assignForm.title}
                 onChange={(e) => setAssignForm((f) => ({ ...f, title: e.target.value }))}
               />
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="dyslexia-text font-semibold block mb-1 text-sm">Due In</label>
+                  <label className="dyslexia-text font-semibold block mb-1 text-sm text-slate-700">Due In</label>
                   <select
                     value={assignForm.dueInDays}
                     onChange={(e) => setAssignForm((f) => ({ ...f, dueInDays: e.target.value }))}
-                    className="w-full px-3 py-2.5 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-                      focus:outline-none focus:border-[#1A6B6B]"
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+                      focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                   >
                     <option value="1">Tomorrow</option>
                     <option value="3">3 days</option>
@@ -181,11 +181,11 @@ export default function TeacherScanPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="dyslexia-text font-semibold block mb-1 text-sm">Max Score</label>
+                  <label className="dyslexia-text font-semibold block mb-1 text-sm text-slate-700">Max Score</label>
                   <input
                     type="number"
-                    className="w-full px-3 py-2.5 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-                      focus:outline-none focus:border-[#1A6B6B]"
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-white dyslexia-text text-slate-900
+                      focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"
                     value={assignForm.maxScore}
                     onChange={(e) => setAssignForm((f) => ({ ...f, maxScore: e.target.value }))}
                   />

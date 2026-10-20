@@ -40,9 +40,9 @@ export default function CommonPracticeAreasCard({ areas = [] }) {
                   {a.learnerCount} learners ({a.percentage}%)
                 </span>
               </div>
-              <div className="w-full bg-stone-100 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
                 <div
-                  className="bg-[#1A6B6B] h-2 rounded-full transition-all duration-500"
+                  className="bg-indigo-600 h-2 rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(100, Math.max(8, a.percentage))}%` }}
                 />
               </div>

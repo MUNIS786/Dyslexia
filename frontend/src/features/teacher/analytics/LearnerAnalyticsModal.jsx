@@ -146,7 +146,7 @@ export default function LearnerAnalyticsModal({
                 onClose()
                 navigate('/teacher/interventions')
               }}
-              className="px-3 py-1 bg-[#1A6B6B] hover:bg-[#155353] text-white text-xs font-bold rounded-full transition-all flex items-center gap-1 shadow-2xs"
+              className="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-full transition-all flex items-center gap-1 shadow-xs"
             >
               <span>🎯</span> Support Activities
             </button>
@@ -174,7 +174,7 @@ export default function LearnerAnalyticsModal({
               onClick={() => setActiveTab(tab.id)}
               className={`text-xs font-bold px-3 py-1.5 rounded-full transition-all shrink-0 flex items-center gap-1.5 ${
                 activeTab === tab.id
-                  ? 'bg-[#1A6B6B] text-white shadow-2xs'
+                  ? 'bg-indigo-600 text-white shadow-xs'
                   : 'text-stone-600 hover:bg-stone-200/60'
               }`}
             >
@@ -408,7 +408,7 @@ export default function LearnerAnalyticsModal({
                                 ? 'bg-emerald-600'
                                 : d.isPracticeArea
                                 ? 'bg-rose-500'
-                                : 'bg-[#1A6B6B]'
+                                : 'bg-indigo-600'
                             }`}
                             style={{ width: `${Math.min(100, Math.max(5, d.score))}%` }}
                           />
