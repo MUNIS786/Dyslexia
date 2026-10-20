@@ -103,7 +103,7 @@ export default function LearningRecommendationsPage() {
             type="button"
             onClick={() => loadRecommendations(true)}
             disabled={loading || refreshing}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold bg-stone-100 text-stone-800 hover:bg-stone-200 transition-all border border-stone-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold bg-slate-100 text-slate-800 hover:bg-slate-200 transition-all border border-slate-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
             title="Refresh recommendations based on recent activity"
           >
             <span aria-hidden="true" className={refreshing ? 'animate-spin' : ''}>

@@ -40,7 +40,7 @@ export default function ContentPreview({ content }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
       {/* Header Bar */}
-      <div className="bg-gradient-to-r from-[#1A6B6B] to-[#258585] p-6 text-white">
+      <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 p-6 text-white">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
           <div className="flex items-center gap-2">
             <span className={`text-xs px-2.5 py-1 rounded-full font-bold border ${tierColor} bg-white/90`}>
@@ -99,8 +99,8 @@ export default function ContentPreview({ content }) {
                     onClick={() => setSelectedWord(isSelected ? null : vocab)}
                     className={`cursor-pointer p-3.5 rounded-xl border transition-all text-left ${
                       isSelected
-                        ? 'border-[#1A6B6B] bg-[#1A6B6B]/5 shadow-sm'
-                        : 'border-gray-200 hover:border-gray-300 bg-gray-50/70'
+                        ? 'border-indigo-600 bg-indigo-50/50 shadow-sm'
+                        : 'border-slate-200 hover:border-slate-300 bg-slate-50/70'
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -133,8 +133,8 @@ export default function ContentPreview({ content }) {
             <div className="space-y-4">
               {questions.map((q, idx) => (
                 <div key={idx} className="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-2.5">
-                  <p className="text-sm font-bold text-gray-900">
-                    <span className="text-[#1A6B6B] mr-1.5">Q{idx + 1}.</span>
+                  <p className="text-sm font-bold text-slate-900">
+                    <span className="text-indigo-600 mr-1.5">Q{idx + 1}.</span>
                     {q.question}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">

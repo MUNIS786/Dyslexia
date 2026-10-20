@@ -50,14 +50,14 @@ export default function SettingsPage() {
       />
 
       {/* Tab Switcher */}
-      <div className="flex items-center gap-2 bg-stone-100 p-1.5 rounded-2xl border border-stone-200 w-fit">
+      <div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 w-fit">
         <button
           type="button"
           onClick={() => setActiveTab('accessibility')}
           className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
             activeTab === 'accessibility'
-              ? 'bg-white text-teal-900 shadow-2xs'
-              : 'text-stone-600 hover:text-stone-900'
+              ? 'bg-white text-indigo-900 shadow-xs'
+              : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <span>👓</span>
@@ -69,8 +69,8 @@ export default function SettingsPage() {
           onClick={() => setActiveTab('classroom')}
           className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
             activeTab === 'classroom'
-              ? 'bg-white text-teal-900 shadow-2xs'
-              : 'text-stone-600 hover:text-stone-900'
+              ? 'bg-white text-indigo-900 shadow-xs'
+              : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <span>🏫</span>
@@ -83,18 +83,18 @@ export default function SettingsPage() {
       ) : (
         /* Classroom Card */
         <Card>
-          <h2 className="dyslexia-text font-bold text-lg mb-2">🏫 {t('nav.classroom', 'Classroom')}</h2>
-          <p className="text-xs text-stone-600 mb-4">
+          <h2 className="dyslexia-text font-bold text-lg mb-2 text-slate-900">🏫 {t('nav.classroom', 'Classroom')}</h2>
+          <p className="text-xs text-slate-600 mb-4">
             Connect to your teacher's classroom to receive personalized assignments and reading recommendations.
           </p>
 
           {classroom ? (
             <div className="flex flex-col gap-3">
-              <div className="bg-green-50 rounded-2xl p-4 border border-green-200">
-                <p className="dyslexia-text font-bold text-green-800">✅ Connected to Classroom</p>
-                <p className="dyslexia-text text-sm text-stone-700 mt-1">Teacher: <span className="font-semibold">{classroom.teacherName}</span></p>
+              <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-200">
+                <p className="dyslexia-text font-bold text-emerald-800">✅ Connected to Classroom</p>
+                <p className="dyslexia-text text-sm text-slate-700 mt-1">Teacher: <span className="font-semibold">{classroom.teacherName}</span></p>
                 {classroom.classroomCode && (
-                  <p className="dyslexia-text text-sm text-stone-700">Code: <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-green-300">{classroom.classroomCode}</span></p>
+                  <p className="dyslexia-text text-sm text-slate-700">Code: <span className="font-mono font-bold bg-white px-2 py-0.5 rounded border border-emerald-300">{classroom.classroomCode}</span></p>
                 )}
               </div>
               <Button variant="danger" size="sm" onClick={handleLeave}>Leave Classroom</Button>
@@ -102,7 +102,7 @@ export default function SettingsPage() {
           ) : (
             <div className="flex gap-3">
               <input
-                className="flex-1 px-4 py-3 rounded-2xl border-2 border-[#E5E0D8] dyslexia-text focus:outline-none focus:border-[#1A6B6B]"
+                className="flex-1 px-4 py-3 rounded-2xl border-2 border-slate-200 dyslexia-text focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
                 placeholder="Enter classroom code (e.g. ABC123)"
                 value={classCode}
                 onChange={(e) => setClassCode(e.target.value.toUpperCase())}

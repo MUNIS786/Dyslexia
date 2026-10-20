@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 // ─── Spinner ───────────────────────────────────────────────────────────────
 export function Spinner({ size = 'md', className = '', color = 'primary' }) {
@@ -253,10 +253,10 @@ export function Textarea({ label, error, helperText, id, className = '', rows = 
 }
 
 // ─── Badge ────────────────────────────────────────────────────────────────
-export function Badge({ children, color = 'teal', icon, className = '' }) {
+export function Badge({ children, color = 'indigo', icon, className = '' }) {
   const colors = {
-    teal: 'bg-teal-50 text-teal-800 border-teal-200',
     indigo: 'bg-indigo-50 text-indigo-800 border-indigo-200',
+    teal: 'bg-teal-50 text-teal-800 border-teal-200',
     amber: 'bg-amber-50 text-amber-800 border-amber-200',
     green: 'bg-emerald-50 text-emerald-800 border-emerald-200',
     red: 'bg-rose-50 text-rose-700 border-rose-200',
@@ -266,7 +266,7 @@ export function Badge({ children, color = 'teal', icon, className = '' }) {
   }
   return (
     <span
-      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-bold border ${colors[color] || colors.teal} ${className}`}
+      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-bold border ${colors[color] || colors.indigo} ${className}`}
     >
       {icon && <span aria-hidden="true">{icon}</span>}
       {children}
@@ -275,7 +275,7 @@ export function Badge({ children, color = 'teal', icon, className = '' }) {
 }
 
 // ─── ProgressBar ──────────────────────────────────────────────────────────
-export function ProgressBar({ value = 0, max = 100, color = 'teal', label, showValue = true, className = '' }) {
+export function ProgressBar({ value = 0, max = 100, color = 'indigo', label, showValue = true, className = '' }) {
   const pct = Math.max(0, Math.min(100, Math.round(((value || 0) / (max || 100)) * 100)))
   const colors = {
     indigo: 'bg-indigo-600',
@@ -301,7 +301,7 @@ export function ProgressBar({ value = 0, max = 100, color = 'teal', label, showV
         className="w-full h-2.5 sm:h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200/60"
       >
         <div
-          className={`h-full rounded-full transition-all duration-500 ease-out ${colors[color] || colors.teal}`}
+          className={`h-full rounded-full transition-all duration-500 ease-out ${colors[color] || colors.indigo}`}
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -310,7 +310,7 @@ export function ProgressBar({ value = 0, max = 100, color = 'teal', label, showV
 }
 
 // ─── StatCard ─────────────────────────────────────────────────────────────
-export function StatCard({ icon, label, value, sub, color = 'teal', className = '' }) {
+export function StatCard({ icon, label, value, sub, color = 'indigo', className = '' }) {
   const colors = {
     indigo: 'bg-indigo-50 text-indigo-700 border-indigo-100',
     teal: 'bg-teal-50 text-teal-700 border-teal-100',
@@ -321,7 +321,7 @@ export function StatCard({ icon, label, value, sub, color = 'teal', className = 
   }
   return (
     <Card className={`flex items-center gap-4 ${className}`}>
-      <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-2xl border shrink-0 ${colors[color] || colors.teal}`}>
+      <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-2xl border shrink-0 ${colors[color] || colors.indigo}`}>
         {icon}
       </div>
       <div className="min-w-0 flex-1">
@@ -366,6 +366,8 @@ export function PageHeader({ icon, title, subtitle, action, breadcrumb, classNam
 
 // ─── Modal ────────────────────────────────────────────────────────────────
 export function Modal({ open, onClose, title, children, size = 'md' }) {
+  const dialogRef = useRef(null)
+
   useEffect(() => {
     if (!open) return
     const handleKeyDown = (e) => {
@@ -375,7 +377,14 @@ export function Modal({ open, onClose, title, children, size = 'md' }) {
       }
     }
     document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    // Focus the dialog container on open for keyboard accessibility
+    const timer = setTimeout(() => {
+      dialogRef.current?.focus()
+    }, 50)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      clearTimeout(timer)
+    }
   }, [open, onClose])
 
   if (!open) return null
@@ -389,7 +398,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
@@ -403,7 +412,9 @@ export function Modal({ open, onClose, title, children, size = 'md' }) {
 
       {/* Dialog Container */}
       <div
-        className={`relative w-full ${sizeClasses} bg-white rounded-2xl shadow-modal border border-slate-200 p-6 my-8 z-10 animate-in fade-in zoom-in-95 duration-150`}
+        ref={dialogRef}
+        tabIndex="-1"
+        className={`relative w-full ${sizeClasses} max-w-[calc(100vw-1.5rem)] bg-white rounded-2xl shadow-modal border border-slate-200 p-4 sm:p-6 my-6 z-10 animate-in fade-in zoom-in-95 duration-150 outline-none`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
@@ -514,7 +525,7 @@ export function TTSButton({ text, speed = 1, speaking, onToggle, className = '' 
         transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600
         ${speaking
           ? 'bg-amber-500 text-white shadow-sm hover:bg-amber-600'
-          : 'bg-teal-50 text-teal-800 border border-teal-200 hover:bg-teal-600 hover:text-white'}
+          : 'bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-600 hover:text-white'}
         ${className}`}
     >
       <span aria-hidden="true">{speaking ? '⏸' : '▶'}</span>

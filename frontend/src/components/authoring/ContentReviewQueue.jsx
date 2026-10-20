@@ -8,28 +8,28 @@ export default function ContentReviewQueue({
 }) {
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl p-10 text-center border border-gray-200">
-        <div className="w-8 h-8 border-4 border-[#1A6B6B] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-sm text-gray-500 font-medium">Loading review queue...</p>
+      <div className="bg-white rounded-2xl p-10 text-center border border-slate-200">
+        <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-sm text-slate-500 font-medium">Loading review queue...</p>
       </div>
     )
   }
 
   if (items.length === 0) {
     return (
-      <div className="bg-white rounded-2xl p-12 text-center border border-gray-200 space-y-3">
-        <div className="w-14 h-14 bg-teal-50 text-[#1A6B6B] rounded-2xl flex items-center justify-center text-2xl mx-auto font-bold">
+      <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 space-y-3">
+        <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mx-auto font-bold border border-indigo-100">
           ✓
         </div>
-        <h4 className="text-base font-bold text-gray-900">Review Queue is Clear!</h4>
-        <p className="text-xs text-gray-500 max-w-md mx-auto">
+        <h4 className="text-base font-bold text-slate-900">Review Queue is Clear!</h4>
+        <p className="text-xs text-slate-500 max-w-md mx-auto">
           There are no content passages currently waiting for peer evaluation. When fellow educators submit drafts, they will appear here.
         </p>
         {onRefresh && (
           <button
             type="button"
             onClick={onRefresh}
-            className="text-xs font-bold text-[#1A6B6B] hover:underline pt-2"
+            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline pt-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded"
           >
             ↻ Refresh Queue
           </button>
@@ -100,7 +100,7 @@ export default function ContentReviewQueue({
                 <button
                   type="button"
                   onClick={() => onReviewItem(item)}
-                  className="px-4 py-2 text-xs font-bold rounded-xl bg-[#1A6B6B] text-white hover:bg-[#145252] transition-colors shadow-sm"
+                  className="px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                 >
                   Evaluate & Review →
                 </button>

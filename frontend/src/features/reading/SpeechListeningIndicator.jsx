@@ -53,8 +53,9 @@ export default function SpeechListeningIndicator({
           </p>
         </div>
         <button
+          type="button"
           onClick={onStart}
-          className="px-3 py-1.5 bg-[#1A6B6B] text-white rounded-xl text-xs font-bold hover:bg-[#155757] transition-all cursor-pointer"
+          className="px-3 py-1.5 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
         >
           Try Again
         </button>
@@ -117,8 +118,9 @@ export default function SpeechListeningIndicator({
 
           {speechState === 'ready' && (
             <button
+              type="button"
               onClick={onStart}
-              className="px-4 sm:px-5 py-2.5 rounded-2xl bg-[#1A6B6B] text-white font-extrabold text-xs sm:text-sm hover:bg-[#155757] shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+              className="px-4 sm:px-5 py-2.5 rounded-2xl bg-indigo-600 text-white font-extrabold text-xs sm:text-sm hover:bg-indigo-700 shadow-sm transition-all flex items-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
               <span>🎤</span>
               <span>Start Reading Aloud</span>

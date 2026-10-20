@@ -126,17 +126,19 @@ export default function ComprehensionQuestion({
         <div className="pt-2 flex justify-end">
           {isLast ? (
             <button
+              type="button"
               onClick={onFinish}
               disabled={submitting}
-              className="px-6 py-3.5 bg-[#1A6B6B] hover:bg-[#145555] active:scale-[0.98] text-white font-bold rounded-2xl text-base shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-bold rounded-2xl text-base shadow-sm transition-all flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-indigo-200"
             >
               <span>{submitting ? 'Finishing...' : 'View Results'}</span>
               <span>🏆</span>
             </button>
           ) : (
             <button
+              type="button"
               onClick={onNextQuestion}
-              className="px-6 py-3.5 bg-[#1A6B6B] hover:bg-[#145555] active:scale-[0.98] text-white font-bold rounded-2xl text-base shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-bold rounded-2xl text-base shadow-sm transition-all flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-indigo-200"
             >
               <span>Next Question</span>
               <span>→</span>

@@ -99,14 +99,15 @@ export default function JoinClassroom() {
       {/* Join form — only show if not in classroom */}
       {!classroom && (
         <Card>
-          <h2 className="dyslexia-text font-bold text-lg mb-2">Enter Classroom Code</h2>
-          <p className="dyslexia-text text-sm text-gray-500 mb-4">
+          <h2 className="dyslexia-text font-bold text-lg mb-2 text-slate-900">Enter Classroom Code</h2>
+          <p className="dyslexia-text text-sm text-slate-500 mb-4">
             Ask your teacher for the 6-letter code.
           </p>
           <div className="flex gap-3 flex-wrap">
             <input
-              className="flex-1 min-w-[160px] px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white
-                dyslexia-text text-xl font-mono tracking-widest uppercase focus:outline-none focus:border-[#1A6B6B]"
+              aria-label="Classroom code"
+              className="flex-1 min-w-[160px] px-4 py-3 rounded-xl border-2 border-slate-200 bg-white
+                dyslexia-text text-xl font-mono tracking-widest uppercase focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
               placeholder="ABC123"
               value={code}
               onChange={(e) => setCode(e.target.value.toUpperCase().slice(0, 8))}

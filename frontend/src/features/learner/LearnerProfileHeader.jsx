@@ -11,14 +11,14 @@ export default function LearnerProfileHeader({
   refreshing = false,
 }) {
   return (
-    <div className="bg-gradient-to-br from-[#1A6B6B] to-[#258B8B] text-white rounded-3xl p-6 sm:p-8 shadow-md relative overflow-hidden">
+    <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 text-white rounded-3xl p-6 sm:p-8 shadow-card relative overflow-hidden">
       {/* Decorative background shapes */}
       <div
         className="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute right-20 -bottom-16 w-40 h-40 bg-[#E8A020]/20 rounded-full blur-xl pointer-events-none"
+        className="absolute right-20 -bottom-16 w-40 h-40 bg-amber-400/20 rounded-full blur-xl pointer-events-none"
         aria-hidden="true"
       />
 
@@ -28,7 +28,7 @@ export default function LearnerProfileHeader({
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm text-white border border-white/30">
               <span>🌟</span> My Learning Profile
             </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8A020]/90 text-white shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500 text-white shadow-sm">
               <span>🗣️</span> {preferredLanguage.toUpperCase()}
             </span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-400/25 text-emerald-100 border border-emerald-300/40">

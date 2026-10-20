@@ -311,7 +311,7 @@ To ensure zero downtime, backward compatibility, and rigorous test gating, the r
                                      │
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│ Phase 6: Cross-App Polish, Responsive Mobile & Accessibility Audits     │
+│ Phase 6: Cross-App & A11y (COMPLETE - docs/PHASE_6_CROSS_APP_ACCESSIBILITY)│
 └────────────────────────────────────┬────────────────────────────────────┘
                                      │
                                      ▼
@@ -325,6 +325,12 @@ To ensure zero downtime, backward compatibility, and rigorous test gating, the r
 - Automated lint (`npm run lint`), build (`npm run build`), and regression suites (`pytest`) are executed.
 - Changes are committed and pushed safely.
 - Work stops at the checkpoint until explicit user approval is granted before initiating the next phase.
+
+### Phase 6 Status: COMPLETE (docs/PHASE_6_CROSS_APP_ACCESSIBILITY.md)
+- **Token Harmonization:** Replaced all legacy `#1A6B6B`, `#E5E0D8`, and `stone-` tokens across 47 frontend components with unified V2 indigo/slate/amber/emerald tokens.
+- **Responsive Viewports:** Clamped dialog widths (`max-w-[calc(100vw-1.5rem)]`), wrapped tables in `overflow-x-auto`, and configured role-based `<main>` container max-widths (student `56rem`, parent `72rem`, teacher `80rem`).
+- **Accessibility & Keyboard Navigation:** Added `Escape` key handlers and focus restoration across modals/drawers, visible `focus-visible:ring-2 focus-visible:ring-indigo-600` rings, and explicit `aria-label` tags on icon-only and interactive buttons.
+- **Verification:** ESLint clean (0 errors, 0 warnings), Vite build clean (36 chunks), test regression suites passing.
 
 ---
 

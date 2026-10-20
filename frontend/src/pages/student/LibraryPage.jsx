@@ -59,25 +59,27 @@ export default function LibraryPage() {
             <Card
               key={doc.id}
               onClick={() => navigate(`/student/library/${doc.id}`)}
-              className="hover:border-[#1A6B6B] transition-colors"
+              className="hover:border-indigo-400 transition-colors"
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1 min-w-0">
                   <p className="dyslexia-text font-bold truncate">{doc.title}</p>
-                  <p className="dyslexia-text text-xs text-gray-500 mt-0.5">
+                  <p className="dyslexia-text text-xs text-slate-500 mt-0.5">
                     {new Date(doc.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </p>
                 </div>
                 <button
+                  type="button"
                   onClick={(e) => handleDelete(doc.id, e)}
                   disabled={deleting === doc.id}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 text-red-400 hover:text-red-600 shrink-0"
+                  aria-label={`Delete ${doc.title}`}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-rose-50 text-rose-500 hover:text-rose-700 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 transition-colors"
                 >
                   {deleting === doc.id ? '…' : '🗑'}
                 </button>
               </div>
               <div className="flex items-center gap-2 flex-wrap">
-                <Badge color="teal">{doc.language?.toUpperCase()}</Badge>
+                <Badge color="indigo">{doc.language?.toUpperCase()}</Badge>
                 <Badge color="gray">{doc.wordCount?.toLocaleString() || 0} words</Badge>
                 {doc.source && <Badge color="amber">{doc.source}</Badge>}
               </div>

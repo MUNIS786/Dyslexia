@@ -101,12 +101,12 @@ export default function ProgressChart({
         </div>
 
         {/* Metric Toggle Buttons */}
-        <div className="inline-flex p-0.5 bg-stone-100 rounded-xl text-xs font-bold border border-stone-200 self-start sm:self-auto">
+        <div className="inline-flex p-0.5 bg-slate-100 rounded-xl text-xs font-bold border border-slate-200 self-start sm:self-auto">
           <button
             type="button"
             onClick={() => setActiveMetric('both')}
             className={`px-2.5 py-1 rounded-lg transition-all ${
-              activeMetric === 'both' ? 'bg-[#1A6B6B] text-white shadow-2xs' : 'text-stone-600 hover:text-stone-900'
+              activeMetric === 'both' ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             {t('common.viewAll', 'All')}
@@ -115,7 +115,7 @@ export default function ProgressChart({
             type="button"
             onClick={() => setActiveMetric('accuracy')}
             className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 ${
-              activeMetric === 'accuracy' ? 'bg-emerald-700 text-white shadow-2xs' : 'text-stone-600 hover:text-stone-900'
+              activeMetric === 'accuracy' ? 'bg-emerald-700 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -125,7 +125,7 @@ export default function ProgressChart({
             type="button"
             onClick={() => setActiveMetric('speed')}
             className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 ${
-              activeMetric === 'speed' ? 'bg-blue-700 text-white shadow-2xs' : 'text-stone-600 hover:text-stone-900'
+              activeMetric === 'speed' ? 'bg-blue-700 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-blue-500" />

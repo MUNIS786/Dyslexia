@@ -21,7 +21,7 @@ const DOMAIN_ICONS = {
 
 const TIER_COLORS = {
   1: 'blue',
-  2: 'teal',
+  2: 'indigo',
   3: 'green',
   4: 'amber',
   5: 'red',
@@ -35,7 +35,7 @@ export default function AdaptiveTaskCarousel({
   if (!recommendations || recommendations.length === 0) {
     return (
       <Card className="text-center py-8">
-        <p className="dyslexia-text text-gray-500">
+        <p className="dyslexia-text text-slate-500">
           No new activities scheduled right now. Check back soon or view your full library!
         </p>
       </Card>
@@ -48,13 +48,13 @@ export default function AdaptiveTaskCarousel({
         const act = rec.activity || {}
         const domainIcon = DOMAIN_ICONS[act.domain] || '⭐'
         const tier = act.difficultyTier || rec.difficultyTier || 1
-        const tierColor = TIER_COLORS[tier] || 'teal'
+        const tierColor = TIER_COLORS[tier] || 'indigo'
         const isStrength = rec.matchType === 'strength_reinforcement'
 
         return (
           <Card
             key={rec.id || act.id}
-            className="flex flex-col justify-between hover:shadow-md transition-shadow border-2 border-transparent hover:border-[#1A6B6B]/20"
+            className="flex flex-col justify-between border border-slate-200 hover:border-indigo-400 hover:shadow-card-hover transition-all"
           >
             <div>
               {/* Header tags */}
@@ -73,20 +73,20 @@ export default function AdaptiveTaskCarousel({
               </div>
 
               {/* Title & Duration */}
-              <h3 className="dyslexia-text font-bold text-lg text-[#1A2A2A] mb-1">
+              <h3 className="dyslexia-text font-bold text-lg text-slate-900 mb-1">
                 {act.title}
               </h3>
-              <p className="dyslexia-text text-xs text-gray-500 mb-3">
+              <p className="dyslexia-text text-xs text-slate-500 mb-3">
                 ⏱ ~{Math.round((act.durationSecondsExpected || 90) / 60)} min •{' '}
                 {act.domain ? act.domain.replace('_', ' ').toUpperCase() : 'SKILL PRACTICE'}
               </p>
 
               {/* Pedagogical Rationale */}
-              <div className="bg-[#F0F8FF] border border-[#D0E8FF] rounded-xl p-3 mb-4">
-                <p className="dyslexia-text text-xs text-gray-700 leading-relaxed flex items-start gap-1.5">
+              <div className="bg-indigo-50/50 border border-indigo-100 rounded-xl p-3 mb-4">
+                <p className="dyslexia-text text-xs text-slate-700 leading-relaxed flex items-start gap-1.5">
                   <span className="text-sm">💡</span>
                   <span>
-                    <strong className="text-[#1A6B6B]">Why recommended:</strong> {rec.rationale}
+                    <strong className="text-indigo-900">Why recommended:</strong> {rec.rationale}
                   </span>
                 </p>
               </div>

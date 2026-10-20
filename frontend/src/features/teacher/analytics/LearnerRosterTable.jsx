@@ -238,8 +238,10 @@ export default function LearnerRosterTable({
 
                     <td className="py-3 pr-2 text-right">
                       <button
+                        type="button"
                         onClick={() => onSelectLearner(learner)}
-                        className={`text-xs font-bold px-3 py-1.5 rounded-xl transition-all ${
+                        aria-label={`Inspect ${learner.name || 'learner'}'s progress`}
+                        className={`text-xs font-bold px-3 py-1.5 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 ${
                           isSelected
                             ? 'bg-indigo-600 text-white shadow-xs'
                             : 'bg-slate-100 hover:bg-indigo-600 hover:text-white text-slate-700'

@@ -66,7 +66,7 @@ export default function PlanPage() {
       />
 
       {/* Summary card */}
-      <div className="bg-gradient-to-br from-[#1A6B6B] to-[#2A8B8B] rounded-2xl p-5 text-white">
+      <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 rounded-3xl p-6 text-white shadow-sm">
         <p className="dyslexia-text text-white/80 text-sm mb-1">Your plan summary</p>
         <p className="dyslexia-text text-lg font-semibold">
           {plan.summary || 'A personalised learning journey just for you.'}
@@ -88,7 +88,7 @@ export default function PlanPage() {
           <div className="flex flex-col gap-2">
             {plan.weeklyGoals.map((g, i) => (
               <div key={i} className="flex items-start gap-3">
-                <span className="text-[#1A6B6B] font-bold shrink-0">{i + 1}.</span>
+                <span className="text-indigo-600 font-bold shrink-0">{i + 1}.</span>
                 <p className="dyslexia-text text-sm">{g}</p>
               </div>
             ))}
@@ -102,26 +102,26 @@ export default function PlanPage() {
           <h2 className="dyslexia-text font-bold text-lg mb-4">📅 4-Week Plan</h2>
           <div className="flex flex-col gap-2">
             {plan.plan.map((week) => (
-              <div key={week.week} className="border border-[#E5E0D8] rounded-xl overflow-hidden">
+              <div key={week.week} className="border border-slate-200 rounded-2xl overflow-hidden">
                 <button
                   onClick={() => setOpenWeek(openWeek === week.week ? null : week.week)}
                   className="w-full flex items-center justify-between px-4 py-3 text-left
-                    hover:bg-[#E0F2F2] transition-colors"
+                    hover:bg-slate-50 transition-colors"
                 >
                   <span className="dyslexia-text font-bold">
                     Week {week.week}: {week.focus}
                   </span>
-                  <span className="text-[#1A6B6B]">{openWeek === week.week ? '▲' : '▼'}</span>
+                  <span className="text-indigo-600">{openWeek === week.week ? '▲' : '▼'}</span>
                 </button>
                 {openWeek === week.week && (
-                  <div className="px-4 pb-4 bg-[#FFF8F0]">
-                    <p className="dyslexia-text font-semibold text-sm text-[#1A6B6B] mb-2">
+                  <div className="px-4 pb-4 bg-indigo-50/40 border-t border-slate-100">
+                    <p className="dyslexia-text font-semibold text-sm text-indigo-900 my-2">
                       🎯 Goal: {week.goal}
                     </p>
                     <div className="flex flex-col gap-1.5">
                       {(week.activities || []).map((act, i) => (
                         <div key={i} className="flex gap-2">
-                          <span className="dyslexia-text text-[#E8A020] shrink-0">•</span>
+                          <span className="dyslexia-text text-amber-500 shrink-0">•</span>
                           <p className="dyslexia-text text-sm">{act}</p>
                         </div>
                       ))}
@@ -141,7 +141,7 @@ export default function PlanPage() {
           <div className="flex flex-col gap-2">
             {plan.accommodations.map((a, i) => (
               <div key={i} className="flex gap-2">
-                <span className="text-green-500 shrink-0">✓</span>
+                <span className="text-emerald-500 shrink-0">✓</span>
                 <p className="dyslexia-text text-sm">{a}</p>
               </div>
             ))}
@@ -157,13 +157,13 @@ export default function PlanPage() {
             className="w-full flex items-center justify-between dyslexia-text font-bold text-lg"
           >
             <span>👨‍👩‍👧 Parent Tips</span>
-            <span className="text-[#1A6B6B]">{showParent ? '▲' : '▼'}</span>
+            <span className="text-indigo-600">{showParent ? '▲' : '▼'}</span>
           </button>
           {showParent && (
             <div className="mt-3 flex flex-col gap-2">
               {plan.parentTips.map((t, i) => (
                 <div key={i} className="flex gap-2">
-                  <span className="text-[#1A6B6B] shrink-0">•</span>
+                  <span className="text-indigo-600 shrink-0">•</span>
                   <p className="dyslexia-text text-sm">{t}</p>
                 </div>
               ))}
@@ -180,13 +180,13 @@ export default function PlanPage() {
             className="w-full flex items-center justify-between dyslexia-text font-bold text-lg"
           >
             <span>👩‍🏫 Teacher Tips</span>
-            <span className="text-[#1A6B6B]">{showTeacher ? '▲' : '▼'}</span>
+            <span className="text-indigo-600">{showTeacher ? '▲' : '▼'}</span>
           </button>
           {showTeacher && (
             <div className="mt-3 flex flex-col gap-2">
               {plan.teacherTips.map((t, i) => (
                 <div key={i} className="flex gap-2">
-                  <span className="text-[#1A6B6B] shrink-0">•</span>
+                  <span className="text-indigo-600 shrink-0">•</span>
                   <p className="dyslexia-text text-sm">{t}</p>
                 </div>
               ))}

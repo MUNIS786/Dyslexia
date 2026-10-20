@@ -58,7 +58,7 @@ export default function DataSufficiencyBanner({
 
       <Link
         to={actionUrl}
-        className="shrink-0 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#1A6B6B] text-white text-xs font-bold rounded-2xl hover:bg-[#155555] focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] focus:ring-offset-2 transition-all shadow-xs"
+        className="shrink-0 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 text-white text-xs font-bold rounded-2xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 transition-all shadow-xs"
       >
         <span>🚀</span>
         <span>{t('insights.startReadingBtn', 'Start Reading Practice')}</span>

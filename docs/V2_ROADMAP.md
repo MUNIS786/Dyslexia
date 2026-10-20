@@ -279,3 +279,18 @@ PHASE 19: Release Validation & Security Hardening (COMPLETE)
 * **Testing:** 19/19 comprehensive security and UAT tests in `backend/test_phase19_release_validation.py`; 416/416 total backend regression tests passing (100% clean) across all phases; clean Vite production bundle build (332 kB main bundle) and ESLint (0 errors, 0 warnings); automated release verification script in `scripts/verify_release.py`.
 * **Documentation:** Comprehensive security, UAT, and release validation report in `docs/V2_RELEASE_VALIDATION.md`.
 * **Status:** Complete.
+
+---
+
+## Frontend Redesign Roadmap (V2 UI/UX)
+
+Following completion of the core architectural phases (Phases 1–19), the frontend user interface underwent a systematic 7-phase redesign to provide an accessible, responsive, and visually modern experience across all personas.
+
+* **Phase 0: Frontend Audit & Design Tokens Strategy** (COMPLETE — `docs/FRONTEND_REDESIGN_AUDIT.md`)
+* **Phase 1: Design System & Application Shell** (COMPLETE — `docs/PHASE_1_DESIGN_SYSTEM_REPORT.md`)
+* **Phase 2: Public Landing & Authentication Experience** (COMPLETE — `docs/PHASE_2_PUBLIC_AUTH_UI.md`)
+* **Phase 3: Student Dashboard & Learning Experience** (COMPLETE — `docs/PHASE_3_STUDENT_EXPERIENCE.md`)
+* **Phase 4: Teacher Dashboard & Classroom Management** (COMPLETE — `docs/PHASE_4_TEACHER_EXPERIENCE.md`)
+* **Phase 5: Parent & Guardian Portal** (COMPLETE — `docs/PHASE_5_PARENT_EXPERIENCE.md`)
+* **Phase 6: Cross-App Consistency, Responsive Design & Accessibility Audit** (COMPLETE — `docs/PHASE_6_CROSS_APP_ACCESSIBILITY.md`)
+* **Phase 7: Final End-to-End QA, Production Verification & Delivery** (PENDING)

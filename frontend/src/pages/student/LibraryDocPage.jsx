@@ -78,7 +78,7 @@ export default function LibraryDocPage() {
             key={v}
             onClick={() => { setViewMode(v); stop() }}
             className={`px-3 py-1.5 rounded-lg dyslexia-text text-sm font-semibold capitalize transition-all
-              ${viewMode === v ? 'bg-[#1A6B6B] text-white' : 'bg-gray-100 hover:bg-gray-200'}`}
+              ${viewMode === v ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'}`}
           >
             {v === 'simplified' ? '✨ Simplified' : v === 'original' ? '📄 Original' : '• Bullets'}
           </button>
@@ -91,7 +91,7 @@ export default function LibraryDocPage() {
         <select
           value={speed}
           onChange={(e) => { setSpeed(parseFloat(e.target.value)); stop() }}
-          className="px-3 py-2 rounded-lg border border-[#E5E0D8] dyslexia-text text-sm"
+          className="px-3 py-2 rounded-lg border border-slate-200 dyslexia-text text-sm bg-white"
         >
           {SPEEDS.map((s) => <option key={s} value={s}>{s}x</option>)}
         </select>
@@ -99,12 +99,12 @@ export default function LibraryDocPage() {
       </div>
 
       {/* Content */}
-      <Card className="bg-[#FFF8F0]">
+      <Card className="bg-white border-slate-200">
         {viewMode === 'bullets' ? (
           <ol className="flex flex-col gap-3">
             {(doc.bullet_points || []).map((bp, i) => (
               <li key={i} className="flex gap-3">
-                <span className="font-bold text-[#1A6B6B] shrink-0">{i + 1}.</span>
+                <span className="font-bold text-indigo-600 shrink-0">{i + 1}.</span>
                 <ClickableText
                   text={bp}
                   highlights={doc.highlights || []}
@@ -127,10 +127,10 @@ export default function LibraryDocPage() {
       {/* Word mastery modal */}
       <Modal open={!!wordModal} onClose={() => setWordModal(null)} title="⭐ Master This Word">
         <div className="flex flex-col gap-4">
-          <div className="bg-[#FFF3DC] rounded-xl p-4 text-center">
-            <p className="dyslexia-text text-3xl font-bold text-[#1A6B6B]">{wordModal}</p>
+          <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-center">
+            <p className="dyslexia-text text-3xl font-bold text-indigo-900">{wordModal}</p>
           </div>
-          <p className="dyslexia-text text-sm text-gray-600">
+          <p className="dyslexia-text text-sm text-slate-600">
             Add this word to your mastered words list. Your progress will be tracked!
           </p>
           <div className="flex gap-3">

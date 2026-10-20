@@ -56,13 +56,13 @@ export default function AccessibilityPreferencesCard({
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-7 shadow-sm">
+    <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-card">
       <div className="flex items-center justify-between gap-3 mb-5">
         <div>
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center gap-2 dyslexia-text">
+          <h3 className="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2 dyslexia-text">
             <span>👓</span> READING & ACCESSIBILITY SETTINGS
           </h3>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-slate-500">
             Customize letters, size, and colors to make text feel effortless on your eyes
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function AccessibilityPreferencesCard({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {/* Font Family */}
         <div className="space-y-1.5">
-          <label htmlFor="pref-font" className="text-xs font-bold text-gray-700 block">
+          <label htmlFor="pref-font" className="text-xs font-bold text-slate-700 block">
             Reading Font
           </label>
           <select
@@ -87,7 +87,7 @@ export default function AccessibilityPreferencesCard({
               setFont(e.target.value)
               saveSettings({ font: e.target.value })
             }}
-            className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
           >
             {FONTS.map((f) => (
               <option key={f.id} value={f.id}>{f.name}</option>
@@ -97,9 +97,9 @@ export default function AccessibilityPreferencesCard({
 
         {/* Font Size */}
         <div className="space-y-1.5">
-          <div className="flex justify-between items-center text-xs font-bold text-gray-700">
+          <div className="flex justify-between items-center text-xs font-bold text-slate-700">
             <label htmlFor="pref-font-size">Text Size</label>
-            <span className="text-teal-700 font-bold">{fontSize}px</span>
+            <span className="text-indigo-700 font-bold">{fontSize}px</span>
           </div>
           <input
             id="pref-font-size"
@@ -113,15 +113,15 @@ export default function AccessibilityPreferencesCard({
               setFontSize(val)
               saveSettings({ fontSize: val })
             }}
-            className="w-full accent-[#1A6B6B] cursor-pointer"
+            className="w-full accent-indigo-600 cursor-pointer"
           />
         </div>
 
         {/* Speech Speed */}
         <div className="space-y-1.5">
-          <div className="flex justify-between items-center text-xs font-bold text-gray-700">
+          <div className="flex justify-between items-center text-xs font-bold text-slate-700">
             <label htmlFor="pref-tts-speed">Read-Aloud Voice Speed</label>
-            <span className="text-teal-700 font-bold">{ttsSpeed}x</span>
+            <span className="text-indigo-700 font-bold">{ttsSpeed}x</span>
           </div>
           <input
             id="pref-tts-speed"
@@ -135,13 +135,13 @@ export default function AccessibilityPreferencesCard({
               setTtsSpeed(val)
               saveSettings({ ttsSpeed: val })
             }}
-            className="w-full accent-[#1A6B6B] cursor-pointer"
+            className="w-full accent-indigo-600 cursor-pointer"
           />
         </div>
 
         {/* Background Tint */}
         <div className="space-y-1.5 md:col-span-2 lg:col-span-1">
-          <span className="text-xs font-bold text-gray-700 block">Page Tint (Reduces Glare)</span>
+          <span className="text-xs font-bold text-slate-700 block">Page Tint (Reduces Glare)</span>
           <div className="flex items-center gap-2">
             {BG_COLORS.map((bg) => (
               <button
@@ -154,7 +154,7 @@ export default function AccessibilityPreferencesCard({
                 title={bg.name}
                 aria-label={`Select ${bg.name} background`}
                 className={`w-8 h-8 rounded-full border-2 transition-all ${
-                  bgColor === bg.id ? 'border-[#1A6B6B] scale-110 shadow-md ring-2 ring-teal-200' : 'border-gray-300'
+                  bgColor === bg.id ? 'border-indigo-600 scale-110 shadow-md ring-2 ring-indigo-200' : 'border-slate-300'
                 }`}
                 style={{ backgroundColor: bg.hex }}
               />
@@ -163,10 +163,10 @@ export default function AccessibilityPreferencesCard({
         </div>
 
         {/* Word Highlighting Toggle */}
-        <div className="flex items-center justify-between p-3 rounded-2xl bg-gray-50 border border-gray-200">
+        <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200">
           <div>
-            <p className="text-xs font-bold text-gray-900">Word-by-Word Highlight</p>
-            <p className="text-[11px] text-gray-500">Lights up words as you read</p>
+            <p className="text-xs font-bold text-slate-900">Word-by-Word Highlight</p>
+            <p className="text-[11px] text-slate-500">Lights up words as you read</p>
           </div>
           <input
             type="checkbox"
@@ -175,15 +175,15 @@ export default function AccessibilityPreferencesCard({
               setHighlightWords(e.target.checked)
               saveSettings({ highlightWords: e.target.checked })
             }}
-            className="w-5 h-5 rounded text-[#1A6B6B] accent-[#1A6B6B] cursor-pointer"
+            className="w-5 h-5 rounded text-indigo-600 accent-indigo-600 cursor-pointer"
           />
         </div>
 
         {/* Syllable Split Toggle */}
-        <div className="flex items-center justify-between p-3 rounded-2xl bg-gray-50 border border-gray-200">
+        <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200">
           <div>
-            <p className="text-xs font-bold text-gray-900">Syllable Splitting</p>
-            <p className="text-[11px] text-gray-500">Breaks tricky words into beats</p>
+            <p className="text-xs font-bold text-slate-900">Syllable Splitting</p>
+            <p className="text-[11px] text-slate-500">Breaks tricky words into beats</p>
           </div>
           <input
             type="checkbox"
@@ -192,7 +192,7 @@ export default function AccessibilityPreferencesCard({
               setSyllableSplit(e.target.checked)
               saveSettings({ syllableSplit: e.target.checked })
             }}
-            className="w-5 h-5 rounded text-[#1A6B6B] accent-[#1A6B6B] cursor-pointer"
+            className="w-5 h-5 rounded text-indigo-600 accent-indigo-600 cursor-pointer"
           />
         </div>
       </div>

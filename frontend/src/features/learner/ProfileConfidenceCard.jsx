@@ -13,51 +13,51 @@ export default function ProfileConfidenceCard({
   const performance = Math.round((confidence.performance || 0) * 100)
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-7 shadow-sm">
+    <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-card">
       <div className="flex items-center justify-between gap-3 mb-4">
         <div>
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center gap-2 dyslexia-text">
+          <h3 className="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2 dyslexia-text">
             <span>ℹ️</span> PROFILE INFORMATION & CONFIDENCE
           </h3>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-slate-500">
             Your profile updates as you complete screenings and practice reading
           </p>
         </div>
 
-        <span className="px-3 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200">
+        <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-800 border border-indigo-200">
           Data Calibration: {overall}%
         </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-        <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-100">
-          <p className="text-xs font-semibold text-gray-500">Overall Confidence</p>
+        <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+          <p className="text-xs font-semibold text-slate-500">Overall Confidence</p>
           <div className="flex items-baseline justify-between mt-1">
-            <span className="text-xl font-black text-gray-900">{overall}%</span>
-            <span className="text-[11px] text-teal-700 font-bold">
+            <span className="text-xl font-black text-slate-900">{overall}%</span>
+            <span className="text-[11px] text-indigo-700 font-bold">
               {overall > 70 ? 'High Fidelity' : 'Growing Evidence'}
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-            <div className="bg-[#1A6B6B] h-full rounded-full" style={{ width: `${overall}%` }} />
+          <div className="w-full bg-slate-200 rounded-full h-1.5 mt-2">
+            <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${overall}%` }} />
           </div>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-100">
-          <p className="text-xs font-semibold text-gray-500">Screening Battery Evidence</p>
+        <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+          <p className="text-xs font-semibold text-slate-500">Screening Battery Evidence</p>
           <div className="flex items-baseline justify-between mt-1">
-            <span className="text-xl font-black text-gray-900">{screening}%</span>
-            <span className="text-[11px] text-gray-600">
+            <span className="text-xl font-black text-slate-900">{screening}%</span>
+            <span className="text-[11px] text-slate-600">
               {confidence.screening_questions_answered || 20} Questions
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-            <div className="bg-teal-500 h-full rounded-full" style={{ width: `${screening}%` }} />
+          <div className="w-full bg-slate-200 rounded-full h-1.5 mt-2">
+            <div className="bg-indigo-500 h-full rounded-full" style={{ width: `${screening}%` }} />
           </div>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-gray-50 border border-gray-100">
-          <p className="text-xs font-semibold text-gray-500">Daily Reading Telemetry</p>
+        <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+          <p className="text-xs font-semibold text-slate-500">Daily Reading Telemetry</p>
           <div className="flex items-baseline justify-between mt-1">
             <span className="text-xl font-black text-gray-900">{performance}%</span>
             <span className="text-[11px] text-gray-600">Active Sessions</span>

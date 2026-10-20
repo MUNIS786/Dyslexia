@@ -111,8 +111,8 @@ export default function AdaptiveLearningPage() {
       </div>
 
       {/* Educational Information Note */}
-      <div className="bg-[#FFF8F0] border border-[#E5E0D8] rounded-2xl p-4 text-xs text-gray-600 dyslexia-text leading-relaxed">
-        <p className="font-semibold text-gray-700 mb-1 flex items-center gap-1.5">
+      <div className="bg-indigo-50/50 border border-indigo-200 rounded-2xl p-4 text-xs text-slate-600 dyslexia-text leading-relaxed">
+        <p className="font-semibold text-slate-800 mb-1 flex items-center gap-1.5">
           <span>ℹ️</span>
           <span>How the Adaptive Learning Engine works:</span>
         </p>

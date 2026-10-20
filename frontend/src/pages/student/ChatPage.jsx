@@ -61,15 +61,15 @@ export default function ChatPage() {
             className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {m.role === 'assistant' && (
-              <div className="w-9 h-9 rounded-full bg-[#1A6B6B] flex items-center justify-center text-lg shrink-0">
+              <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg shrink-0 shadow-xs">
                 🤖
               </div>
             )}
             <div
               className={`max-w-[80%] px-4 py-3 rounded-2xl dyslexia-text text-sm leading-relaxed
                 ${m.role === 'user'
-                  ? 'bg-[#1A6B6B] text-white rounded-br-sm'
-                  : 'bg-white border border-[#E5E0D8] text-[var(--text-color)] rounded-bl-sm shadow-sm'
+                  ? 'bg-indigo-600 text-white rounded-br-sm shadow-sm'
+                  : 'bg-white border border-slate-200 text-slate-800 rounded-bl-sm shadow-xs'
                 }`}
               style={{ lineHeight: 'var(--line-spacing)' }}
             >
@@ -81,14 +81,14 @@ export default function ChatPage() {
         {/* Typing indicator */}
         {loading && (
           <div className="flex gap-3 justify-start">
-            <div className="w-9 h-9 rounded-full bg-[#1A6B6B] flex items-center justify-center text-lg shrink-0">
+            <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg shrink-0">
               🤖
             </div>
-            <div className="bg-white border border-[#E5E0D8] rounded-2xl rounded-bl-sm px-5 py-4 shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-2xl rounded-bl-sm px-5 py-4 shadow-xs">
               <div className="flex gap-1.5 items-center">
-                <div className="w-2 h-2 rounded-full bg-[#1A6B6B] typing-dot" />
-                <div className="w-2 h-2 rounded-full bg-[#1A6B6B] typing-dot" />
-                <div className="w-2 h-2 rounded-full bg-[#1A6B6B] typing-dot" />
+                <div className="w-2 h-2 rounded-full bg-indigo-600 typing-dot" />
+                <div className="w-2 h-2 rounded-full bg-indigo-600 typing-dot" />
+                <div className="w-2 h-2 rounded-full bg-indigo-600 typing-dot" />
               </div>
             </div>
           </div>
@@ -104,8 +104,8 @@ export default function ChatPage() {
               key={qr}
               onClick={() => sendMessage(qr)}
               disabled={loading}
-              className="px-3 py-1.5 rounded-full border border-[#1A6B6B] text-[#1A6B6B] dyslexia-text text-xs
-                hover:bg-[#E0F2F2] transition-colors disabled:opacity-50"
+              className="px-3 py-1.5 rounded-full border border-indigo-200 text-indigo-700 dyslexia-text text-xs
+                hover:bg-indigo-50 transition-colors disabled:opacity-50"
             >
               {qr}
             </button>
@@ -114,7 +114,7 @@ export default function ChatPage() {
       )}
 
       {/* Input */}
-      <div className="flex gap-2 items-end bg-white rounded-2xl border border-[#E5E0D8] p-2 shadow-sm">
+      <div className="flex gap-2 items-end bg-white rounded-2xl border border-slate-200 p-2 shadow-sm">
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -132,10 +132,11 @@ export default function ChatPage() {
         <button
           onClick={() => sendMessage()}
           disabled={loading || !input.trim()}
-          className="w-10 h-10 rounded-xl bg-[#1A6B6B] text-white flex items-center justify-center
-            hover:bg-[#155858] transition-colors disabled:opacity-50 shrink-0"
+          aria-label="Send message"
+          className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center
+            hover:bg-indigo-700 transition-colors disabled:opacity-50 shrink-0"
         >
-          {loading ? <Spinner size="sm" /> : '↑'}
+          {loading ? <Spinner size="sm" color="white" /> : '↑'}
         </button>
       </div>
     </div>

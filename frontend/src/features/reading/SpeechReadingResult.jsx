@@ -142,8 +142,9 @@ export default function SpeechReadingResult({
 
         {onProceedToQuestions && (
           <button
+            type="button"
             onClick={onProceedToQuestions}
-            className="px-5 py-2.5 rounded-xl bg-[#1A6B6B] text-white hover:bg-[#155757] text-xs sm:text-sm font-extrabold shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 text-xs sm:text-sm font-extrabold shadow-sm transition-all flex items-center gap-2 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           >
             <span>Answer Questions</span>
             <span>➡️</span>

@@ -66,7 +66,7 @@ export default function AccessibilityToolbar() {
           ${
             isOpen || readingRuler || highContrast || tintOverlay !== 'none'
               ? 'bg-amber-100 text-amber-900 border-amber-300 shadow-2xs'
-              : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
+              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
           }`}
         aria-expanded={isOpen}
         aria-haspopup="true"
@@ -84,19 +84,19 @@ export default function AccessibilityToolbar() {
       {isOpen && (
         <div
           ref={menuRef}
-          className="absolute right-0 top-12 w-72 sm:w-80 bg-white rounded-3xl shadow-xl border border-stone-200 p-4 z-50 animate-fade-in space-y-4"
+          className="absolute right-0 top-12 w-72 sm:w-80 max-w-[calc(100vw-1.5rem)] bg-white rounded-3xl shadow-xl border border-slate-200 p-4 z-50 animate-fade-in space-y-4"
           role="dialog"
           aria-label={t('accessibility.quickTools', 'Reading & Accessibility Tools')}
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-2 border-b border-stone-100">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
             <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
               <span>👓</span>
               <span>{t('accessibility.quickTools', 'Reading Tools')}</span>
             </span>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-stone-400 hover:text-stone-700 text-sm font-bold px-1"
+              className="text-slate-400 hover:text-slate-700 text-sm font-bold px-1"
               aria-label={t('common.close', 'Close')}
             >
               ✕
@@ -105,7 +105,7 @@ export default function AccessibilityToolbar() {
 
           {/* Font Size Adjuster */}
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs font-bold text-stone-700">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-700">
               <span>{t('accessibility.textSize', 'Text Size')}</span>
               <span className="font-mono text-indigo-600">{fontSize}px</span>
             </div>
@@ -114,7 +114,7 @@ export default function AccessibilityToolbar() {
                 type="button"
                 onClick={() => updatePreference('fontSize', Math.max(14, fontSize - 2))}
                 disabled={fontSize <= 14}
-                className="flex-1 py-1.5 bg-stone-100 hover:bg-stone-200 disabled:opacity-40 rounded-xl text-xs font-extrabold transition-all cursor-pointer"
+                className="flex-1 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 rounded-xl text-xs font-extrabold transition-all cursor-pointer"
                 aria-label="Decrease text size"
               >
                 A−
@@ -134,10 +134,10 @@ export default function AccessibilityToolbar() {
           {/* Reading Ruler Toggle */}
           <div className="flex items-center justify-between pt-1">
             <div>
-              <p className="text-xs font-bold text-stone-800">
+              <p className="text-xs font-bold text-slate-800">
                 {t('accessibility.readingRuler', 'Reading Ruler')}
               </p>
-              <p className="text-[11px] text-stone-500">
+              <p className="text-[11px] text-slate-500">
                 {t('accessibility.rulerHelp', 'Follows your lines to stay focused')}
               </p>
             </div>
@@ -145,7 +145,7 @@ export default function AccessibilityToolbar() {
               type="button"
               onClick={() => updatePreference('readingRuler', !readingRuler)}
               className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${
-                readingRuler ? 'bg-amber-500' : 'bg-stone-200'
+                readingRuler ? 'bg-amber-500' : 'bg-slate-200'
               }`}
               role="switch"
               aria-checked={readingRuler}
@@ -162,10 +162,10 @@ export default function AccessibilityToolbar() {
           {/* High Contrast Toggle */}
           <div className="flex items-center justify-between pt-1">
             <div>
-              <p className="text-xs font-bold text-stone-800">
+              <p className="text-xs font-bold text-slate-800">
                 {t('accessibility.highContrast', 'High Contrast')}
               </p>
-              <p className="text-[11px] text-stone-500">
+              <p className="text-[11px] text-slate-500">
                 {t('accessibility.contrastHelp', 'Sharp black text on white background')}
               </p>
             </div>
@@ -173,7 +173,7 @@ export default function AccessibilityToolbar() {
               type="button"
               onClick={() => updatePreference('highContrast', !highContrast)}
               className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${
-                highContrast ? 'bg-indigo-600' : 'bg-stone-200'
+                highContrast ? 'bg-indigo-600' : 'bg-slate-200'
               }`}
               role="switch"
               aria-checked={highContrast}
@@ -189,12 +189,12 @@ export default function AccessibilityToolbar() {
 
           {/* Page Color Tint */}
           <div className="space-y-1.5 pt-1">
-            <span className="text-xs font-bold text-stone-700 block">
+            <span className="text-xs font-bold text-slate-700 block">
               {t('accessibility.colorTint', 'Page Color Tint')}
             </span>
             <div className="flex items-center gap-1.5">
               {[
-                { id: 'none', label: 'Off', color: '#FFFFFF', border: 'border-stone-300' },
+                { id: 'none', label: 'Off', color: '#FFFFFF', border: 'border-slate-300' },
                 { id: 'peach', label: 'Peach', color: '#FFE5D9', border: 'border-orange-300' },
                 { id: 'mint', label: 'Mint', color: '#E8F5E9', border: 'border-green-300' },
                 { id: 'sky', label: 'Sky', color: '#E1F5FE', border: 'border-sky-300' },
@@ -220,11 +220,11 @@ export default function AccessibilityToolbar() {
           </div>
 
           {/* Bottom Actions */}
-          <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+          <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
             <button
               type="button"
               onClick={resetDefaults}
-              className="text-stone-500 hover:text-stone-800 underline font-medium"
+              className="text-slate-500 hover:text-slate-800 underline font-medium"
             >
               {t('accessibility.resetDefaults', 'Reset Defaults')}
             </button>

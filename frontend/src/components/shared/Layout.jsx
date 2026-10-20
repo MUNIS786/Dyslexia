@@ -248,7 +248,7 @@ export default function Layout({ children }) {
               <div
                 role="region"
                 aria-label="Notification Center"
-                className="absolute right-0 top-12 w-80 sm:w-96 bg-white rounded-2xl shadow-modal border border-slate-200 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-100"
+                className="absolute right-0 top-12 w-80 sm:w-96 max-w-[calc(100vw-1.5rem)] bg-white rounded-2xl shadow-modal border border-slate-200 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-100"
               >
                 <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50/70">
                   <span className="font-bold text-sm text-slate-800 dyslexia-text">
@@ -298,7 +298,14 @@ export default function Layout({ children }) {
           id="main-content"
           tabIndex="-1"
           className="flex-1 p-4 sm:p-6 lg:p-8 mx-auto w-full transition-[max-width] duration-150 outline-none"
-          style={{ maxWidth: 'var(--reading-max-width, 56rem)' }}
+          style={{
+            maxWidth:
+              user?.role === 'teacher'
+                ? '80rem'
+                : user?.role === 'parent'
+                ? '72rem'
+                : 'var(--reading-max-width, 56rem)',
+          }}
         >
           {children}
         </main>

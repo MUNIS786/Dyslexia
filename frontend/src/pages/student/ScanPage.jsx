@@ -113,7 +113,7 @@ export default function ScanPage() {
       <PageHeader icon="📷" title="Scan & Simplify" subtitle="Upload a file or paste text. We will make it easy to read." />
 
       {/* Mode tabs */}
-      <div className="flex gap-2 bg-white rounded-xl p-1 border border-[#E5E0D8]">
+      <div className="flex gap-2 bg-white rounded-xl p-1 border border-slate-200">
         {[
           { id: 'upload', label: '📁 Upload File' },
           { id: 'paste', label: '✏️ Paste Text' },
@@ -123,7 +123,7 @@ export default function ScanPage() {
             key={m.id}
             onClick={() => { setMode(m.id); setResult(null); stop() }}
             className={`flex-1 py-2.5 rounded-lg dyslexia-text text-sm font-semibold transition-all
-              ${mode === m.id ? 'bg-[#1A6B6B] text-white' : 'text-gray-600 hover:bg-gray-50'}`}
+              ${mode === m.id ? 'bg-indigo-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'}`}
           >
             {m.label}
           </button>
@@ -151,14 +151,14 @@ export default function ScanPage() {
             />
             <div
               onClick={() => fileRef.current?.click()}
-              className="border-2 border-dashed border-[#1A6B6B] rounded-xl p-8 text-center cursor-pointer
-                hover:bg-[#E0F2F2] transition-colors"
+              className="border-2 border-dashed border-indigo-400 rounded-xl p-8 text-center cursor-pointer
+                hover:bg-indigo-50/40 transition-colors"
             >
               <p className="text-4xl mb-2">📤</p>
-              <p className="dyslexia-text font-semibold text-[#1A6B6B]">
+              <p className="dyslexia-text font-semibold text-indigo-600">
                 {file ? file.name : 'Click to choose a file'}
               </p>
-              <p className="dyslexia-text text-sm text-gray-500 mt-1">
+              <p className="dyslexia-text text-sm text-slate-500 mt-1">
                 PDF, image, Word, or text file
               </p>
             </div>
@@ -177,8 +177,8 @@ export default function ScanPage() {
           <div className="flex flex-col gap-3">
             {mode === 'notes' && (
               <input
-                className="w-full px-4 py-3 rounded-xl border-2 border-[#E5E0D8] bg-white dyslexia-text
-                  focus:outline-none focus:border-[#1A6B6B]"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dyslexia-text
+                  focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
                 placeholder="Notes title (optional)"
                 value={notesTitle}
                 onChange={(e) => setNotesTitle(e.target.value)}
@@ -207,8 +207,8 @@ export default function ScanPage() {
       {/* Result */}
       {loading && (
         <div className="flex flex-col items-center py-10 gap-3">
-          <Spinner size="lg" />
-          <p className="dyslexia-text text-[#1A6B6B]">Processing your text…</p>
+          <Spinner size="lg" color="primary" />
+          <p className="dyslexia-text text-indigo-600 font-bold">Processing your text…</p>
         </div>
       )}
 
@@ -221,7 +221,7 @@ export default function ScanPage() {
                 key={v}
                 onClick={() => { setViewMode(v); stop() }}
                 className={`px-3 py-1.5 rounded-lg dyslexia-text text-sm font-semibold capitalize transition-all
-                  ${viewMode === v ? 'bg-[#1A6B6B] text-white' : 'bg-gray-100 hover:bg-gray-200'}`}
+                  ${viewMode === v ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'}`}
               >
                 {v === 'simplified' ? '✨ Simplified' : v === 'original' ? '📄 Original' : '• Bullets'}
               </button>
@@ -239,7 +239,7 @@ export default function ScanPage() {
             <select
               value={speed}
               onChange={(e) => { setSpeed(parseFloat(e.target.value)); stop() }}
-              className="px-3 py-2 rounded-lg border border-[#E5E0D8] dyslexia-text text-sm"
+              className="px-3 py-2 rounded-lg border border-slate-200 dyslexia-text text-sm bg-white"
             >
               {SPEEDS.map((s) => (
                 <option key={s} value={s}>{s}x</option>
@@ -248,12 +248,12 @@ export default function ScanPage() {
           </div>
 
           {/* Content */}
-          <div className="bg-[#FFF8F0] rounded-xl p-4" style={{ lineHeight: 'var(--line-spacing)' }}>
+          <div className="bg-slate-50/70 rounded-xl p-4 border border-slate-100" style={{ lineHeight: 'var(--line-spacing)' }}>
             {viewMode === 'bullets' ? (
               <ol className="flex flex-col gap-2">
                 {(result.bullet_points || []).map((bp, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="font-bold text-[#1A6B6B] shrink-0">{i + 1}.</span>
+                    <span className="font-bold text-indigo-600 shrink-0">{i + 1}.</span>
                     <ReadingText
                       text={bp}
                       highlights={result.highlights || []}

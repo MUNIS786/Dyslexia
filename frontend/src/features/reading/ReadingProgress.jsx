@@ -26,7 +26,7 @@ export default function ReadingProgress({
   ]
 
   return (
-    <div className="bg-white rounded-2xl border border-stone-200 px-4 py-3 shadow-2xs mb-6">
+    <div className="bg-white rounded-2xl border border-slate-200 px-4 py-3 shadow-card mb-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         {/* Step Indicator */}
         <div className="flex items-center gap-2">
@@ -40,17 +40,17 @@ export default function ReadingProgress({
                 <span
                   className={`text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 transition-all ${
                     isActive
-                      ? 'bg-[#1A6B6B] text-white shadow-2xs'
+                      ? 'bg-indigo-600 text-white shadow-xs'
                       : isPassed
                       ? 'bg-emerald-100 text-emerald-800'
-                      : 'bg-stone-100 text-stone-400'
+                      : 'bg-slate-100 text-slate-400'
                   }`}
                 >
                   <span>{s.icon}</span>
                   <span className="hidden sm:inline">{s.label}</span>
                 </span>
                 {idx < steps.length - 1 && (
-                  <span className="text-stone-300 text-xs">→</span>
+                  <span className="text-slate-300 text-xs">→</span>
                 )}
               </div>
             )

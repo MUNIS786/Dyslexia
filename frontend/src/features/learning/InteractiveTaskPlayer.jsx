@@ -45,6 +45,16 @@ export default function InteractiveTaskPlayer({
     }
   }, [isAnswered])
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && !submitting) {
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onClose, submitting])
+
   // Reset interaction timer on clicks
   const registerInteraction = () => {
     lastInteractionRef.current = Date.now()
@@ -116,27 +126,33 @@ export default function InteractiveTaskPlayer({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <Card className="max-w-2xl w-full max-h-[90vh] overflow-y-auto flex flex-col justify-between border-2 border-[#1A6B6B]/30 shadow-2xl animate-fade-in">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="task-player-title"
+      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4"
+    >
+      <Card className="max-w-2xl w-full max-h-[90vh] max-w-[calc(100vw-2rem)] overflow-y-auto flex flex-col justify-between border border-slate-200 shadow-2xl animate-fade-in">
         {/* Top Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">🎯</span>
+            <span className="text-2xl" aria-hidden="true">🎯</span>
             <div>
-              <h2 className="dyslexia-text font-bold text-lg text-[#1A2A2A]">
+              <h2 id="task-player-title" className="dyslexia-text font-bold text-lg text-slate-900">
                 {activity.title}
               </h2>
-              <p className="dyslexia-text text-xs text-gray-500">
+              <p className="dyslexia-text text-xs text-slate-500">
                 Level {activity.difficultyTier} • {activity.domain?.replace('_', ' ')}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Badge color="teal">⏱ {secondsElapsed}s</Badge>
+            <Badge color="indigo">⏱ {secondsElapsed}s</Badge>
             <button
+              type="button"
               onClick={onClose}
               disabled={submitting}
-              className="text-gray-400 hover:text-gray-600 text-xl font-bold px-2 py-1 rounded"
+              className="text-slate-400 hover:text-slate-600 text-xl font-bold px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600"
               aria-label="Close task"
             >
               ✕
@@ -147,26 +163,27 @@ export default function InteractiveTaskPlayer({
         {/* Challenge Body */}
         <div className="flex-1 my-2">
           {/* Audio Prompt button & Instruction */}
-          <div className="bg-[#FFF8F0] border border-[#E5E0D8] rounded-2xl p-4 mb-4 flex items-start gap-3">
+          <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-4 mb-4 flex items-start gap-3">
             <button
+              type="button"
               onClick={() => speakText(payload.audioPrompt || payload.instruction || activity.title)}
-              className="w-12 h-12 bg-[#1A6B6B] hover:bg-[#155555] text-white rounded-xl flex items-center justify-center text-xl shadow flex-shrink-0"
+              className="w-12 h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center text-xl shadow flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600"
               title="Listen to instruction"
               aria-label="Listen out loud"
             >
               🔊
             </button>
             <div className="flex-1">
-              <p className="dyslexia-text text-sm font-semibold text-gray-800">
+              <p className="dyslexia-text text-sm font-semibold text-slate-800">
                 {payload.instruction || 'Follow the instructions below:'}
               </p>
               {payload.passage && (
-                <div className="mt-3 p-3 bg-white rounded-xl border border-gray-200 text-base leading-relaxed text-gray-800 dyslexia-text">
+                <div className="mt-3 p-3 bg-white rounded-xl border border-slate-200 text-base leading-relaxed text-slate-800 dyslexia-text">
                   {payload.passage}
                 </div>
               )}
               {payload.question && (
-                <p className="dyslexia-text text-base font-bold text-[#1A6B6B] mt-3">
+                <p className="dyslexia-text text-base font-bold text-indigo-900 mt-3">
                   {payload.question}
                 </p>
               )}
@@ -245,8 +262,9 @@ export default function InteractiveTaskPlayer({
             <div className="mb-3">
               {!showHint ? (
                 <button
+                  type="button"
                   onClick={handleRequestHint}
-                  className="text-xs text-[#1A6B6B] hover:underline font-semibold flex items-center gap-1"
+                  className="text-xs text-indigo-600 hover:text-indigo-800 hover:underline font-semibold flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded px-1"
                 >
                   💡 Need a hint?
                 </button>

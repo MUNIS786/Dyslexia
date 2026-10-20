@@ -36,7 +36,7 @@ export default function TierProgressionCard({
     TIERS.find((t) => t.level === currentTier) || TIERS[0]
 
   return (
-    <Card className="mb-6 bg-gradient-to-br from-[#F0F8FF] to-[#FFF8F0] border-2 border-[#1A6B6B]/20">
+    <Card className="mb-6 bg-gradient-to-br from-indigo-50/60 via-white to-amber-50/40 border border-indigo-200/60 shadow-card">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Tier Info & Badge */}
         <div>
@@ -45,15 +45,15 @@ export default function TierProgressionCard({
               {activeTierMeta.icon}
             </span>
             <div>
-              <p className="dyslexia-text text-xs text-gray-500 uppercase font-semibold">
+              <p className="dyslexia-text text-xs text-slate-500 uppercase font-semibold">
                 Your Learning Level (ZPD)
               </p>
-              <h2 className="dyslexia-text font-bold text-xl text-[#1A2A2A]">
+              <h2 className="dyslexia-text font-bold text-xl text-slate-900">
                 Level {currentTier} — {activeTierMeta.name}
               </h2>
             </div>
           </div>
-          <p className="dyslexia-text text-xs text-gray-600 mt-1 max-w-lg leading-relaxed">
+          <p className="dyslexia-text text-xs text-slate-600 mt-1 max-w-lg leading-relaxed">
             {tierCalibration?.description ||
               'Content pacing is calibrated to provide optimal challenge without frustration.'}
           </p>
@@ -63,15 +63,15 @@ export default function TierProgressionCard({
         <div className="flex items-center gap-3">
           <div className="bg-white/80 backdrop-blur rounded-2xl px-4 py-2 border border-amber-200 text-center shadow-sm">
             <p className="text-xl">🔥 {streak}</p>
-            <p className="dyslexia-text text-[11px] text-gray-500 font-semibold">
+            <p className="dyslexia-text text-[11px] text-slate-500 font-semibold">
               Day Streak
             </p>
           </div>
-          <div className="bg-white/80 backdrop-blur rounded-2xl px-4 py-2 border border-teal-200 text-center shadow-sm">
-            <p className="text-xl font-bold text-[#1A6B6B]">
+          <div className="bg-white/80 backdrop-blur rounded-2xl px-4 py-2 border border-indigo-200 text-center shadow-sm">
+            <p className="text-xl font-bold text-indigo-600">
               {tasksCompleted}/{tasksAssigned}
             </p>
-            <p className="dyslexia-text text-[11px] text-gray-500 font-semibold">
+            <p className="dyslexia-text text-[11px] text-slate-500 font-semibold">
               Today's Tasks
             </p>
           </div>
@@ -79,8 +79,8 @@ export default function TierProgressionCard({
       </div>
 
       {/* 5-Step Visual Progression Track */}
-      <div className="mt-5 pt-4 border-t border-gray-200/70">
-        <p className="dyslexia-text text-xs text-gray-500 mb-2 font-semibold">
+      <div className="mt-5 pt-4 border-t border-slate-200">
+        <p className="dyslexia-text text-xs text-slate-500 mb-2 font-semibold">
           Progress Track:
         </p>
         <div className="grid grid-cols-5 gap-2">
@@ -93,10 +93,10 @@ export default function TierProgressionCard({
                 key={t.level}
                 className={`p-2.5 rounded-xl text-center border transition-all ${
                   isCurrent
-                    ? 'bg-[#1A6B6B] text-white font-bold border-[#1A6B6B] shadow-md ring-2 ring-[#E8A020]'
+                    ? 'bg-indigo-600 text-white font-bold border-indigo-600 shadow-md ring-2 ring-amber-400'
                     : isPast
-                    ? 'bg-green-50 border-green-200 text-green-800'
-                    : 'bg-white/60 border-gray-200 text-gray-400'
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                    : 'bg-white/60 border-slate-200 text-slate-400'
                 }`}
               >
                 <p className="text-base mb-0.5">{t.icon}</p>

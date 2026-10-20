@@ -45,13 +45,13 @@ export default function LearningPreferencesCard({
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-7 shadow-sm">
+    <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-card">
       <div className="flex items-center justify-between gap-3 mb-4">
         <div>
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center gap-2 dyslexia-text">
+          <h3 className="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2 dyslexia-text">
             <span>✨</span> HOW YOU LIKE TO LEARN
           </h3>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-slate-500">
             Pick the learning styles that help you understand and enjoy reading most
           </p>
         </div>
@@ -68,21 +68,22 @@ export default function LearningPreferencesCard({
           const isSelected = selectedModes.includes(mode.id)
           return (
             <button
+              type="button"
               key={mode.id}
               onClick={() => handleToggle(mode.id)}
               disabled={saving}
               aria-pressed={isSelected}
-              className={`p-4 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+              className={`p-4 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                 isSelected
-                  ? 'bg-teal-50/80 border-[#1A6B6B] shadow-sm ring-1 ring-[#1A6B6B]'
-                  : 'bg-gray-50/70 border-gray-200 hover:bg-gray-100/80 text-gray-700'
+                  ? 'bg-indigo-50/80 border-indigo-600 shadow-sm ring-1 ring-indigo-600'
+                  : 'bg-slate-50/70 border-slate-200 hover:bg-slate-100/80 text-slate-700'
               }`}
             >
               <div className="flex items-center justify-between w-full">
                 <span className="text-2xl select-none" aria-hidden="true">{mode.icon}</span>
                 <span
                   className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
-                    isSelected ? 'bg-[#1A6B6B] text-white' : 'border border-gray-300'
+                    isSelected ? 'bg-indigo-600 text-white' : 'border border-slate-300'
                   }`}
                 >
                   {isSelected ? '✓' : ''}
@@ -90,10 +91,10 @@ export default function LearningPreferencesCard({
               </div>
 
               <div>
-                <p className={`font-bold text-sm dyslexia-text ${isSelected ? 'text-teal-950' : 'text-gray-900'}`}>
+                <p className={`font-bold text-sm dyslexia-text ${isSelected ? 'text-indigo-950' : 'text-slate-900'}`}>
                   {mode.label}
                 </p>
-                <p className="text-xs text-gray-500 mt-0.5 leading-snug">
+                <p className="text-xs text-slate-500 mt-0.5 leading-snug">
                   {mode.desc}
                 </p>
               </div>

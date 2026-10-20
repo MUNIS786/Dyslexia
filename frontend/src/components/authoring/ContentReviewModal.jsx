@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ContentPreview from './ContentPreview'
 import ContentValidationPanel from './ContentValidationPanel'
 
@@ -11,6 +11,14 @@ export default function ContentReviewModal({
 }) {
   const [feedback, setFeedback] = useState('')
   const [activeTab, setActiveTab] = useState('preview') // 'preview' | 'validation'
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && !isSubmitting) onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onClose, isSubmitting])
 
   if (!item) return null
 
@@ -46,8 +54,13 @@ export default function ContentReviewModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl shadow-xl border border-gray-200 max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-fadeIn">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="review-modal-title"
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-xs flex items-center justify-center p-4"
+    >
+      <div className="bg-white rounded-3xl shadow-xl border border-slate-200 max-w-4xl w-full max-h-[90vh] max-w-[calc(100vw-2rem)] flex flex-col overflow-hidden animate-fadeIn">
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gray-50/80">
           <div>
@@ -70,14 +83,14 @@ export default function ContentReviewModal({
         </div>
 
         {/* Tab switcher */}
-        <div className="px-6 border-b border-gray-100 flex gap-4 text-xs font-bold text-gray-500 bg-white">
+        <div className="px-6 border-b border-slate-200 flex gap-4 text-xs font-bold text-slate-500 bg-white">
           <button
             type="button"
             onClick={() => setActiveTab('preview')}
             className={`py-3 border-b-2 transition-colors ${
               activeTab === 'preview'
-                ? 'border-[#1A6B6B] text-[#1A6B6B]'
-                : 'border-transparent hover:text-gray-700'
+                ? 'border-indigo-600 text-indigo-600'
+                : 'border-transparent hover:text-slate-700'
             }`}
           >
             Passage Preview & Questions
@@ -87,8 +100,8 @@ export default function ContentReviewModal({
             onClick={() => setActiveTab('validation')}
             className={`py-3 border-b-2 transition-colors ${
               activeTab === 'validation'
-                ? 'border-[#1A6B6B] text-[#1A6B6B]'
-                : 'border-transparent hover:text-gray-700'
+                ? 'border-indigo-600 text-indigo-600'
+                : 'border-transparent hover:text-slate-700'
             }`}
           >
             Quality & Diagnostics Report
@@ -113,8 +126,8 @@ export default function ContentReviewModal({
           )}
 
           {/* Feedback Textarea */}
-          <div className="space-y-1.5 pt-4 border-t border-gray-100">
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
+          <div className="space-y-1.5 pt-4 border-t border-slate-200">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
               Reviewer Notes & Actionable Feedback
             </label>
             <textarea
@@ -122,7 +135,7 @@ export default function ContentReviewModal({
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               placeholder="Provide constructive, supportive feedback for the author. (Required when requesting changes or rejecting)..."
-              className="w-full p-3 text-xs rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] text-gray-900 font-medium"
+              className="w-full p-3 text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-slate-900 font-medium"
             />
           </div>
         </div>

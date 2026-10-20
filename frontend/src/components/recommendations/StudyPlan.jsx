@@ -55,10 +55,10 @@ export default function StudyPlan({
                   key={h.id}
                   type="button"
                   onClick={() => onSelectHorizon && onSelectHorizon(h.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all focus:outline-none focus:ring-2 focus:ring-indigo-600 ${
                     isSelected
-                      ? 'bg-[#1A6B6B] text-white shadow-xs'
-                      : 'text-stone-600 hover:text-stone-900'
+                      ? 'bg-indigo-600 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                   aria-pressed={isSelected}
                 >
@@ -71,17 +71,17 @@ export default function StudyPlan({
       </div>
 
       {/* Progress & Duration Bar */}
-      <div className="bg-stone-50 rounded-2xl p-4 border border-stone-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-4">
-          <div className="text-xs font-bold text-stone-600">
+          <div className="text-xs font-bold text-slate-600">
             <span>🎯 Progress: </span>
-            <span className="text-stone-900 font-black">{completedCount}</span>
+            <span className="text-slate-900 font-black">{completedCount}</span>
             <span> of </span>
-            <span className="text-stone-900 font-black">{totalCount}</span>
+            <span className="text-slate-900 font-black">{totalCount}</span>
             <span> ({percentComplete}%)</span>
           </div>
 
-          <div className="w-28 sm:w-40 bg-stone-200 rounded-full h-2 overflow-hidden">
+          <div className="w-28 sm:w-40 bg-slate-200 rounded-full h-2 overflow-hidden">
             <div
               className="bg-emerald-600 h-full rounded-full transition-all duration-500"
               style={{ width: `${percentComplete}%` }}
@@ -93,10 +93,10 @@ export default function StudyPlan({
           </div>
         </div>
 
-        <div className="text-xs font-bold text-stone-500 flex items-center gap-1.5">
+        <div className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
           <span aria-hidden="true">⏱️</span>
           <span>{t('recommendations.totalTime', 'Est. Time')}: </span>
-          <span className="text-stone-900 font-black">{totalMinutes} mins</span>
+          <span className="text-slate-900 font-black">{totalMinutes} mins</span>
         </div>
       </div>
 
@@ -108,7 +108,7 @@ export default function StudyPlan({
             className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
               item.completed
                 ? 'bg-emerald-50/40 border-emerald-200/80 text-emerald-950'
-                : 'bg-white border-stone-200 hover:border-[#1A6B6B]/40'
+                : 'bg-white border-slate-200 hover:border-indigo-400'
             }`}
           >
             <div className="flex items-start sm:items-center gap-3">
@@ -143,7 +143,7 @@ export default function StudyPlan({
               className={`shrink-0 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-offset-1 ${
                 item.completed
                   ? 'bg-emerald-100 text-emerald-900 hover:bg-emerald-200 focus:ring-emerald-500'
-                  : 'bg-[#1A6B6B] text-white hover:bg-[#155555] focus:ring-[#1A6B6B]'
+                  : 'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-600'
               }`}
             >
               <span>{item.completed ? 'Review' : 'Start'}</span>

@@ -131,7 +131,7 @@ export default function AccessibilitySettingsCard({ onSaveComplete }) {
               lineHeight: draft.lineSpacing,
               letterSpacing: `${draft.letterSpacing}em`,
               wordSpacing: `${draft.wordSpacing}em`,
-              borderColor: draft.highContrast ? '#000000' : '#E5E0D8',
+              borderColor: draft.highContrast ? '#000000' : '#E2E8F0',
             }}
           >
             {previewLanguage === 'en' ? (

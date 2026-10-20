@@ -37,23 +37,23 @@ export default function PracticeAreasCard({ practiceAreas = [] }) {
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-50/70 to-indigo-50/40 rounded-3xl border border-blue-200 p-6 sm:p-7 shadow-sm">
+    <div className="bg-gradient-to-br from-indigo-50/70 to-slate-50/40 rounded-3xl border border-indigo-200 p-6 sm:p-7 shadow-card">
       <div className="flex items-center justify-between gap-3 mb-5">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-2xl bg-[#1A6B6B] text-white flex items-center justify-center text-lg shadow-sm">
+          <div className="w-9 h-9 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-lg shadow-sm">
             🎯
           </div>
           <div>
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dyslexia-text">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dyslexia-text">
               AREAS TO PRACTICE
             </h3>
-            <p className="text-xs text-gray-600 font-medium">
+            <p className="text-xs text-slate-600 font-medium">
               Targeted skills that will make reading smoother and more fun
             </p>
           </div>
         </div>
 
-        <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-900 border border-blue-300/60">
+        <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-900 border border-indigo-300/60">
           {practiceAreas.length} Growth Areas
         </span>
       </div>

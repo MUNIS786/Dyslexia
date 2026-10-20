@@ -134,7 +134,7 @@ export default function PersonalizedActivityPage() {
           {/* Back to Recommendations */}
           <Link
             to="/student/recommendations"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold bg-stone-100 text-stone-800 hover:bg-stone-200 transition-all border border-stone-200 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold bg-slate-100 text-slate-800 hover:bg-slate-200 transition-all border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-600"
           >
             <span aria-hidden="true">🧭</span>
             <span>
@@ -275,8 +275,8 @@ export default function PersonalizedActivityPage() {
                     onClick={() => setFilterType(pill.key)}
                     className={`px-3 py-1.5 rounded-xl border transition-all ${
                       filterType === pill.key
-                        ? 'bg-[#1A6B6B] text-white border-[#1A6B6B] shadow-2xs'
-                        : 'bg-white text-stone-600 border-stone-200 hover:bg-stone-50'
+                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
                     {t(pill.labelKey, pill.def)}
@@ -286,7 +286,7 @@ export default function PersonalizedActivityPage() {
             </div>
 
             {filteredCatalog.length === 0 ? (
-              <div className="bg-stone-50 border border-stone-200 rounded-3xl p-8 text-center text-sm text-stone-500">
+              <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 text-center text-sm text-slate-500">
                 {t('personalizedContent.emptyCatalog', 'No activities currently match this filter.')}
               </div>
             ) : (

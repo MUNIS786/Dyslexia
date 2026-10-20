@@ -40,7 +40,7 @@ export default function RecommendationEmptyState({
       <div className="pt-2">
         <Link
           to={actionUrl}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#1A6B6B] text-white text-xs sm:text-sm font-bold rounded-2xl hover:bg-[#155555] focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] focus:ring-offset-2 transition-all shadow-xs"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white text-xs sm:text-sm font-bold rounded-2xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 transition-all shadow-xs"
         >
           <span>📖</span>
           <span>{t('recommendations.startReadingBtn', 'Start Reading')}</span>

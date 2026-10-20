@@ -30,10 +30,10 @@ export default function PeriodSelector({ selectedPeriod = '30d', onSelectPeriod,
             onClick={() => onSelectPeriod && onSelectPeriod(p.id)}
             disabled={disabled}
             aria-pressed={isSelected}
-            className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] focus:ring-offset-1 disabled:opacity-50 ${
+            className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-1 disabled:opacity-50 ${
               isSelected
-                ? 'bg-[#1A6B6B] text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+                ? 'bg-indigo-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
           >
             <span className="hidden sm:inline">{p.label}</span>

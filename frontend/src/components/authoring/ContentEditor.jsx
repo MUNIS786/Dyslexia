@@ -163,20 +163,20 @@ export default function ContentEditor({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Sam the Orange Cat"
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] text-gray-900 font-medium"
+            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-slate-900 font-medium"
             required
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
               Language <span className="text-rose-500">*</span>
             </label>
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] text-gray-900 text-sm font-medium bg-white"
+              className="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-slate-900 text-sm font-medium bg-white"
             >
               <option value="en">English (en)</option>
               <option value="hi">Hindi (हिन्दी - hi)</option>
@@ -185,13 +185,13 @@ export default function ContentEditor({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
               Difficulty Tier <span className="text-rose-500">*</span>
             </label>
             <select
               value={difficulty}
               onChange={(e) => setDifficulty(parseInt(e.target.value, 10))}
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] text-gray-900 text-sm font-medium bg-white"
+              className="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-slate-900 text-sm font-medium bg-white"
             >
               <option value={1}>Tier 1 - Foundation</option>
               <option value={2}>Tier 2 - Early Phonics</option>
@@ -202,7 +202,7 @@ export default function ContentEditor({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
               Grade Band
             </label>
             <input
@@ -210,7 +210,7 @@ export default function ContentEditor({
               value={gradeBand}
               onChange={(e) => setGradeBand(e.target.value)}
               placeholder="e.g. Grade 1-2"
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] text-gray-900 text-sm"
+              className="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-slate-900 text-sm"
             />
           </div>
         </div>
@@ -240,7 +240,7 @@ export default function ContentEditor({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Write or paste your dyslexia-friendly passage here. Use simple sentences, clear rhythm, and phonetic clarity..."
-          className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] text-gray-900 font-normal leading-relaxed"
+          className="w-full p-4 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-slate-900 font-normal leading-relaxed"
           style={{ fontFamily: 'OpenDyslexic, Lexend, sans-serif' }}
           required
         />
@@ -254,7 +254,7 @@ export default function ContentEditor({
       {/* Topics and Tags */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
             Topics / Themes (comma separated)
           </label>
           <input
@@ -262,12 +262,12 @@ export default function ContentEditor({
             value={topicsStr}
             onChange={(e) => setTopicsStr(e.target.value)}
             placeholder="animals, pets, nature, friendship"
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] text-sm text-gray-900"
+            className="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-sm text-slate-900"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
             Override Estimated Minutes (optional)
           </label>
           <input
@@ -277,7 +277,7 @@ export default function ContentEditor({
             value={estimatedMinutes}
             onChange={(e) => setEstimatedMinutes(e.target.value)}
             placeholder={`Auto: ${autoEstMins} mins`}
-            className="w-full px-3 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1A6B6B] text-sm text-gray-900"
+            className="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-sm text-slate-900"
           />
         </div>
       </div>
@@ -292,7 +292,7 @@ export default function ContentEditor({
           <button
             type="button"
             onClick={handleAddWord}
-            className="text-xs font-bold px-3 py-1.5 rounded-lg bg-teal-50 text-[#1A6B6B] border border-teal-200 hover:bg-teal-100 transition-colors"
+            className="text-xs font-bold px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 transition-colors"
           >
             + Add Word
           </button>
@@ -360,7 +360,7 @@ export default function ContentEditor({
           <button
             type="button"
             onClick={handleAddQuestion}
-            className="text-xs font-bold px-3 py-1.5 rounded-lg bg-teal-50 text-[#1A6B6B] border border-teal-200 hover:bg-teal-100 transition-colors"
+            className="text-xs font-bold px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 transition-colors"
           >
             + Add Question
           </button>
@@ -403,7 +403,7 @@ export default function ContentEditor({
                     name={`correct-opt-${qIdx}`}
                     checked={q.correctAnswer === optIdx}
                     onChange={() => handleUpdateQuestion(qIdx, 'correctAnswer', optIdx)}
-                    className="h-4 w-4 text-[#1A6B6B] focus:ring-[#1A6B6B]"
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-600"
                     title="Mark as correct answer"
                   />
                   <input
@@ -411,13 +411,13 @@ export default function ContentEditor({
                     value={opt}
                     onChange={(e) => handleUpdateOption(qIdx, optIdx, e.target.value)}
                     placeholder={`Option ${optIdx + 1}`}
-                    className="flex-1 px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white text-gray-900"
+                    className="flex-1 px-2.5 py-1.5 text-xs rounded-lg border border-slate-300 bg-white text-slate-900"
                   />
                   {q.options.length > 2 && (
                     <button
                       type="button"
                       onClick={() => handleRemoveOption(qIdx, optIdx)}
-                      className="text-gray-400 hover:text-rose-500 text-xs px-1"
+                      className="text-slate-400 hover:text-rose-500 text-xs px-1"
                     >
                       ✕
                     </button>
@@ -428,7 +428,7 @@ export default function ContentEditor({
                 <button
                   type="button"
                   onClick={() => handleAddOption(qIdx)}
-                  className="text-[11px] text-[#1A6B6B] font-bold hover:underline"
+                  className="text-[11px] text-indigo-600 font-bold hover:underline"
                 >
                   + Add another option
                 </button>
@@ -473,7 +473,7 @@ export default function ContentEditor({
             type="button"
             onClick={onSubmit}
             disabled={isSubmitting}
-            className="px-6 py-2.5 text-xs font-bold rounded-xl bg-[#1A6B6B] text-white hover:bg-[#145252] transition-colors shadow-sm disabled:opacity-50"
+            className="px-6 py-2.5 text-xs font-bold rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-sm disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           >
             {isSubmitting ? 'Submitting...' : '🚀 Submit for Review'}
           </button>
