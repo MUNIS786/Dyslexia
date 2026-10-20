@@ -40,17 +40,17 @@ export default function ParentProgressSection({ studentId }) {
   return (
     <section
       aria-labelledby="parent-insights-heading"
-      className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-5"
+      className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-5"
     >
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-2xl" aria-hidden="true">🌱</span>
-            <h3 id="parent-insights-heading" className="text-lg font-black text-stone-900 tracking-tight">
+            <h3 id="parent-insights-heading" className="text-lg font-black text-slate-900 tracking-tight">
               {t('insights.parentSectionTitle', 'Child Learning Progress')}
             </h3>
           </div>
-          <p className="text-xs text-stone-500 mt-1 max-w-xl">
+          <p className="text-xs text-slate-500 mt-1 max-w-xl">
             {t(
               'insights.parentSectionSubtitle',
               'Simple, encouraging overview of reading growth and consistency at home.'
@@ -63,8 +63,8 @@ export default function ParentProgressSection({ studentId }) {
 
       {loading ? (
         <div className="space-y-3 animate-pulse">
-          <div className="h-6 bg-stone-100 rounded w-1/3" />
-          <div className="h-16 bg-stone-100 rounded-2xl" />
+          <div className="h-6 bg-slate-100 rounded w-1/3" />
+          <div className="h-16 bg-slate-100 rounded-2xl" />
         </div>
       ) : error ? (
         <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-800">
@@ -74,14 +74,14 @@ export default function ParentProgressSection({ studentId }) {
         <div className="space-y-4">
           {/* Consistency & Trend Overview Banner */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-teal-50/70 border border-teal-200/80 space-y-1">
-              <span className="text-xs font-bold text-teal-800 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 space-y-1">
+              <span className="text-xs font-bold text-indigo-800 uppercase tracking-wider flex items-center gap-1.5">
                 <span>🗓️</span> Practice Consistency
               </span>
-              <p className="text-xs text-stone-700 leading-relaxed pt-1">
+              <p className="text-xs text-slate-700 leading-relaxed pt-1">
                 {data.practiceConsistencyMessage}
               </p>
-              <div className="pt-2 flex items-center gap-3 text-xs font-bold text-teal-900">
+              <div className="pt-2 flex items-center gap-3 text-xs font-bold text-indigo-950">
                 <span>{data.activePracticeDays} active days</span>
                 <span>•</span>
                 <span>🔥 {data.currentStreak} day streak</span>
@@ -92,10 +92,10 @@ export default function ParentProgressSection({ studentId }) {
               <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
                 <span>📈</span> Reading Comprehension Trend
               </span>
-              <p className="text-xs text-stone-700 leading-relaxed pt-1">
+              <p className="text-xs text-slate-700 leading-relaxed pt-1">
                 {data.readingTrendMessage}
               </p>
-              <div className="pt-2 text-xs font-bold text-emerald-900">
+              <div className="pt-2 text-xs font-bold text-emerald-950">
                 Level: {data.learningLevelName} ({data.totalWordsRead} words read)
               </div>
             </div>

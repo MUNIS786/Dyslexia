@@ -306,7 +306,7 @@ To ensure zero downtime, backward compatibility, and rigorous test gating, the r
                                      │
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│ Phase 5: Parent / Guardian Portal (Learners, Reports, Linking, Tips)    │
+│ Phase 5: Parent Portal (COMPLETE - docs/PHASE_5_PARENT_EXPERIENCE.md)   │
 └────────────────────────────────────┬────────────────────────────────────┘
                                      │
                                      ▼

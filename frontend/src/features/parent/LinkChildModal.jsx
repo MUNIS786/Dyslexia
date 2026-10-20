@@ -67,14 +67,14 @@ export default function LinkChildModal({ open, onClose, onLinked }) {
     <Modal open={open} onClose={onClose} title={t('parent.linkChildTitle', 'Connect with Your Child')}>
       <div className="flex flex-col gap-4">
         {/* Tab switch */}
-        <div className="flex border-b border-[#E5E0D8]">
+        <div className="flex border-b border-slate-200">
           <button
             type="button"
             onClick={() => { setTab('code'); setError('') }}
             className={`flex-1 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
               tab === 'code'
-                ? 'border-[#1A6B6B] text-[#1A6B6B]'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
+                ? 'border-indigo-600 text-indigo-600'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
           >
             🔑 {t('parent.tabCode', 'Use Invitation Code')}
@@ -84,8 +84,8 @@ export default function LinkChildModal({ open, onClose, onLinked }) {
             onClick={() => { setTab('request'); setError('') }}
             className={`flex-1 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
               tab === 'request'
-                ? 'border-[#1A6B6B] text-[#1A6B6B]'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
+                ? 'border-indigo-600 text-indigo-600'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
           >
             ✉️ {t('parent.tabRequest', 'Request Connection')}
@@ -96,7 +96,7 @@ export default function LinkChildModal({ open, onClose, onLinked }) {
 
         {tab === 'code' ? (
           <form onSubmit={handleClaimCode} className="flex flex-col gap-3">
-            <p className="text-sm text-gray-600 dyslexia-text">
+            <p className="text-sm text-slate-600 dyslexia-text">
               {t('parent.codeHelpText', "Enter the 8-character invitation code generated from your child's student profile or provided by their teacher.")}
             </p>
             <Input
@@ -112,21 +112,21 @@ export default function LinkChildModal({ open, onClose, onLinked }) {
               onChange={(e) => setRelationship(e.target.value)}
               options={relationOptions}
             />
-            <div className="bg-[#FFF8F0] p-3 rounded-xl border border-[#E8A020]/30 text-xs text-gray-600 dyslexia-text">
+            <div className="bg-amber-50/80 p-3.5 rounded-2xl border border-amber-200 text-xs text-amber-900 dyslexia-text">
               💡 {t('parent.codeTip', 'Invitation codes are secure, valid for 48 hours, and can only be used once.')}
             </div>
             <div className="flex justify-end gap-2 mt-2">
               <Button variant="ghost" onClick={onClose}>
                 {t('common.cancel', 'Cancel')}
               </Button>
-              <Button onClick={handleClaimCode} loading={loading}>
+              <Button variant="primary" onClick={handleClaimCode} loading={loading}>
                 {t('parent.connectNow', 'Connect Now')}
               </Button>
             </div>
           </form>
         ) : (
           <form onSubmit={handleRequestLink} className="flex flex-col gap-3">
-            <p className="text-sm text-gray-600 dyslexia-text">
+            <p className="text-sm text-slate-600 dyslexia-text">
               {t('parent.requestHelpText', "Enter your child's registered student email address or ID. An approval notification will be sent to their account.")}
             </p>
             <Input
@@ -142,14 +142,14 @@ export default function LinkChildModal({ open, onClose, onLinked }) {
               onChange={(e) => setRelationship(e.target.value)}
               options={relationOptions}
             />
-            <div className="bg-[#E0F2F2] p-3 rounded-xl border border-[#1A6B6B]/20 text-xs text-[#1A6B6B] dyslexia-text">
+            <div className="bg-indigo-50/80 p-3.5 rounded-2xl border border-indigo-200 text-xs text-indigo-900 dyslexia-text">
               🔒 {t('parent.requestPrivacyTip', 'For learner privacy, progress records are strictly shielded until the connection is approved.')}
             </div>
             <div className="flex justify-end gap-2 mt-2">
               <Button variant="ghost" onClick={onClose}>
                 {t('common.cancel', 'Cancel')}
               </Button>
-              <Button onClick={handleRequestLink} loading={loading}>
+              <Button variant="primary" onClick={handleRequestLink} loading={loading}>
                 {t('parent.sendRequest', 'Send Request')}
               </Button>
             </div>

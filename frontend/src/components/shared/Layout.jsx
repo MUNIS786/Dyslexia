@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   const roleLabels = {
     student: { title: 'Learner', badge: 'bg-amber-50 text-amber-800 border-amber-200' },
     teacher: { title: 'Educator', badge: 'bg-indigo-50 text-indigo-800 border-indigo-200' },
-    parent: { title: 'Guardian', badge: 'bg-teal-50 text-teal-800 border-teal-200' },
+    parent: { title: 'Guardian', badge: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
   }
   const currentRole = roleLabels[user?.role] || { title: 'User', badge: 'bg-slate-100 text-slate-700 border-slate-200' }
 

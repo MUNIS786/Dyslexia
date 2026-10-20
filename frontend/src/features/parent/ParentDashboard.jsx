@@ -93,8 +93,8 @@ export default function ParentDashboard() {
 
       {/* Linked Children Switcher Tabs (if multiple children) */}
       {dashboardData?.linkedLearners?.length > 0 && (
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#E5E0D8]">
-          <span className="text-sm font-semibold text-gray-500 dyslexia-text mr-1">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200">
+          <span className="text-sm font-semibold text-slate-500 dyslexia-text mr-1">
             {t('parent.yourLearners', 'Learners:')}
           </span>
           {dashboardData.linkedLearners.map((item) => (
@@ -104,8 +104,8 @@ export default function ParentDashboard() {
               onClick={() => handleSelectLearner(item.studentId)}
               className={`px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 dyslexia-text ${
                 selectedLearnerId === item.studentId
-                  ? 'bg-[#1A6B6B] text-white shadow-sm'
-                  : 'bg-white border border-[#E5E0D8] text-gray-700 hover:bg-gray-50'
+                  ? 'bg-indigo-600 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
               }`}
             >
               <span>🧑‍🎓</span>
@@ -121,12 +121,12 @@ export default function ParentDashboard() {
       {/* Empty State: No linked learners */}
       {!hasLearners ? (
         <div className="flex flex-col gap-8">
-          <Card className="text-center py-12 px-6 flex flex-col items-center">
+          <Card className="text-center py-12 px-6 flex flex-col items-center border border-slate-200 shadow-2xs">
             <div className="text-6xl mb-4">👨‍👩‍👧‍👦</div>
-            <h2 className="dyslexia-text text-2xl font-bold text-gray-800 mb-2">
+            <h2 className="dyslexia-text text-2xl font-bold text-slate-900 mb-2">
               {t('parent.noLearnersTitle', 'Connect with Your Child to Get Started')}
             </h2>
-            <p className="dyslexia-text text-gray-600 max-w-lg mx-auto mb-6">
+            <p className="dyslexia-text text-slate-600 max-w-lg mx-auto mb-6">
               {t('parent.noLearnersMessage', 'Link your account to your child to see their reading practice time, stories completed, badges earned, and encouraging home reading tips.')}
             </p>
             <div className="flex flex-wrap justify-center gap-3">
@@ -135,15 +135,15 @@ export default function ParentDashboard() {
               </Button>
             </div>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-xl">
-              <div className="bg-[#FFF8F0] p-4 rounded-xl border border-[#E8A020]/30 text-sm">
-                <p className="font-bold text-[#E8A020] mb-1">🔑 {t('parent.step1Title', 'Have a code?')}</p>
-                <p className="text-gray-600 text-xs">
+              <div className="bg-amber-50/70 p-4 rounded-2xl border border-amber-200 text-sm">
+                <p className="font-bold text-amber-800 mb-1">🔑 {t('parent.step1Title', 'Have a code?')}</p>
+                <p className="text-slate-600 text-xs">
                   {t('parent.step1Desc', 'Ask your child or their teacher for their 48-hour DyslexAid invitation code.')}
                 </p>
               </div>
-              <div className="bg-[#E0F2F2] p-4 rounded-xl border border-[#1A6B6B]/20 text-sm">
-                <p className="font-bold text-[#1A6B6B] mb-1">✉️ {t('parent.step2Title', 'No code yet?')}</p>
-                <p className="text-gray-600 text-xs">
+              <div className="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-200 text-sm">
+                <p className="font-bold text-indigo-800 mb-1">✉️ {t('parent.step2Title', 'No code yet?')}</p>
+                <p className="text-slate-600 text-xs">
                   {t('parent.step2Desc', "Enter your child's student email or ID to send a secure connection request.")}
                 </p>
               </div>
@@ -152,15 +152,15 @@ export default function ParentDashboard() {
 
           {/* Supportive Home Suggestions Still Visible */}
           <div>
-            <h3 className="dyslexia-text text-lg font-bold text-gray-800 mb-3">
+            <h3 className="dyslexia-text text-lg font-bold text-slate-900 mb-3">
               💡 {t('parent.homeTipsTitle', 'Supportive Home Reading Suggestions')}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {suggestions.map((sug) => (
-                <Card key={sug.id} className="p-4 border-l-4 border-l-[#E8A020]">
-                  <p className="font-bold text-[#1A6B6B] text-base mb-1">{sug.title}</p>
-                  <p className="text-sm text-gray-600 mb-2 dyslexia-text">{sug.description}</p>
-                  <p className="text-xs text-gray-500 bg-[#FFF8F0] p-2 rounded-lg font-medium">
+                <Card key={sug.id} className="p-4 border-l-4 border-l-amber-500 rounded-2xl border border-slate-200 shadow-2xs">
+                  <p className="font-bold text-indigo-900 text-base mb-1">{sug.title}</p>
+                  <p className="text-sm text-slate-600 mb-2 dyslexia-text">{sug.description}</p>
+                  <p className="text-xs text-slate-600 bg-slate-50 border border-slate-200 p-2.5 rounded-xl font-medium">
                     📌 {sug.practicalTip}
                   </p>
                 </Card>
@@ -172,9 +172,9 @@ export default function ParentDashboard() {
         /* Connected Learner View */
         <div className="flex flex-col gap-6">
           {/* Active Learner Banner */}
-          <div className="bg-gradient-to-r from-[#1A6B6B] to-[#258787] text-white p-5 rounded-2xl shadow-sm flex flex-wrap items-center justify-between gap-4">
+          <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 text-white p-6 rounded-3xl shadow-sm flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-3xl">
+              <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-3xl shadow-xs">
                 🌟
               </div>
               <div>
@@ -184,7 +184,7 @@ export default function ParentDashboard() {
                     {learner.relationship}
                   </span>
                 </div>
-                <p className="text-white/80 text-sm dyslexia-text mt-0.5">
+                <p className="text-indigo-100 text-sm dyslexia-text mt-0.5">
                   {t('parent.activeLearnerStatus', 'Connected & verified learner profile')}
                 </p>
               </div>
@@ -192,7 +192,7 @@ export default function ParentDashboard() {
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
-                className="text-white/90 hover:bg-white/10 hover:text-white text-xs border border-white/30"
+                className="text-white hover:bg-white/10 hover:text-white text-xs border border-white/30 rounded-xl"
                 onClick={() => setRevokeConfirmId(learner.id)}
               >
                 ⚙️ {t('parent.disconnectLearner', 'Disconnect')}
@@ -207,7 +207,7 @@ export default function ParentDashboard() {
               label={t('parent.statStories', 'Stories Read')}
               value={overview?.storiesCompleted || 0}
               sub={`${overview?.totalReadingMinutes || 0} ${t('parent.mins', 'mins read')}`}
-              color="teal"
+              color="indigo"
             />
             <StatCard
               icon="🎯"
@@ -235,7 +235,7 @@ export default function ParentDashboard() {
               label={t('parent.statPoints', 'Practice Points')}
               value={overview?.totalPoints || 0}
               sub={t('parent.effortReward', 'Effort rewards')}
-              color="teal"
+              color="indigo"
             />
             <StatCard
               icon="🏆"
@@ -259,15 +259,15 @@ export default function ParentDashboard() {
               {/* Recent Reading Sessions */}
               <Card>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="dyslexia-text text-lg font-bold text-gray-800 flex items-center gap-2">
+                  <h3 className="dyslexia-text text-lg font-bold text-slate-900 flex items-center gap-2">
                     <span>📖</span>
                     {t('parent.recentReadingTitle', 'Recent Reading Practice')}
                   </h3>
-                  <Badge color="teal">{recentReading.length} {t('parent.sessions', 'sessions')}</Badge>
+                  <Badge color="indigo">{recentReading.length} {t('parent.sessions', 'sessions')}</Badge>
                 </div>
 
                 {recentReading.length === 0 ? (
-                  <p className="text-gray-500 text-sm italic py-4 text-center dyslexia-text">
+                  <p className="text-slate-500 text-sm italic py-4 text-center dyslexia-text">
                     {t('parent.noReadingYet', 'No completed reading sessions recorded yet.')}
                   </p>
                 ) : (
@@ -275,26 +275,26 @@ export default function ParentDashboard() {
                     {recentReading.map((session, idx) => (
                       <div
                         key={session.id || idx}
-                        className="flex flex-wrap items-center justify-between p-3.5 rounded-xl border border-[#E5E0D8] hover:border-[#1A6B6B]/40 transition-colors bg-white gap-2"
+                        className="flex flex-wrap items-center justify-between p-3.5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-colors bg-white gap-2"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-[#E0F2F2] flex items-center justify-center text-xl text-[#1A6B6B]">
+                          <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-xl text-indigo-600">
                             📄
                           </div>
                           <div>
-                            <p className="font-bold text-gray-800 dyslexia-text">{session.title}</p>
-                            <p className="text-xs text-gray-500 dyslexia-text">
+                            <p className="font-bold text-slate-900 dyslexia-text">{session.title}</p>
+                            <p className="text-xs text-slate-500 dyslexia-text">
                               {session.date} • {session.wordsRead} {t('parent.words', 'words')} • Tier {session.difficultyTier}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
                           {session.comprehensionScore != null && (
-                            <span className="text-sm font-bold text-[#1A6B6B] bg-[#E0F2F2] px-2.5 py-1 rounded-lg">
+                            <span className="text-sm font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">
                               {session.comprehensionScore}%
                             </span>
                           )}
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-slate-400">
                             {session.durationMinutes} min
                           </span>
                         </div>
@@ -307,7 +307,7 @@ export default function ParentDashboard() {
               {/* Adaptive Skill Exercises */}
               <Card>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="dyslexia-text text-lg font-bold text-gray-800 flex items-center gap-2">
+                  <h3 className="dyslexia-text text-lg font-bold text-slate-900 flex items-center gap-2">
                     <span>🎯</span>
                     {t('parent.recentAdaptiveTitle', 'Adaptive Skill Challenges')}
                   </h3>
@@ -315,7 +315,7 @@ export default function ParentDashboard() {
                 </div>
 
                 {recentAdaptive.length === 0 ? (
-                  <p className="text-gray-500 text-sm italic py-4 text-center dyslexia-text">
+                  <p className="text-slate-500 text-sm italic py-4 text-center dyslexia-text">
                     {t('parent.noAdaptiveYet', 'No adaptive tasks completed yet.')}
                   </p>
                 ) : (
@@ -323,15 +323,15 @@ export default function ParentDashboard() {
                     {recentAdaptive.map((act, idx) => (
                       <div
                         key={act.id || idx}
-                        className="p-3.5 rounded-xl border border-[#E5E0D8] bg-[#FFF8F0]/40 flex items-center justify-between gap-2"
+                        className="p-3.5 rounded-2xl border border-slate-200 bg-slate-50/60 flex items-center justify-between gap-2"
                       >
                         <div>
-                          <p className="font-bold text-gray-800 text-sm capitalize dyslexia-text">
+                          <p className="font-bold text-slate-900 text-sm capitalize dyslexia-text">
                             {act.domain}
                           </p>
-                          <p className="text-xs text-gray-500">{act.date} • Tier {act.difficultyTier}</p>
+                          <p className="text-xs text-slate-500">{act.date} • Tier {act.difficultyTier}</p>
                         </div>
-                        <span className="text-sm font-bold text-[#B07818] bg-[#FFF3DC] px-2.5 py-1 rounded-lg">
+                        <span className="text-sm font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg">
                           {act.scorePercent}%
                         </span>
                       </div>
@@ -342,30 +342,30 @@ export default function ParentDashboard() {
 
               {/* Progress Over Time & Consistency */}
               <Card>
-                <h3 className="dyslexia-text text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+                <h3 className="dyslexia-text text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <span>📈</span>
                   {t('parent.trendsTitle', 'Progress Over Time')}
                 </h3>
-                <p className="text-xs text-gray-500 dyslexia-text mb-4">
+                <p className="text-xs text-slate-500 dyslexia-text mb-4">
                   {trends?.trendExplanation || t('parent.trendDefaultDesc', 'Learning happens in steady, natural steps. Consistency builds mastery.')}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-2">
-                  <div className="p-3 rounded-xl border border-[#E5E0D8] bg-white text-center">
-                    <p className="text-xs text-gray-500 mb-1">{t('parent.readingTrend', 'Reading Comprehension')}</p>
-                    <span className="font-bold text-sm text-[#1A6B6B] capitalize">
+                  <div className="p-3.5 rounded-2xl border border-slate-200 bg-white text-center">
+                    <p className="text-xs text-slate-500 mb-1">{t('parent.readingTrend', 'Reading Comprehension')}</p>
+                    <span className="font-bold text-sm text-indigo-700 capitalize">
                       {trends?.readingTrend === 'improving' ? '📈 Steady Growth' : trends?.readingTrend === 'stable' ? '✨ Steady Pace' : '🌱 Building Skills'}
                     </span>
                   </div>
-                  <div className="p-3 rounded-xl border border-[#E5E0D8] bg-white text-center">
-                    <p className="text-xs text-gray-500 mb-1">{t('parent.adaptiveTrend', 'Adaptive Practice')}</p>
-                    <span className="font-bold text-sm text-[#E8A020] capitalize">
+                  <div className="p-3.5 rounded-2xl border border-slate-200 bg-white text-center">
+                    <p className="text-xs text-slate-500 mb-1">{t('parent.adaptiveTrend', 'Adaptive Practice')}</p>
+                    <span className="font-bold text-sm text-amber-700 capitalize">
                       {trends?.adaptiveTrend === 'improving' ? '🚀 Active Progress' : trends?.adaptiveTrend === 'stable' ? '✨ Consistent' : '🌱 Practicing'}
                     </span>
                   </div>
-                  <div className="p-3 rounded-xl border border-[#E5E0D8] bg-white text-center">
-                    <p className="text-xs text-gray-500 mb-1">{t('parent.speechTrend', 'Oral Reading')}</p>
-                    <span className="font-bold text-sm text-green-700 capitalize">
+                  <div className="p-3.5 rounded-2xl border border-slate-200 bg-white text-center">
+                    <p className="text-xs text-slate-500 mb-1">{t('parent.speechTrend', 'Oral Reading')}</p>
+                    <span className="font-bold text-sm text-emerald-700 capitalize">
                       {trends?.speechTrend === 'improving' ? '🌟 Gaining Fluency' : trends?.speechTrend === 'stable' ? '✨ Good Flow' : '🌱 Read-Aloud Practice'}
                     </span>
                   </div>
@@ -377,13 +377,13 @@ export default function ParentDashboard() {
             <div className="flex flex-col gap-6">
               {/* Earned Badges & Milestones */}
               <Card>
-                <h3 className="dyslexia-text text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <h3 className="dyslexia-text text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
                   <span>🏆</span>
                   {t('parent.badgesTitle', 'Earned Achievements')}
                 </h3>
 
                 {gamification?.earnedBadges?.length === 0 ? (
-                  <div className="text-center py-6 text-gray-400">
+                  <div className="text-center py-6 text-slate-400">
                     <div className="text-3xl mb-1">🌱</div>
                     <p className="text-sm dyslexia-text">{t('parent.noBadgesYet', 'Achievements will appear here as your child completes reading practice.')}</p>
                   </div>
@@ -392,14 +392,14 @@ export default function ParentDashboard() {
                     {gamification.earnedBadges.slice(0, 4).map((badge) => (
                       <div
                         key={badge.badgeId}
-                        className="flex items-center gap-3 p-2.5 rounded-xl border border-[#E5E0D8] bg-[#FFF8F0]/30"
+                        className="flex items-center gap-3 p-3 rounded-2xl border border-slate-200 bg-slate-50/60"
                       >
-                        <div className="w-10 h-10 rounded-xl bg-[#FFF3DC] flex items-center justify-center text-xl shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-xl shrink-0">
                           {badge.icon || '🏅'}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-bold text-sm text-gray-800 truncate dyslexia-text">{badge.title}</p>
-                          <p className="text-xs text-gray-500 line-clamp-1 dyslexia-text">{badge.description}</p>
+                          <p className="font-bold text-sm text-slate-900 truncate dyslexia-text">{badge.title}</p>
+                          <p className="text-xs text-slate-500 line-clamp-1 dyslexia-text">{badge.description}</p>
                         </div>
                       </div>
                     ))}
@@ -408,17 +408,17 @@ export default function ParentDashboard() {
               </Card>
 
               {/* Supportive Home Practice Tips */}
-              <Card className="border-t-4 border-t-[#1A6B6B]">
-                <h3 className="dyslexia-text text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <Card className="border-t-4 border-t-indigo-600">
+                <h3 className="dyslexia-text text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
                   <span>💡</span>
                   {t('parent.homePracticeTitle', 'At-Home Support Tips')}
                 </h3>
                 <div className="flex flex-col gap-3">
                   {suggestions.map((sug) => (
-                    <div key={sug.id} className="p-3 rounded-xl bg-gray-50 border border-gray-100">
-                      <p className="font-bold text-[#1A6B6B] text-sm mb-1 dyslexia-text">{sug.title}</p>
-                      <p className="text-xs text-gray-600 mb-1.5 dyslexia-text">{sug.description}</p>
-                      <p className="text-xs text-gray-500 bg-white p-2 rounded border border-gray-200 dyslexia-text">
+                    <div key={sug.id} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                      <p className="font-bold text-indigo-800 text-sm mb-1 dyslexia-text">{sug.title}</p>
+                      <p className="text-xs text-slate-600 mb-1.5 dyslexia-text">{sug.description}</p>
+                      <p className="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-200 dyslexia-text">
                         📌 {sug.practicalTip}
                       </p>
                     </div>
@@ -429,11 +429,11 @@ export default function ParentDashboard() {
           </div>
 
           {/* Educational Disclaimer Reassurance */}
-          <div className="bg-[#FFF8F0] border border-[#E8A020]/40 rounded-2xl p-4 flex items-start gap-3.5 text-xs text-gray-700 dyslexia-text">
+          <div className="bg-amber-50/60 border border-amber-200/80 rounded-2xl p-4 flex items-start gap-3.5 text-xs text-amber-950 dyslexia-text">
             <span className="text-xl shrink-0">🛡️</span>
             <div>
-              <p className="font-bold text-[#B07818] mb-0.5">{t('parent.disclaimerTitle', 'Educational Support Indicator')}</p>
-              <p>{dashboardData.disclaimer}</p>
+              <p className="font-bold text-amber-900 mb-0.5">{t('parent.disclaimerTitle', 'Educational Support Indicator')}</p>
+              <p className="leading-relaxed">{dashboardData.disclaimer}</p>
             </div>
           </div>
         </div>
