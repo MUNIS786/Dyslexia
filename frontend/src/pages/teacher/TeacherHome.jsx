@@ -83,9 +83,9 @@ export default function TeacherHome() {
   const maxType = Math.max(...Object.values(typeDistribution), 1)
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto">
+    <div className="flex flex-col gap-6">
       {/* ── Welcome & Classroom Code Hero ── */}
-      <Card className="p-6 sm:p-8 bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 text-white border-0 shadow-lg relative overflow-hidden">
+      <Card className="p-5 sm:p-8 bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 text-white border-0 shadow-lg relative overflow-hidden">
         <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/10 blur-2xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">

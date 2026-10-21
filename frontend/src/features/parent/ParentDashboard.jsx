@@ -78,7 +78,7 @@ export default function ParentDashboard() {
   const suggestions = dashboardData?.homeSuggestions || []
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto">
+    <div className="flex flex-col gap-6">
       {/* Page Header */}
       <PageHeader
         icon="👨‍👩‍👧"

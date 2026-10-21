@@ -58,22 +58,21 @@ export default function StudentsPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <PageHeader
-          icon="👥"
-          title="Classroom Learners"
-          subtitle={`${students.length} student${students.length !== 1 ? 's' : ''} enrolled in your class.`}
-        />
-
-        <button
-          type="button"
-          onClick={() => navigate('/teacher')}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shrink-0 self-start sm:self-auto"
-        >
-          <span>←</span> Back to Dashboard
-        </button>
-      </div>
+    <div className="flex flex-col gap-6">
+      <PageHeader
+        icon="👥"
+        title="Classroom Learners"
+        subtitle={`${students.length} student${students.length !== 1 ? 's' : ''} enrolled in your class.`}
+        action={
+          <button
+            type="button"
+            onClick={() => navigate('/teacher')}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shrink-0"
+          >
+            <span>←</span> Back to Dashboard
+          </button>
+        }
+      />
 
       {/* ── Search Input & Controls Bar ── */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-card flex flex-col md:flex-row md:items-center gap-4">

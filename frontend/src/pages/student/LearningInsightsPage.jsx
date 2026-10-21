@@ -54,17 +54,17 @@ export default function LearningInsightsPage() {
   const dataSufficiency = summary?.dataSufficiency || 'no_data'
 
   return (
-    <div className="max-w-6xl mx-auto py-6 px-3 sm:px-6 space-y-6">
+    <div className="space-y-6">
       {/* Page Header */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200 shadow-card flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <span className="text-3xl sm:text-4xl" aria-hidden="true">📈</span>
-            <h1 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               {t('insights.pageTitle', 'Learning Insights & Progress')}
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-stone-600 max-w-2xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
             {t(
               'insights.pageSubtitle',
               'See your reading journey, skill trends, and personal strengths grow over time.'

@@ -239,9 +239,9 @@ export default function StudentHome() {
   const trendValues = progress?.comprehensionScores?.slice(-8) || []
 
   return (
-    <div className="flex flex-col gap-6 max-w-6xl mx-auto" style={dashboardStyle}>
+    <div className="flex flex-col gap-6" style={dashboardStyle}>
       {/* ── Welcome & Primary CTA Banner ── */}
-      <Card className="p-6 sm:p-8 bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 text-white border-0 shadow-lg relative overflow-hidden">
+      <Card className="p-5 sm:p-8 bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 text-white border-0 shadow-lg relative overflow-hidden">
         {/* Soft background ambient glow */}
         <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/10 blur-2xl pointer-events-none" />
 

@@ -297,7 +297,7 @@ export default function Layout({ children }) {
         <main
           id="main-content"
           tabIndex="-1"
-          className="flex-1 p-4 sm:p-6 lg:p-8 mx-auto w-full transition-[max-width] duration-150 outline-none"
+          className="flex-1 px-3.5 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 mx-auto w-full transition-[max-width] duration-150 outline-none"
           style={{
             maxWidth:
               user?.role === 'teacher'

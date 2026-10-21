@@ -64,7 +64,7 @@ export function Card({ children, className = '', onClick, hover = false, as: Com
             }
           : undefined
       }
-      className={`bg-white rounded-2xl shadow-card border border-slate-200 p-5 sm:p-6 transition-all duration-200
+      className={`bg-white rounded-2xl shadow-card border border-slate-200 p-4 sm:p-6 transition-all duration-200
         ${isInteractive ? 'cursor-pointer hover:shadow-card-hover hover:border-slate-300 active:scale-[0.99] focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:outline-none' : ''}
         ${className}`}
       {...props}
@@ -320,8 +320,8 @@ export function StatCard({ icon, label, value, sub, color = 'indigo', className 
     purple: 'bg-purple-50 text-purple-700 border-purple-100',
   }
   return (
-    <Card className={`flex items-center gap-4 ${className}`}>
-      <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-2xl border shrink-0 ${colors[color] || colors.indigo}`}>
+    <Card className={`flex items-center gap-3 sm:gap-4 p-4 sm:p-5 ${className}`}>
+      <div className={`w-11 h-11 sm:w-13 sm:h-13 rounded-2xl flex items-center justify-center text-xl sm:text-2xl border shrink-0 ${colors[color] || colors.indigo}`}>
         {icon}
       </div>
       <div className="min-w-0 flex-1">
@@ -336,7 +336,7 @@ export function StatCard({ icon, label, value, sub, color = 'indigo', className 
 // ─── EmptyState ───────────────────────────────────────────────────────────
 export function EmptyState({ icon = '📭', title, message, action, className = '' }) {
   return (
-    <div className={`flex flex-col items-center justify-center py-12 sm:py-16 px-4 text-center gap-3 bg-white/60 rounded-2xl border border-dashed border-slate-200 ${className}`}>
+    <div className={`flex flex-col items-center justify-center py-10 sm:py-14 px-4 sm:px-6 text-center gap-3 bg-white/60 rounded-2xl border border-dashed border-slate-200 ${className}`}>
       <div className="text-5xl sm:text-6xl mb-1" aria-hidden="true">{icon}</div>
       <h3 className="dyslexia-text text-lg sm:text-xl font-bold text-slate-800">{title}</h3>
       {message && <p className="dyslexia-text text-sm text-slate-500 max-w-md leading-relaxed">{message}</p>}
@@ -350,7 +350,7 @@ export function PageHeader({ icon, title, subtitle, action, breadcrumb, classNam
   return (
     <div className={`mb-6 sm:mb-8 ${className}`}>
       {breadcrumb && <div className="mb-2 text-xs text-slate-500 font-medium">{breadcrumb}</div>}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
         <div>
           <h1 className="dyslexia-text text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-2.5">
             {icon && <span aria-hidden="true" className="text-2xl sm:text-3xl shrink-0">{icon}</span>}
@@ -358,7 +358,7 @@ export function PageHeader({ icon, title, subtitle, action, breadcrumb, classNam
           </h1>
           {subtitle && <p className="dyslexia-text text-slate-500 text-sm sm:text-base mt-1 leading-relaxed">{subtitle}</p>}
         </div>
-        {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
+        {action && <div className="shrink-0 flex items-center gap-2 mt-1 sm:mt-0">{action}</div>}
       </div>
     </div>
   )
@@ -414,7 +414,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }) {
       <div
         ref={dialogRef}
         tabIndex="-1"
-        className={`relative w-full ${sizeClasses} max-w-[calc(100vw-1.5rem)] bg-white rounded-2xl shadow-modal border border-slate-200 p-4 sm:p-6 my-6 z-10 animate-in fade-in zoom-in-95 duration-150 outline-none`}
+        className={`relative w-full ${sizeClasses} max-w-[calc(100vw-1.5rem)] bg-white rounded-2xl shadow-modal border border-slate-200 p-4 sm:p-6 my-auto z-10 animate-in fade-in zoom-in-95 duration-150 outline-none`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">

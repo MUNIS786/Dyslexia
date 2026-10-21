@@ -21,7 +21,7 @@ export default function TutorPage() {
   const studentName = user?.name ? user.name.split(' ')[0] : 'Learner'
 
   return (
-    <div className="space-y-4 max-w-4xl mx-auto pb-8">
+    <div className="space-y-4 pb-8">
       {/* Interactive Tutor Chat */}
       <TutorChat
         initialPassageId={initialPassageId}

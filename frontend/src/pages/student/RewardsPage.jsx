@@ -59,7 +59,7 @@ export default function RewardsPage() {
 
   if (loading) {
     return (
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 flex flex-col items-center justify-center space-y-4">
+      <div className="py-20 flex flex-col items-center justify-center space-y-4">
         <Spinner size="lg" color="primary" />
         <p className="dyslexia-text text-slate-600 font-semibold text-sm">Gathering your learning milestones...</p>
       </div>
@@ -91,9 +91,9 @@ export default function RewardsPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 space-y-8">
+    <div className="space-y-6">
       {/* Page Header */}
-      <Card className="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-slate-200 shadow-card">
+      <Card className="p-5 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-slate-200 shadow-card">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider">
             <span>🏆</span> My Learning Journey

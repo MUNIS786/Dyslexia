@@ -33,9 +33,9 @@ export default function ReadingCoachPage() {
   }, [activeTab])
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-12">
+    <div className="space-y-6 pb-12">
       {/* Page Header */}
-      <Card className="p-6 sm:p-7 shadow-card border-slate-200 flex flex-wrap items-center justify-between gap-4">
+      <Card className="p-5 sm:p-7 shadow-card border-slate-200 flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-2xl">📖</span>

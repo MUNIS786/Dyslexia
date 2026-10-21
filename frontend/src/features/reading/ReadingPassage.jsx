@@ -169,7 +169,7 @@ export default function ReadingPassage({
 
       {/* Main Text Container */}
       <div
-        className="rounded-3xl border border-stone-200 shadow-sm p-6 sm:p-10 transition-colors"
+        className="rounded-3xl border border-stone-200 shadow-sm p-4 sm:p-8 lg:p-10 transition-colors"
         style={{
           backgroundColor: bgColor,
           fontFamily: font === 'OpenDyslexic' ? 'OpenDyslexic, Lexend, sans-serif' : font,
@@ -186,7 +186,7 @@ export default function ReadingPassage({
         {/* 1. FOCUS MODE: One sentence/chunk at a time */}
         {readingMode === 'focus' ? (
           <div className="space-y-8 min-h-[180px] flex flex-col justify-between">
-            <div className="p-6 bg-white rounded-2xl border-2 border-teal-400 shadow-sm text-stone-900">
+            <div className="p-4 sm:p-6 bg-white rounded-2xl border-2 border-teal-400 shadow-sm text-stone-900">
               {renderInteractiveWords(sentences[currentSegmentIndex] || sentences[0])}
             </div>
 

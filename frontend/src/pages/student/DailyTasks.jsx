@@ -84,7 +84,7 @@ export default function DailyTasks() {
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
 
   return (
-    <div className="flex flex-col gap-6 max-w-4xl mx-auto">
+    <div className="flex flex-col gap-6">
       <PageHeader
         icon="✅"
         title="Daily Tasks"

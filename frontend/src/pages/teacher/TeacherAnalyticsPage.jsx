@@ -54,17 +54,17 @@ export default function TeacherAnalyticsPage() {
   }, [loadAnalytics])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+    <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-card flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-2xl">📈</span>
-            <h1 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
               Classroom Analytics & Progress
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-stone-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-500 max-w-2xl">
             Longitudinal educational tracking, reading comprehension, read-aloud speech signals,
             and adaptive practice across your classroom cohort.
           </p>

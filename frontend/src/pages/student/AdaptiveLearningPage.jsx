@@ -61,14 +61,14 @@ export default function AdaptiveLearningPage() {
 
   if (!hasScreening && recommendations.length === 0) {
     return (
-      <div className="py-6 px-4 max-w-4xl mx-auto">
+      <div className="w-full">
         <AdaptiveEmptyState hasScreening={false} />
       </div>
     )
   }
 
   return (
-    <div className="py-6 px-4 max-w-5xl mx-auto">
+    <div className="space-y-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>

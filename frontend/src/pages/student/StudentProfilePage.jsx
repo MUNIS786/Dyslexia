@@ -28,7 +28,7 @@ export default function StudentProfilePage() {
 
   if (loading) {
     return (
-      <div className="max-w-5xl mx-auto py-4 px-2 sm:px-4">
+      <div className="w-full">
         <LearnerProfileSkeleton />
       </div>
     )
@@ -36,7 +36,7 @@ export default function StudentProfilePage() {
 
   if (error) {
     return (
-      <div className="max-w-5xl mx-auto py-8 px-2 sm:px-4">
+      <div className="w-full py-4">
         <LearnerErrorState onRetry={refresh} />
       </div>
     )
@@ -48,7 +48,7 @@ export default function StudentProfilePage() {
 
   if (!isScreened || !hasDomainScores) {
     return (
-      <div className="max-w-5xl mx-auto py-4 px-2 sm:px-4">
+      <div className="w-full">
         <LearnerEmptyState />
       </div>
     )
@@ -64,7 +64,7 @@ export default function StudentProfilePage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8 py-4 px-2 sm:px-4">
+    <div className="space-y-6 sm:space-y-8">
       {/* 1. Welcoming Header */}
       <LearnerProfileHeader
         name={profile?.learner?.name}
