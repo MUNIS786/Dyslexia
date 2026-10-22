@@ -52,6 +52,15 @@ export function AuthProvider({ children }) {
     return data.user
   }, [])
 
+  const signup = useCallback(async (formData) => {
+    const data = await authAPI.signup(formData)
+    localStorage.setItem('dyslexaid_token', data.token)
+    setToken(data.token)
+    setUser(data.user)
+    if (data.user?.settings) applySettings(data.user.settings)
+    return data
+  }, [])
+
   const logout = useCallback(() => {
     localStorage.removeItem('dyslexaid_token')
     setToken(null)
@@ -70,7 +79,7 @@ export function AuthProvider({ children }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, updateUser, updateSettings }}>
+    <AuthContext.Provider value={{ user, token, loading, login, signup, logout, updateUser, updateSettings }}>
       {children}
     </AuthContext.Provider>
   )

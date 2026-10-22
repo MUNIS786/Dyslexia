@@ -24,7 +24,11 @@ api.interceptors.response.use(
       if (
         typeof window !== 'undefined' &&
         !window.location.pathname.startsWith('/login') &&
-        !window.location.pathname.startsWith('/signup')
+        !window.location.pathname.startsWith('/signup') &&
+        !window.location.pathname.startsWith('/register') &&
+        !window.location.pathname.startsWith('/forgot-password') &&
+        !window.location.pathname.startsWith('/reset-password') &&
+        !window.location.pathname.startsWith('/verify-email')
       ) {
         window.location.href = '/login'
       }
@@ -48,6 +52,10 @@ export const authAPI = {
   me: () => api.get('/auth/me').then((r) => r.data),
   updateProfile: (data) => api.patch('/auth/profile', data).then((r) => r.data),
   updateSettings: (data) => api.patch('/auth/settings', data).then((r) => r.data),
+  forgotPassword: (data) => api.post('/auth/forgot-password', data).then((r) => r.data),
+  resetPassword: (data) => api.post('/auth/reset-password', data).then((r) => r.data),
+  verifyEmail: (data) => api.post('/auth/verify-email', data).then((r) => r.data),
+  resendVerification: (data) => api.post('/auth/resend-verification', data).then((r) => r.data),
 }
 
 // ================= CLASSROOM =================

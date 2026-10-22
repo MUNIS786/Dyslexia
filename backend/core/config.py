@@ -28,6 +28,16 @@ class Settings:
     JWT_ALG: str = os.environ.get("JWT_ALG", "HS256")
     JWT_EXP_DAYS: int = int(os.environ.get("JWT_EXP_DAYS", "30"))
 
+    # Email & Verification Configuration
+    SMTP_HOST: str = os.environ.get("SMTP_HOST", "")
+    SMTP_PORT: int = int(os.environ.get("SMTP_PORT", "587"))
+    SMTP_USER: str = os.environ.get("SMTP_USER", "")
+    SMTP_PASSWORD: str = os.environ.get("SMTP_PASSWORD", "")
+    EMAIL_FROM: str = os.environ.get("EMAIL_FROM", "noreply@dyslexaid.org")
+    EMAIL_PROVIDER: str = os.environ.get("EMAIL_PROVIDER", "console").lower()
+    FRONTEND_URL: str = os.environ.get("FRONTEND_URL", "http://localhost:5173")
+    REQUIRE_EMAIL_VERIFICATION: bool = os.environ.get("REQUIRE_EMAIL_VERIFICATION", "false").lower() in ("true", "1", "yes")
+
     # CORS Configuration (comma-separated origins or default list)
     CORS_ORIGINS: str = os.environ.get("CORS_ORIGINS", "")
 

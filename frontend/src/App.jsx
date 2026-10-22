@@ -10,7 +10,7 @@ import { useSession } from './hooks/useSession'
 import Layout from './components/shared/Layout'
 
 // Eagerly loaded auth entrypoints
-import { LoginPage, RegisterPage } from './pages/auth/AuthPages'
+import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage } from './pages/auth/AuthPages'
 
 // Code-split route pages (Phase 17 bundle optimization)
 const LandingPage = lazy(() => import('./pages/LandingPage'))
@@ -83,6 +83,9 @@ function AppRoutes() {
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
 
         <Route path="/student" element={
           <ProtectedRoute role="student"><Layout><StudentHome /></Layout></ProtectedRoute>

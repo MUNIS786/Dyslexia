@@ -64,6 +64,8 @@ async def get_current_user(authorization: Optional[str] = Header(None)):
     user = await get_current_user_optional(authorization)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+    if user.get("disabled", False):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Account disabled")
     return user
 
 

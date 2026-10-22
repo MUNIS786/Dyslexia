@@ -257,6 +257,17 @@ async def init_db():
     except Exception:
         pass
 
+    # Authentication & Security Collections
+    try:
+        await db.password_resets.create_index("tokenHash", unique=True)
+        await db.password_resets.create_index("userId")
+        await db.password_resets.create_index([("expiresAt", 1)])
+        await db.email_verifications.create_index("tokenHash", unique=True)
+        await db.email_verifications.create_index("userId")
+        await db.email_verifications.create_index([("expiresAt", 1)])
+    except Exception:
+        pass
+
     try:
         from services.learning.activity_recommender import seed_learning_activities
         await seed_learning_activities()
@@ -309,6 +320,12 @@ async def _migrate_legacy_profiles():
     await db.screening_results.update_many(
         {"assessmentVersion": {"$exists": False}},
         {"$set": {"assessmentVersion": 1}},
+    )
+
+    # Backfill emailVerified on existing user documents so existing accounts are active
+    await db.users.update_many(
+        {"emailVerified": {"$exists": False}},
+        {"$set": {"emailVerified": True}},
     )
 
 
@@ -429,7 +446,7 @@ async def _seed_demo_data():
             "schoolName": "Government Primary School, Pune",
             "readingProfile": None, "onboardingComplete": True,
             "languages": ["english", "hindi", "marathi"], "classroomJoined": None,
-            "settings": _default_settings(), "isDemo": True, "createdAt": now,
+            "settings": _default_settings(), "emailVerified": True, "isDemo": True, "createdAt": now,
         })
         try:
             await db.classrooms.insert_one({
@@ -506,7 +523,7 @@ async def _seed_demo_data():
                 "classroomCode": None, "schoolName": "Government Primary School, Pune",
                 "readingProfile": s["profile"], "onboardingComplete": True,
                 "languages": [s["language"]], "classroomJoined": "DA-DEMO",
-                "settings": _default_settings(), "isDemo": True, "createdAt": now,
+                "settings": _default_settings(), "emailVerified": True, "isDemo": True, "createdAt": now,
             })
             prog = _default_progress()
             prog.update(s["prog"])
@@ -601,6 +618,7 @@ async def _seed_demo_data():
             "languages": ["english", "hindi"],
             "classroomJoined": None,
             "settings": _default_settings(),
+            "emailVerified": True,
             "isDemo": True,
             "createdAt": now,
         }
