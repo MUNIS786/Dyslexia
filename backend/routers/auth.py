@@ -17,6 +17,7 @@ from database.database import db, _default_progress, _default_settings
 from deps.deps import hash_password, verify_password, make_token, get_current_user
 from services.email_service import EmailService
 from services.auth_rate_limiter import enforce_rate_limit
+from services.account_deletion_service import execute_account_deletion
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -78,6 +79,11 @@ class VerifyEmailReq(BaseModel):
 
 class ResendVerificationReq(BaseModel):
     email: EmailStr
+
+
+class DeleteAccountReq(BaseModel):
+    password: str = Field(..., min_length=1, description="Current password for identity reauthentication")
+    confirmation: Optional[str] = Field(None, description="Must be exactly 'DELETE_MY_ACCOUNT'")
 
 
 class ProfilePatch(BaseModel):
@@ -142,6 +148,8 @@ async def signup(req: SignupReq, request: Request):
         "settings": _default_settings(),
         "emailVerified": email_verified,
         "disabled": False,
+        "token_version": 1,
+        "deletionState": None,
         "isDemo": False,
         "createdAt": now,
     }
@@ -180,7 +188,7 @@ async def signup(req: SignupReq, request: Request):
     })
     EmailService.send_verification_email(email, raw_verif_token)
 
-    token = make_token(uid)
+    token = make_token(uid, user.get("token_version", 1))
     return {
         "token": token,
         "user": _pub(user),
@@ -208,7 +216,7 @@ async def signin(req: SigninReq, request: Request):
             "Please verify your email address before signing in. Check your inbox for the verification link.",
         )
 
-    token = make_token(user["id"])
+    token = make_token(user["id"], user.get("token_version", 1))
     return {"token": token, "user": _pub(user)}
 
 
@@ -398,3 +406,24 @@ async def update_settings(patch: SettingsPatch, authorization: Optional[str] = H
 @router.post("/signout")
 async def signout():
     return {"status": "signed out"}
+
+
+@router.post("/delete-account")
+async def delete_account(
+    req: DeleteAccountReq,
+    request: Request,
+    authorization: Optional[str] = Header(None),
+):
+    """
+    Permanently deletes the authenticated user's account and all associated personal data.
+    Requires current password for identity reauthentication and confirmation phrase 'DELETE_MY_ACCOUNT'.
+    Target user is strictly derived from the authenticated identity.
+    """
+    enforce_rate_limit(request, endpoint="delete_account", max_attempts=5, window_seconds=60)
+    user = await get_current_user(authorization)
+    result = await execute_account_deletion(
+        user_id=user["id"],
+        password=req.password,
+        confirmation=req.confirmation,
+    )
+    return result
